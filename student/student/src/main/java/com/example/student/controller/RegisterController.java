@@ -36,5 +36,4 @@ public class RegisterController {
 	  studentService.saveStudent(user);
 	  return "redirect:/registerStudent?success";
   }
- 
 }

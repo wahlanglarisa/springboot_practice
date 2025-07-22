@@ -28,11 +28,11 @@
 	<br>
 	<br>
 	<div class='container-md'>
-	<div th:if="${param.success}">
-					<div class="alert alert-info">You have successfully
-						registered to our awesome app!!!!</div>
+		<div th:if="${param.success}">
+			<div class="alert alert-info">You have successfully registered
+				to our awesome app!!!!</div>
 
-				</div>
+		</div>
 		<form th:action="@{/studentData}" method="post" th:object="${user}">
 			<div th:if="${param.error}">
 				<div class="alert alert-danger">Invalid username or password.</div>
@@ -44,27 +44,39 @@
 			</div>
 			<div class="mb-3 row">
 				<label for="exampleFormControlInput1"
-					class="form-label col col-sm-1" >Enter your First Name</label> <input
-					type="text" class="form-control col" id="st_name" th:field="*{firstName}">
+					class="form-label col col-sm-1">Enter your First Name</label> <input
+					type="text" class="form-control col" id="st_name"
+					th:field="*{firstName}">
 			</div>
 			<div class="mb-3 row">
 				<label for="exampleFormControlInput1"
-					class="form-label col col-sm-1" >Enter your Last Name</label> <input
-					type="text" class="form-control col" id="st_name" th:field="*{lastName}">
+					class="form-label col col-sm-1">Enter your Last Name</label> <input
+					type="text" class="form-control col" id="st_name"
+					th:field="*{lastName}">
 			</div>
 			<div class="mb-3 row">
 				<label for="exampleFormControlTextarea1" class="form-label col-sm-1">Enter
 					your Email ID</label> <input type="text" class="form-control col"
-					id="emailid" placeholder="Enter your Email ID" th:field="*{emailID}">
+					id="emailid" placeholder="Enter your Email ID"
+					th:field="*{emailID}">
 			</div>
 			<div class="mb-3 row">
 				<label for="exampleFormControlTextarea1" class="form-label col-sm-1">Enter
 					your Semester</label> <input type="text" class="form-control col"
-					id="emailid" placeholder="Enter your Email ID" th:field="*{semester}">
+					id="emailid" placeholder="Enter your Email ID"
+					th:field="*{semester}">
 			</div>
 			<table class="table">
-			<thead><tr><td><b>Select Courses</b></td></tr></thead>
-			<tr th:each="course:${courseList}"><td><input type="checkbox"  class="form-check-input" th:value="${course}" th:field="*{courses}">&nbsp;&nbsp;<label  th:text="${course}" class="form-check-label"></label></td></tr>
+				<thead>
+					<tr>
+						<td><b>Select Courses</b></td>
+					</tr>
+				</thead>
+				<tr th:each="course:${courseList}">
+					<td><input type="checkbox" class="form-check-input"
+						th:value="${course}" th:field="*{courses}">&nbsp;&nbsp;<label
+						th:text="${course}" class="form-check-label"></label></td>
+				</tr>
 			</table>
 			<div class="mb-3">
 				<!-- <table>
@@ -75,8 +87,7 @@
 					</tr>
 
 				</table> -->
-				<br>
-				<input type="submit" class="btn btn-primary form-control"
+				<br> <input type="submit" class="btn btn-primary form-control"
 					id="submit_button">
 			</div>
 		</form>
