@@ -3,6 +3,7 @@ package com.example.student.service;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.student.model.Course;
@@ -17,6 +18,8 @@ import com.example.student.model.repository.UserRepository;
 @Service
 public class StudentServiceImpl implements StudentService{
 	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
 	private StudentRepository studentRepository;
 	@Autowired
 	private UserRepository userRepository;
@@ -25,7 +28,7 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public Student saveStudent(UserDto st) {
 		
-		User user=new User(st.getFirstName(),st.getLastName(),st.getEmailID(),st.getPassword(),Arrays.asList(new Role("Student")));
+		User user=new User(st.getFirstName(),st.getLastName(),st.getEmailID(),bCryptPasswordEncoder.encode(st.getPassword()),Arrays.asList(new Role("Student")));
 		Student st1=new Student(st.getFirstName(), st.getLastName(), st.getEmailID(), st.getSemester(), user);
 
 		for (String course : st.getCourses()) {
