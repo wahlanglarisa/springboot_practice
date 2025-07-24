@@ -1,5 +1,7 @@
 package com.example.student.controller;
 
+import java.net.http.HttpRequest;
+import java.security.Principal;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.student.model.UserDto;
 import com.example.student.service.CourseService;
 import com.example.student.service.StudentService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class RegisterController {
@@ -31,8 +35,9 @@ public class RegisterController {
   }
   
   @PostMapping("/studentData")
-  public String GetStudentData(@ModelAttribute("user") UserDto user) {
+  public String GetStudentData(@ModelAttribute("user") UserDto user,Model model) {
 	  System.out.println("From /studentData "+user.getCourses());
+	 
 	  studentService.saveStudent(user);
 	  return "redirect:/registerStudent?success";
   }
