@@ -1,5 +1,7 @@
 package com.example.student;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +15,7 @@ import com.example.student.model.repository.ProfessorRepository;
 import com.example.student.model.repository.StudentRepository;
 
 @SpringBootApplication
-public class StudentApplication{
+public class StudentApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(StudentApplication.class, args);
@@ -23,6 +25,7 @@ public class StudentApplication{
 	private StudentRepository studentRepository;
 	@Autowired
 	private CourseRepository courseRepository;
+
 //	@Override
 //	public void run(String... args) throws Exception {
 //		// TODO Auto-generated method stub
@@ -30,5 +33,15 @@ public class StudentApplication{
 //		
 //		
 //	}
+//	@Override
+//	public void run(String... args) throws Exception {
+//		// TODO Auto-generated method stub
+//		System.out.println("Run function ");
+//		List<Object[]> objects = studentRepository.findStudentDetails();
+//		for (Object[] ob : objects) {
+//			System.out.println(ob[2]);
+//
+//		}
+//	}
 
-} 
+}
