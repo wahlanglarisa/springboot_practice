@@ -1,6 +1,7 @@
 package com.example.student.service;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,8 +10,10 @@ import org.springframework.stereotype.Service;
 import com.example.student.model.Course;
 import com.example.student.model.Role;
 import com.example.student.model.Student;
+import com.example.student.model.StudentRoutine;
 import com.example.student.model.User;
 import com.example.student.model.UserDto;
+import com.example.student.model.findNoOfAttendance;
 import com.example.student.model.repository.CourseRepository;
 import com.example.student.model.repository.StudentRepository;
 import com.example.student.model.repository.UserRepository;
@@ -37,6 +40,16 @@ public class StudentServiceImpl implements StudentService{
 		}
 		userRepository.save(user);
 		return studentRepository.save(st1);
+	}
+	@Override
+	public List<StudentRoutine> findStudentClasses(String email) {
+		// TODO Auto-generated method stub
+		return studentRepository.findStudentDetails(email);
+	}
+	@Override
+	public findNoOfAttendance noOfAttendance(String email) {
+		// TODO Auto-generated method stub
+		return studentRepository.noOfAttendance(email);
 	}
 	
 }

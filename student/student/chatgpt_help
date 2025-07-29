@@ -1,0 +1,113 @@
+Great question — this is a core part of designing your JPA entity relationships correctly.
+
+---
+
+## ✅ Situation:
+
+You have a structure like this:
+
+> **One Course → Many Class\_Course**
+> (i.e., one course is taught in multiple classes/sections)
+
+---
+
+## ✅ Where to Place `@OneToMany`
+
+You put the `@OneToMany` **on the “one” side**, i.e., on the `Course` entity, because **a single course maps to many `Class_Course` entities**.
+
+### 🔧 `Course.java` – owns the OneToMany
+
+```java
+@OneToMany(mappedBy = "course_class", cascade = CascadeType.ALL)
+private List<Class_Course> course_class = new ArrayList<>();
+```
+
+Explanation:
+
+* `mappedBy = "course_class"` points to the field in `Class_Course` that maps back to `Course`.
+* You don’t need a `@JoinColumn` here because this is the inverse side of the `@ManyToOne`.
+
+---
+
+### 🔧 `Class_Course.java` – owns the ManyToOne
+
+```java
+@ManyToOne
+@JoinColumn(name = "course_id") // This will create a foreign key in class_course table
+private Course course_class;
+```
+
+Explanation:
+
+* This side **owns the relationship** and is responsible for the join column (`course_id` foreign key).
+
+---
+
+## 🧠 Think of it Like This:
+
+| Entity         | Relationship                         | Annotation                                   |
+| -------------- | ------------------------------------ | -------------------------------------------- |
+| `Course`       | One course has many class sessions   | `@OneToMany(mappedBy = "course_class")`      |
+| `Class_Course` | Each class session is for one course | `@ManyToOne @JoinColumn(name = "course_id")` |
+
+---
+
+## ✅ Example
+
+```java
+// Course.java
+@Entity
+public class Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String courseName;
+
+    @OneToMany(mappedBy = "course_class", cascade = CascadeType.ALL)
+    private List<Class_Course> course_class = new ArrayList<>();
+}
+```
+
+```java
+// Class_Course.java
+@Entity
+public class Class_Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course_class;
+
+    // other fields
+}
+```
+
+---
+
+## ✅ Bonus: Data Insertion Example
+
+```java
+Course course = new Course();
+course.setCourseName("Operating Systems");
+
+Class_Course cc1 = new Class_Course();
+cc1.setTime(Time.valueOf("09:00:00"));
+cc1.setSemester(1L);
+cc1.setCourse_class(course); // connect class to course
+
+Class_Course cc2 = new Class_Course();
+cc2.setTime(Time.valueOf("11:00:00"));
+cc2.setSemester(1L);
+cc2.setCourse_class(course);
+
+course.setCourse_class(Arrays.asList(cc1, cc2)); // link course to its classes
+
+courseRepo.save(course); // saves everything due to cascade
+```
+
+---
+
+Would you like a visual ER diagram layout of this structure to confirm your mental model?

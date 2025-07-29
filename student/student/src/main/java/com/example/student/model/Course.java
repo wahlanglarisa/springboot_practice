@@ -26,8 +26,8 @@ public class Course {
 	private Long credit;
 	@ManyToMany(mappedBy = "courses")
 	List<Student> student;
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="class_course_id",referencedColumnName = "id")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "course_class")
+//	@JoinColumn(name="class_course_id",referencedColumnName = "id")
 	private List<Class_Course> course_class=new ArrayList<Class_Course>();
 	public Long getCredit() {
 		return credit;

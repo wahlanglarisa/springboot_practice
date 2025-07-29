@@ -33,8 +33,11 @@ public class Class_Course {
 	
 	private long semester;
 	@ManyToOne
+	@JoinColumn(name="class_course_id",referencedColumnName = "id")
+
 	private Course course_class;
 	@ManyToMany(mappedBy = "class_Courses")
 	private List<Student> students=new ArrayList<Student>();
+	private String day;
 }
  
