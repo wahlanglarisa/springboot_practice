@@ -36,8 +36,8 @@ public class Class_Course {
 	@JoinColumn(name="class_course_id",referencedColumnName = "id")
 
 	private Course course_class;
-	@ManyToMany(mappedBy = "class_Courses")
-	private List<Student> students=new ArrayList<Student>();
+	@OneToMany(mappedBy = "class_Course")
+	private List<StudentClass> students=new ArrayList<StudentClass>();
 	private String day;
 }
  

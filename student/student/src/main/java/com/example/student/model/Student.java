@@ -39,10 +39,8 @@ public class Student {
 	private List<Course> courses = new ArrayList<Course>();
 
 	private Long semester;
-	@ManyToMany
-	@JoinTable(name = "student_class", joinColumns = { @JoinColumn(name = "st_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "class_id") })
-	private List<Class_Course> class_Courses = new ArrayList<Class_Course>();
+	@OneToMany(mappedBy = "student")
+	private List<StudentClass> class_Courses = new ArrayList<StudentClass>();
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
