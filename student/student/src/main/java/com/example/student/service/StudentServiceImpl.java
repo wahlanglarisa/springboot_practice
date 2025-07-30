@@ -11,6 +11,8 @@ import com.example.student.model.Course;
 import com.example.student.model.Role;
 import com.example.student.model.Student;
 import com.example.student.model.StudentRoutine;
+import com.example.student.model.TestResults;
+import com.example.student.model.UpComingTests;
 import com.example.student.model.User;
 import com.example.student.model.UserDto;
 import com.example.student.model.findNoOfAttendance;
@@ -50,6 +52,16 @@ public class StudentServiceImpl implements StudentService{
 	public findNoOfAttendance noOfAttendance(String email) {
 		// TODO Auto-generated method stub
 		return studentRepository.noOfAttendance(email);
+	}
+	@Override
+	public List<UpComingTests> upComingTests(String email) {
+		// TODO Auto-generated method stub
+		return studentRepository.upComingTests(email);
+	}
+	@Override
+	public List<TestResults> testResults(String email) {
+		// TODO Auto-generated method stub
+		return studentRepository.testResults(email);
 	}
 	
 }

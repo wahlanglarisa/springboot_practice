@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.student.model.StudentRoutine;
+import com.example.student.model.TestResults;
+import com.example.student.model.UpComingTests;
 import com.example.student.service.StudentService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,11 +27,14 @@ public class LoginController {
 	public String studentHomepage(HttpServletRequest httpRequest,Model model) {
 		 Principal principal=httpRequest.getUserPrincipal();
 		 List<StudentRoutine> studentRoutines=studentService.findStudentClasses(principal.getName());
-//		 System.out.println(studentRoutines);
+		 List<UpComingTests> tests= studentService.upComingTests(principal.getName());
+		 List<TestResults> results=studentService.testResults(principal.getName());
 		 Long totalAttendance=studentService.noOfAttendance(principal.getName()).getCount();
-
+		 model.addAttribute("user",principal.getName());
 		  model.addAttribute("routines",studentRoutines);
+		  model.addAttribute("tests",tests);
 		  model.addAttribute("totalAttendance",totalAttendance);
+		  model.addAttribute("results",results);
 		return "studentHomepage";
 	}
 }

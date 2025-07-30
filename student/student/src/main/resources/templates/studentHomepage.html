@@ -44,11 +44,9 @@
 					<li class="nav-item"><a class="nav-link disabled"
 						aria-disabled="true">Link</a></li>
 				</ul>
-				<form class="d-flex" role="search">
-					<input class="form-control me-2" type="search" placeholder="Search"
-						aria-label="Search" />
-					<button class="btn btn-outline-success" type="submit">Search</button>
-				</form>
+
+				<span class="d-flex"><strong>Hi, [[${user}]]</strong></span>&nbsp;&nbsp;
+				<span class="d-flex"><a th:href="@{/logout}">Logout</a></span>
 			</div>
 		</div>
 	</nav>
@@ -56,20 +54,84 @@
 	<br>
 	<div class="container">
 
-		<div class=" row">
-			<div
-				class="col-md-3 mx-2 p-3 text-center text-dark routineBlock shadow-lg">
+		<div class=" row parentRow">
+			<div class="col-md-3 mx-2 p-3 text-center  routineBlock shadow-lg">
 				<strong>You have [[${routines.size()}]] class(es) today</strong>
-				
+
 			</div>
 			<br>
-			<div
-				class="col-md-3 mx-2 p-3 text-center text-dark routineBlock shadow-lg">
+			<div class="col-md-3 mx-2 p-3 text-center  routineBlock shadow-lg">
 				<strong>You have attended total of [[${totalAttendance}]]
-					class(es) today</strong><div class="progress" role="progressbar" aria-label="Basic example"
-					th:aria-valuenow=${routines.size()} aria-valuemin="0" th:aria-valuemax=${routines.size()}>
-					<div class="progress-bar" th:style="'width: '+(${routines.size()})+'%'"></div>
+					class(es) today</strong>
+				<div class="progress" role="progressbar" aria-label="Basic example"
+					th:aria-valuenow=${routines.size()} aria-valuemin="0"
+					th:aria-valuemax=${routines.size()}>
+					<div class="progress-bar"
+						th:style="'width: '+(${routines.size()})+'%'"></div>
 				</div>
+			</div>
+			<br> <br>
+
+
+			<div class="col-md-5 routineBlock shadow-lg">
+				<strong>Your Courses</strong>
+				<div th:each="routine : ${routines}" th:text='${routine.courseName}'></div>
+			</div>
+		</div>
+		<br>
+		<div class="row parentRow text-center">
+			<div class="col-md-6 routineBlock shadow-lg">
+				<strong> Your Upcoming Tests. All the Best!! </strong> <br> <br>
+				<table class='table routineBlock'
+					style="background-color: #D1E7E8; border-radius: 50px;">
+
+
+					<thead>
+						<tr>
+							<th>Course Name</th>
+							<th>Marks</th>
+							<th>Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="test : ${tests}">
+							<td th:text="${test.courseName}"></td>
+							<td th:text="${test.totalMarks}"></td>
+							<td th:text="${test.date}"></td>
+						</tr>
+
+					</tbody>
+
+				</table>
+			</div>
+			<br>
+			<div class="col-md-6 routineBlock shadow-lg">
+				<strong> Your Course Test Results. Congrats </strong> <br> <br>
+				<table class='table routineBlock'
+					style="background-color: #D1E7E8; border-radius: 50px;">
+
+
+					<thead>
+						<tr>
+							<th>Course Name</th>
+							<th>Total Marks</th>
+							<th>Marks Obtained</th>
+							<th>Percentage of Marks</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="result : ${results}">
+							<td th:text="${result.courseName}"></td>
+							<td th:text="${result.totalMarks}"></td>
+							<td th:text="${result.marksObtained}"></td>
+							<td th:text="${result.percentage}"></td>
+
+						</tr>
+
+					</tbody>
+
+				</table>
 			</div>
 		</div>
 	</div>
