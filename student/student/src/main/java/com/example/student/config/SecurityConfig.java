@@ -20,7 +20,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http
                 .csrf().disable() // CSRF protection is disabled for simplicity, reconsider enabling it in production
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers( "/registerStudent/**","/css/**", "**.js", "/images/**","/html/**","/studentData/**").permitAll().requestMatchers("/student/studentHomepage/**").hasAnyAuthority("Student")       
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers( "/js/**","/registerStudent/**","/css/**", "**.js", "/images/**","/html/**","/studentData/**").permitAll().requestMatchers("/student/studentHomepage/**").hasAnyAuthority("Student")       
                         .anyRequest().authenticated()           // All other requests require authentication
                 )
                 .formLogin(form->form.loginPage("/login").successHandler(customSuccessHandler()).permitAll()// Allow anyone to access the login page
