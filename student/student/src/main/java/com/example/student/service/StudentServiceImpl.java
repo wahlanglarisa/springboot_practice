@@ -17,6 +17,7 @@ import com.example.student.model.User;
 import com.example.student.model.UserDto;
 import com.example.student.model.findNoOfAttendance;
 import com.example.student.model.repository.CourseRepository;
+import com.example.student.model.repository.RoleRepository;
 import com.example.student.model.repository.StudentRepository;
 import com.example.student.model.repository.UserRepository;
 
@@ -30,10 +31,12 @@ public class StudentServiceImpl implements StudentService{
 	private UserRepository userRepository;
 	@Autowired
 	private CourseRepository courseRepository;
+	@Autowired
+	private RoleRepository roleRepository;
 	@Override
 	public Student saveStudent(UserDto st) {
 		
-		User user=new User(st.getFirstName(),st.getLastName(),st.getEmailID(),bCryptPasswordEncoder.encode(st.getPassword()),Arrays.asList(new Role("Student")));
+		User user=new User(st.getFirstName(),st.getLastName(),st.getEmailID(),bCryptPasswordEncoder.encode(st.getPassword()),Arrays.asList(roleRepository.findByName("Student")));
 		Student st1=new Student(st.getFirstName(), st.getLastName(), st.getEmailID(), st.getSemester(), user);
 
 		for (String course : st.getCourses()) {

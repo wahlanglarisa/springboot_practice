@@ -3,6 +3,7 @@ package com.example.student.model;
 import java.sql.Date;
 import java.sql.Time;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -29,6 +30,6 @@ public class StudentClass {
 	private Class_Course class_Course;
 	@Id
 	private Date date;
-	@Id
+	@Column(nullable = true)
 	private Time time;
 }

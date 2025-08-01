@@ -11,40 +11,52 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 	@Autowired
 	private UserDetailsService userDetailsService;
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http
-                .csrf().disable() // CSRF protection is disabled for simplicity, reconsider enabling it in production
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers( "/js/**","/registerStudent/**","/css/**", "**.js", "/images/**","/html/**","/studentData/**").permitAll().requestMatchers("/student/studentHomepage/**").hasAnyAuthority("Student")       
-                        .anyRequest().authenticated()           // All other requests require authentication
-                )
-                .formLogin(form->form.loginPage("/login").successHandler(customSuccessHandler()).permitAll()// Allow anyone to access the login page
-                                                    // Allow logout without restriction
-                ).logout(logout -> logout
-                        .permitAll()                                    // Allow logout without restriction
-                ).build();
-	
+		return http.csrf().disable() // CSRF protection is disabled for simplicity, reconsider enabling it in
+										// production
+				.authorizeHttpRequests(authorize -> authorize
+						.requestMatchers("/js/**", "/registerStudent/**", "/css/**", "**.js", "/images/**", "/html/**",
+								"/studentData/**")
+						.permitAll().requestMatchers("/student/studentHomepage/**").hasAnyAuthority("Student")
+						.requestMatchers("/admin/**").hasAnyAuthority("Admin").anyRequest().authenticated() // All other
+																											// requests
+																											// require
+																											// authentication
+				).formLogin(form -> form.loginPage("/login").successHandler(customSuccessHandler())
+						.failureHandler((request, response, exception) -> {
+							exception.printStackTrace(); // Log exact error
+							response.sendRedirect("/login?error=true");
+						}).permitAll()// Allow anyone to access the login page
+										// Allow logout without restriction
+				).logout(logout -> logout.permitAll() // Allow logout without restriction
+				).build();
+
 	}
+
 	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() { 
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	@Bean 
+
+	@Bean
 	public AuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider provider=new DaoAuthenticationProvider();
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 		provider.setPasswordEncoder(bCryptPasswordEncoder());
 		System.out.println("Inside AuthenticationProvider Function");
 		provider.setUserDetailsService(userDetailsService);
-		return provider; 
+		return provider;
 	}
-	 @Bean
-	    public AuthenticationSuccessHandler customSuccessHandler() {
-	        return new CustomAuthenticationSuccessHandler();
-	    }
-}
 
+	@Bean
+	public AuthenticationSuccessHandler customSuccessHandler() {
+		return new CustomAuthenticationSuccessHandler();
+	}
+}
