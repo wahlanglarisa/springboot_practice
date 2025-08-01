@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+	crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg bg-body-tertiary">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">Navbar scroll</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+				aria-controls="navbarScroll" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarScroll">
+				<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
+					style="--bs-scroll-height: 100px;">
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="#">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false"> Link </a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#">Action</a></li>
+							<li><a class="dropdown-item" href="#">Another action</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Something else
+									here</a></li>
+						</ul></li>
+					<li class="nav-item"><a class="nav-link disabled"
+						aria-disabled="true">Link</a></li>
+				</ul>
+
+				<span class="d-flex"><strong>Hi, [[${user}]]</strong></span>&nbsp;&nbsp;
+				<span class="d-flex"><a th:href="@{/logout}">Logout</a></span>
+			</div>
+		</div>
+	</nav>
+	<br>
+	<br>
+	<div class='container'>
+	<div class='d-flex'>
+	<a th:href="@{/registerStudent}" class="btn btn-primary"
+						>Add New Student</a>&nbsp;&nbsp;<input type='submit'
+						class="btn btn-danger" value="Add new Professor"></div>
+		<table class='table'>
+			<thead>
+				<tr>
+					<th scope="col">User Email</th>
+					<th scope="col">User First Name</th>
+					<th scope="col">User Last Name</th>
+					<th scope="col">Role</th>
+					<th scope="col">Action</th>
+			
+				</tr>
+				<tr th:each="user : ${users}">
+					<td th:text="${user.email}"></td>
+					<td th:text="${user.firstName}"></td>
+					<td th:text="${user.lastName}"></td>
+					<td th:text="${user.roleName}"></td>
+					<td><a th:href="@{/admin/updateUserPage/{id}(id = ${user.id})}" class="btn btn-primary"
+						>Update</a>&nbsp;&nbsp;<input type='submit'
+						class="btn btn-danger" value="Delete"></td>
+				</tr>
+
+
+			</thead>
+		</table>
+	</div>
+</body>
+</html>

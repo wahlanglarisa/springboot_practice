@@ -1,13 +1,18 @@
 package com.example.student.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -21,6 +26,23 @@ public class Course {
 	private Long credit;
 	@ManyToMany(mappedBy = "courses")
 	List<Student> student;
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "course_class")
+//	@JoinColumn(name="class_course_id",referencedColumnName = "id")
+	private List<Class_Course> course_class=new ArrayList<Class_Course>();
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "course")
+	private List<Test> tests=new ArrayList<Test>();
+	public Long getCredit() {
+		return credit;
+	}
+	public void setCredit(Long credit) {
+		this.credit = credit;
+	}
+	public List<Class_Course> getCourse_class() {
+		return course_class;
+	}
+	public void setCourse_class(List<Class_Course> course_class) {
+		this.course_class = course_class;
+	}
 	public List<Student> getStudent() {
 		return student;
 	}

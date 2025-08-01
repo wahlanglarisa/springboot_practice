@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+.routineBlock {
+	background: #D1E7E8;
+	border-radius: 20px;
+	color: #031A1C;
+	padding: 50px 50px 50px 50px;
+}
+
+.parentRow {
+	background: #F0FAFA;
+	padding: 50px 50px 50px 50px;
+	border-radius: 50px
+}

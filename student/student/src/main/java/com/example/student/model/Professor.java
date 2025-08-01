@@ -26,6 +26,15 @@ public class Professor {
 	@ManyToMany
 	@JoinTable(name="course_professor",joinColumns = {@JoinColumn(name="prof_id")},inverseJoinColumns =  {@JoinColumn(name="course_id")})
 	private List<Course> courses=new ArrayList<Course>();
+	@ManyToMany
+	@JoinTable(name="professor_class",joinColumns = {@JoinColumn(name="prof_id")},inverseJoinColumns =  {@JoinColumn(name="class_id")})
+	private List<Class_Course> class_Courses=new ArrayList<Class_Course>();
+	public List<Class_Course> getClass_Courses() {
+		return class_Courses;
+	}
+	public void setClass_Courses(List<Class_Course> class_Courses) {
+		this.class_Courses = class_Courses;
+	}
 	public List<Course> getCourses() {
 		return courses;
 	}
