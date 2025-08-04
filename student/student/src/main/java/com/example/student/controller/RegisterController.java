@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.student.model.UserDto;
 import com.example.student.service.CourseService;
+import com.example.student.service.ProfessorService;
 import com.example.student.service.StudentService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +24,8 @@ public class RegisterController {
 	private CourseService courseService;
 	@Autowired
 	private StudentService studentService;
+	@Autowired
+	private ProfessorService professorService;
   @GetMapping("/registerStudent")
   public String registerStudentPage(Model model) {
 	  Collection<String> courseList=courseService.findCourses();
@@ -33,6 +36,16 @@ public class RegisterController {
 	  System.out.println("Hello"+courseList.toString());
 	  return "registerStudent";
   }
+  @GetMapping("/registerProfessor")
+  public String registerProfessor(Model model) {
+	  Collection<String> courseList=courseService.findCourses();
+	  UserDto userDto=new UserDto();
+	  userDto.getCourses().add("");
+	  model.addAttribute("user", new UserDto());
+	  model.addAttribute("courseList",courseList);
+	  System.out.println("Hello"+courseList.toString());
+	  return "registerProfessor";
+  }
   
   @PostMapping("/studentData")
   public String GetStudentData(@ModelAttribute("user") UserDto user,Model model) {
@@ -40,5 +53,12 @@ public class RegisterController {
 	 
 	  studentService.saveStudent(user);
 	  return "redirect:/registerStudent?success";
+  }
+  @PostMapping("/professorData")
+  public String GetProfessorData(@ModelAttribute("user") UserDto user,Model model) {
+	  System.out.println("From /studentData "+user.getCourses());
+	 professorService.saveProfessor(user);
+//	  studentService.saveStudent(user);
+	  return "redirect:/registerProfessor?success";
   }
 }

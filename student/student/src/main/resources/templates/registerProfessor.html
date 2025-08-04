@@ -33,7 +33,7 @@
 						registered to our awesome app!!!!</div>
 
 				</div>
-		<form th:action="@{/studentData}" method="post" th:object="${user}">
+		<form th:action="@{/professorData}" method="post" th:object="${user}">
 			<div th:if="${param.error}">
 				<div class="alert alert-danger">Invalid username or password.</div>
 			</div>
