@@ -12,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,16 +28,18 @@ public class Professor {
 	@ManyToMany
 	@JoinTable(name="course_professor",joinColumns = {@JoinColumn(name="prof_id")},inverseJoinColumns =  {@JoinColumn(name="course_id")})
 	private List<Course> courses=new ArrayList<Course>();
-	@ManyToMany
-	@JoinTable(name="professor_class",joinColumns = {@JoinColumn(name="prof_id")},inverseJoinColumns =  {@JoinColumn(name="class_id")})
-	private List<Class_Course> class_Courses=new ArrayList<Class_Course>();
-	public List<Class_Course> getClass_Courses() {
-		return class_Courses;
+
+	
+	@OneToMany(mappedBy = "professor")
+	private List<Class_Course> class_Course=new ArrayList<Class_Course>();
+	
+	public List<Class_Course> getClass_Course() {
+		return class_Course;
 	}
-	public void setClass_Courses(List<Class_Course> class_Courses) {
-		this.class_Courses = class_Courses;
+	public void setClass_Course(List<Class_Course> class_Course) {
+		this.class_Course = class_Course;
 	}
-	public List<Course> getCourses() {
+	public List<Course> getCourses() { 
 		return courses;
 	}
 	public void setCourses(List<Course> courses) {

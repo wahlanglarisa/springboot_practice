@@ -1,12 +1,15 @@
 package com.example.student.service;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.student.model.Course;
+import com.example.student.model.FindProfessorClasses;
+import com.example.student.model.ProfListClasses;
 import com.example.student.model.Professor;
 import com.example.student.model.User;
 import com.example.student.model.UserDto;
@@ -38,6 +41,16 @@ public class ProfessorServiceImpl implements ProfessorService {
 		professor.getCourses().add(course1);
 		}
 		return professorRepository.save(professor);
+	}
+	@Override
+	public List<FindProfessorClasses> findProfessorClasses(String email) {
+		// TODO Auto-generated method stub
+		return professorRepository.findProfessorClasses(email);
+	}
+	@Override
+	public List<ProfListClasses> getClass_Courses(String email) {
+		// TODO Auto-generated method stub
+		return professorRepository.getClass_Courses(email);
 	}
 
 }

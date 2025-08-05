@@ -14,6 +14,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,5 +40,8 @@ public class Class_Course {
 	@OneToMany(mappedBy = "class_Course")
 	private List<StudentClass> students=new ArrayList<StudentClass>();
 	private String day;
+	@ManyToOne
+	@JoinColumn(name="prof_id")
+	private Professor professor;
 }
  

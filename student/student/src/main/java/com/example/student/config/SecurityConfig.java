@@ -26,10 +26,11 @@ public class SecurityConfig {
 						.requestMatchers("/js/**", "/registerStudent/**", "/css/**", "**.js", "/images/**", "/html/**",
 								"/studentData/**")
 						.permitAll().requestMatchers("/student/studentHomepage/**").hasAnyAuthority("Student")
-						.requestMatchers("/admin/**").hasAnyAuthority("Admin").anyRequest().authenticated() // All other
-																											// requests
-																											// require
-																											// authentication
+						.requestMatchers("/admin/**").hasAnyAuthority("Admin").requestMatchers("/professor/**")
+						.hasAnyAuthority("Professor").anyRequest().authenticated() // All other
+				// requests
+				// require
+				// authentication
 				).formLogin(form -> form.loginPage("/login").successHandler(customSuccessHandler())
 						.failureHandler((request, response, exception) -> {
 							exception.printStackTrace(); // Log exact error

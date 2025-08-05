@@ -21,12 +21,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 			redirectURL = "/student/studentHomepage";
 		}
 		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Professor"))) {
-			redirectURL = "/student/studentHomepage";
+			redirectURL = "/professor/professorHomepage";
 		}
 		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Admin"))) {
 			redirectURL ="/admin/"
 					+ "adminPortal";
 		}
+		
 		
 		// TODO Auto-generated method stub
 		response.sendRedirect(redirectURL);
