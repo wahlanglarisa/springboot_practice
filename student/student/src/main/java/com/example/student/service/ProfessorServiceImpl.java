@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.student.model.AttendancePage;
 import com.example.student.model.Course;
 import com.example.student.model.FindProfessorClasses;
 import com.example.student.model.ProfListClasses;
@@ -51,6 +52,11 @@ public class ProfessorServiceImpl implements ProfessorService {
 	public List<ProfListClasses> getClass_Courses(String email) {
 		// TODO Auto-generated method stub
 		return professorRepository.getClass_Courses(email);
+	}
+	@Override
+	public List<AttendancePage> getAttendancePages(String email,long id) {
+		// TODO Auto-generated method stub
+		return professorRepository.getAttendancePages(email,id);
 	}
 
 }

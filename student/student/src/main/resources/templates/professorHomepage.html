@@ -101,7 +101,7 @@
 							<td th:text="${routine.courseName}"></td>
 							<td th:text="${routine.time}"></td>
 							<td th:text="${routine.day}"></td>
-							<td><a href="#" class="btn btn-primary">Take Attendance</a></td>
+							<td><a th:href="@{/professor/attendancePage/{id}(id=${routine.id})}" class="btn btn-primary">Take Attendance</a></td>
 						</tr>
 
 					</tbody>

@@ -11,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProfListClasses {
+	private long id;
 	private String courseName;
 	private Time time;
 	private String day;
