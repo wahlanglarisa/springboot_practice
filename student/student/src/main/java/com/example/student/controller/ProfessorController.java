@@ -26,36 +26,40 @@ public class ProfessorController {
 	private ProfessorService professorService;
 	@Autowired
 	private CourseService courseService;
+
 	@GetMapping("/professor/professorHomepage")
-	public String profHomepage(Model model,HttpServletRequest httpServletRequest) {
-		Principal principal=httpServletRequest.getUserPrincipal();
-		List<FindProfessorClasses> professorClasses=professorService.findProfessorClasses(principal.getName());
+	public String profHomepage(Model model, HttpServletRequest httpServletRequest) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+		List<FindProfessorClasses> professorClasses = professorService.findProfessorClasses(principal.getName());
 		model.addAttribute("user", principal.getName());
-		List<ProfListClasses> profListClasses=professorService.getClass_Courses(principal.getName());
-		model.addAttribute("classCount",professorClasses);
-		model.addAttribute("routines",profListClasses);
+		List<ProfListClasses> profListClasses = professorService.getClass_Courses(principal.getName());
+		model.addAttribute("classCount", professorClasses);
+		model.addAttribute("routines", profListClasses);
 
 		return "professorHomepage";
-				
+
 	}
+
 	@GetMapping("/professor/attendancePage/{id}")
-	private String attendancePage(Model model, HttpServletRequest httpServletRequest,@PathVariable("id") long id) {
-		Principal principal=httpServletRequest.getUserPrincipal();
-		String email=principal.getName();
-		List<AttendancePage> attendancePages=professorService.getAttendancePages(email,id);
-		model.addAttribute("course",courseService.findById(attendancePages.getFirst().getCourseID()));
+	private String attendancePage(Model model, HttpServletRequest httpServletRequest, @PathVariable("id") long id) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+		String email = principal.getName();
+		List<AttendancePage> attendancePages = professorService.getAttendancePages(email, id);
+		model.addAttribute("course", courseService.findById(attendancePages.getFirst().getCourseID()));
 		model.addAttribute("user", email);
 
-		model.addAttribute("students",attendancePages);
-		model.addAttribute("class",new com.example.student.model.saveAttendance());
+		model.addAttribute("students", attendancePages);
+		model.addAttribute("class", new com.example.student.model.saveAttendance());
 		System.out.println(courseService.findById(attendancePages.getFirst().getCourseID()));
-		System.out.println(id+" "+attendancePages);
+		System.out.println(id + " " + attendancePages);
 		return "attendancePage";
-		
+
 	}
+
 	@PostMapping("/professor/saveAttendance/")
 	private String saveAttendance(@ModelAttribute("class") com.example.student.model.saveAttendance studentClass) {
-		System.out.println(studentClass.getStudentClasses().getFirst().getStudent().getID());
+		String str=professorService.saveAttendance(studentClass);
+		System.out.println(str);
 		return "redirect:/professor/professorHomepage";
 	}
 

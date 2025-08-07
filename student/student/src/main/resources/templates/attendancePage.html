@@ -66,10 +66,15 @@
 				<tr th:each="st,itemStat:${students}">
 					<td th:text="${st.StudentName}"></td>
 					<td th:text="${st.semester}"></td>
-					<td><input type="radio" th:field="*{studentClasses[__${itemStat.index}__].student.ID}"
+					<td><input type="radio"
+						th:field="*{studentClasses[__${itemStat.index}__].student.ID}"
 						th:value="${st.st_id}"><label for="radio">Present</label>&nbsp;&nbsp;<input
-						type="radio"  ><label
-						for="radio">Absent</label></td>
+						type="radio"
+						th:field="*{studentClasses[__${itemStat.index}__].student.ID}"
+						th:value="0"><input
+						type="hidden"
+						th:field="*{studentClasses[__${itemStat.index}__].class_Course.id}"
+						th:value="${st.class_id}"><label for="radio">Absent</label></td>
 
 				</tr>
 			</table>

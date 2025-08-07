@@ -1,5 +1,7 @@
 package com.example.student.service;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,11 +14,14 @@ import com.example.student.model.Course;
 import com.example.student.model.FindProfessorClasses;
 import com.example.student.model.ProfListClasses;
 import com.example.student.model.Professor;
+import com.example.student.model.StudentClass;
 import com.example.student.model.User;
 import com.example.student.model.UserDto;
+import com.example.student.model.saveAttendance;
 import com.example.student.model.repository.CourseRepository;
 import com.example.student.model.repository.ProfessorRepository;
 import com.example.student.model.repository.RoleRepository;
+import com.example.student.model.repository.StudentClassRepository;
 import com.example.student.model.repository.UserRepository;
 
 @Service
@@ -31,6 +36,8 @@ public class ProfessorServiceImpl implements ProfessorService {
 	private RoleRepository roleRepository;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private StudentClassRepository classRepository;
 	@Override
 	public Professor saveProfessor(UserDto userDto) {
 		// TODO Auto-generated method stu
@@ -57,6 +64,20 @@ public class ProfessorServiceImpl implements ProfessorService {
 	public List<AttendancePage> getAttendancePages(String email,long id) {
 		// TODO Auto-generated method stub
 		return professorRepository.getAttendancePages(email,id);
+	}
+	@Override
+	public String saveAttendance(saveAttendance studentClass) {
+		// TODO Auto-generated method stub
+		System.out.println("in save attendance function");
+		for(StudentClass studentClass2:studentClass.getStudentClasses()) {
+			if(studentClass2.getStudent().getID()!=0) {
+				studentClass2.getClass_Course().getId();
+				studentClass2.setDate(new Date(new java.util.Date().getDate()));
+				studentClass2.setTime(new Time(new java.util.Date().getTime()));
+				classRepository.save(studentClass2);
+			}
+		}
+		return "Sucess";
 	}
 
 }
