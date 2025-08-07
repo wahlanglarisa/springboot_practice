@@ -2,8 +2,7 @@ package com.example.student.model;
 
 import java.sql.Date;
 import java.sql.Time;
-
-import jakarta.persistence.Column;
+import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
@@ -14,16 +13,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+@Entity
+@Table
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@IdClass(StudentClassId.class)
-@Table(name = "student_class")
-public class StudentClass {
+@AllArgsConstructor
+@IdClass(AttendanceID.class)
+
+public class Attendance {
 	@Id
-	@ManyToOne
+	@ManyToOne()
 	@JoinColumn(name="st_id")
 	private Student student;
 	@ManyToOne
@@ -32,6 +33,6 @@ public class StudentClass {
 	private Class_Course class_Course;
 	@Id
 	private Date date;
-	@Column(nullable = true)
+	@Id
 	private Time time;
-}  
+}

@@ -46,6 +46,7 @@ public class ProfessorController {
 		String email = principal.getName();
 		List<AttendancePage> attendancePages = professorService.getAttendancePages(email, id);
 		model.addAttribute("course", courseService.findById(attendancePages.getFirst().getCourseID()));
+		System.out.println(attendancePages.getFirst().getClass_id());
 		model.addAttribute("user", email);
 
 		model.addAttribute("students", attendancePages);
@@ -58,6 +59,7 @@ public class ProfessorController {
 
 	@PostMapping("/professor/saveAttendance/")
 	private String saveAttendance(@ModelAttribute("class") com.example.student.model.saveAttendance studentClass) {
+		System.out.println(studentClass.getStudentClasses().getFirst().getClass_Course().getId());
 		String str=professorService.saveAttendance(studentClass);
 		System.out.println(str);
 		return "redirect:/professor/professorHomepage";

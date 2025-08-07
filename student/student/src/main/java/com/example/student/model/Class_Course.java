@@ -43,5 +43,7 @@ public class Class_Course {
 	@ManyToOne
 	@JoinColumn(name="prof_id")
 	private Professor professor;
+	@OneToMany(mappedBy = "class_Course")
+	private List<Attendance> attendances=new ArrayList<Attendance>();
 }
  

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.student.model.Attendance;
 import com.example.student.model.AttendancePage;
 import com.example.student.model.Course;
 import com.example.student.model.FindProfessorClasses;
@@ -18,6 +19,7 @@ import com.example.student.model.StudentClass;
 import com.example.student.model.User;
 import com.example.student.model.UserDto;
 import com.example.student.model.saveAttendance;
+import com.example.student.model.repository.AttendanceRepository;
 import com.example.student.model.repository.CourseRepository;
 import com.example.student.model.repository.ProfessorRepository;
 import com.example.student.model.repository.RoleRepository;
@@ -38,6 +40,8 @@ public class ProfessorServiceImpl implements ProfessorService {
 	private UserRepository userRepository;
 	@Autowired
 	private StudentClassRepository classRepository;
+	@Autowired
+	private AttendanceRepository attendanceRepository;
 	@Override
 	public Professor saveProfessor(UserDto userDto) {
 		// TODO Auto-generated method stu
@@ -69,12 +73,12 @@ public class ProfessorServiceImpl implements ProfessorService {
 	public String saveAttendance(saveAttendance studentClass) {
 		// TODO Auto-generated method stub
 		System.out.println("in save attendance function");
-		for(StudentClass studentClass2:studentClass.getStudentClasses()) {
+		for(Attendance studentClass2:studentClass.getStudentClasses()) {
 			if(studentClass2.getStudent().getID()!=0) {
-				studentClass2.getClass_Course().getId();
-				studentClass2.setDate(new Date(new java.util.Date().getDate()));
+				System.out.println(studentClass2.getClass_Course().getId());
+				studentClass2.setDate(new Date(System.currentTimeMillis()));
 				studentClass2.setTime(new Time(new java.util.Date().getTime()));
-				classRepository.save(studentClass2);
+				attendanceRepository.save(studentClass2);
 			}
 		}
 		return "Sucess";

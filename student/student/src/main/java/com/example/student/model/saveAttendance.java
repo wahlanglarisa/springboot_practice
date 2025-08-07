@@ -12,5 +12,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class saveAttendance {
-	private List<StudentClass> studentClasses;
+	private List<Attendance> studentClasses;
 }

@@ -46,7 +46,8 @@ public class Student {
 	private User user;
 	@OneToMany(mappedBy = "student")
 	private List<TestStudent> testStudents = new ArrayList<TestStudent>();
-
+	@OneToMany(mappedBy = "student")
+	private List<Attendance> attendances=new ArrayList<Attendance>();
 	public Student(String firstName, String lastName, String emailID, Long semester, User user) {
 		super();
 		this.firstName = firstName;
