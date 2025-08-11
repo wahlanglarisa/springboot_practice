@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.student.model.Attendance;
 import com.example.student.model.AttendancePage;
 import com.example.student.model.Course;
+import com.example.student.model.Department;
 import com.example.student.model.FindProfessorClasses;
 import com.example.student.model.ProfListClasses;
 import com.example.student.model.Professor;
@@ -21,6 +22,7 @@ import com.example.student.model.UserDto;
 import com.example.student.model.saveAttendance;
 import com.example.student.model.repository.AttendanceRepository;
 import com.example.student.model.repository.CourseRepository;
+import com.example.student.model.repository.DepartmentRepository;
 import com.example.student.model.repository.ProfessorRepository;
 import com.example.student.model.repository.RoleRepository;
 import com.example.student.model.repository.StudentClassRepository;
@@ -42,11 +44,15 @@ public class ProfessorServiceImpl implements ProfessorService {
 	private StudentClassRepository classRepository;
 	@Autowired
 	private AttendanceRepository attendanceRepository;
+	@Autowired
+	private DepartmentRepository departmentRepository;
 	@Override
 	public Professor saveProfessor(UserDto userDto) {
 		// TODO Auto-generated method stu
 		User user=new User(userDto.getFirstName(),userDto.getLastName(),userDto.getEmailID(),bCryptPasswordEncoder.encode(userDto.getPassword()),Arrays.asList(roleRepository.findByName("Professor")));
 		Professor professor=new Professor(userDto.getFirstName(), userDto.getLastName(), userDto.getEmailID());
+		Department department=departmentRepository.getById(userDto.getDept_id());
+		professor.setDepartments(department);
 		userRepository.save(user);
 		for(String course: userDto.getCourses()) {
 			Course course1=courseRepository.findByCourseName(course);

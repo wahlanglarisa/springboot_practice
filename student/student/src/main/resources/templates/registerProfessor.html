@@ -71,6 +71,10 @@
 			<thead><tr><td><b>Select Courses</b></td></tr></thead>
 			<tr th:each="course:${courseList}"><td><input type="checkbox"  class="form-check-input" th:value="${course}" th:field="*{courses}">&nbsp;&nbsp;<label  th:text="${course}" class="form-check-label"></label></td></tr>
 			</table>
+			<table class="table">
+			<thead><tr><td><b>Select Courses</b></td></tr></thead>
+			<tr th:each="dept:${department}"><td><input type="radio"  class="form-check-input" th:value="${dept.id}" th:field="*{dept_id}" >&nbsp;&nbsp;<label  th:text="${dept.dName}" class="form-check-label"></label></td></tr>
+			</table>
 			<div class="mb-3">
 				<!-- <table>
 					

@@ -22,7 +22,7 @@ public
 	private List<String> courses=new ArrayList<String>();
 	private String password;
 	private long semester;
-
+	private long dept_id;
 
 }
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.student.model.UserDto;
 import com.example.student.service.CourseService;
+import com.example.student.service.DepartmentService;
 import com.example.student.service.ProfessorService;
 import com.example.student.service.StudentService;
 
@@ -26,6 +27,8 @@ public class RegisterController {
 	private StudentService studentService;
 	@Autowired
 	private ProfessorService professorService;
+	@Autowired
+	private DepartmentService departmentService;
   @GetMapping("/registerStudent")
   public String registerStudentPage(Model model) {
 	  Collection<String> courseList=courseService.findCourses();
@@ -43,6 +46,7 @@ public class RegisterController {
 	  userDto.getCourses().add("");
 	  model.addAttribute("user", new UserDto());
 	  model.addAttribute("courseList",courseList);
+	  model.addAttribute("department",departmentService.findAllDepartments());
 	  System.out.println("Hello"+courseList.toString());
 	  return "registerProfessor";
   }
@@ -56,7 +60,7 @@ public class RegisterController {
   }
   @PostMapping("/professorData")
   public String GetProfessorData(@ModelAttribute("user") UserDto user,Model model) {
-	  System.out.println("From /studentData "+user.getCourses());
+	  System.out.println("From /studentData "+user.getDept_id());
 	 professorService.saveProfessor(user);
 //	  studentService.saveStudent(user);
 	  return "redirect:/registerProfessor?success";

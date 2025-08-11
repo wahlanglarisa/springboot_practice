@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -28,11 +29,27 @@ public class Professor {
 	@ManyToMany
 	@JoinTable(name="course_professor",joinColumns = {@JoinColumn(name="prof_id")},inverseJoinColumns =  {@JoinColumn(name="course_id")})
 	private List<Course> courses=new ArrayList<Course>();
-
+	@OneToOne(mappedBy = "professor")
+	private Department department;
 	
 	@OneToMany(mappedBy = "professor")
 	private List<Class_Course> class_Course=new ArrayList<Class_Course>();
 	
+	@ManyToOne
+	@JoinColumn(name = "dept_id")
+	private Department departments; 
+	public Department getDepartment() {
+		return department;
+	}
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+	public Department getDepartments() {
+		return departments;
+	}
+	public void setDepartments(Department departments) {
+		this.departments = departments;
+	}
 	public List<Class_Course> getClass_Course() {
 		return class_Course;
 	}
