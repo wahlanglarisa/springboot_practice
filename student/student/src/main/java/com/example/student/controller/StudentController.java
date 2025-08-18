@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.student.model.Branch;
 import com.example.student.model.StudentRoutine;
 import com.example.student.model.TestResults;
 import com.example.student.model.UpComingTests;
 import com.example.student.model.User;
 import com.example.student.model.UserList;
 import com.example.student.model.findNoOfAttendance;
+import com.example.student.service.BranchService;
 import com.example.student.service.StudentService;
 import com.example.student.service.UserService;
 
@@ -29,6 +31,7 @@ public class StudentController {
 	private StudentService studentService;
 	@Autowired
 	private UserService userService;
+
 	@GetMapping("/login")
 	public String login() {
 		return "login";
@@ -46,6 +49,7 @@ public class StudentController {
 		model.addAttribute("tests", tests);
 		model.addAttribute("totalAttendance", totalAttendance);
 		model.addAttribute("results", results);
+		
 		return "studentHomepage";
 	}
 

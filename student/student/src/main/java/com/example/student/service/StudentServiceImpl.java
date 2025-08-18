@@ -16,6 +16,7 @@ import com.example.student.model.UpComingTests;
 import com.example.student.model.User;
 import com.example.student.model.UserDto;
 import com.example.student.model.findNoOfAttendance;
+import com.example.student.model.repository.BranchRepository;
 import com.example.student.model.repository.CourseRepository;
 import com.example.student.model.repository.RoleRepository;
 import com.example.student.model.repository.StudentRepository;
@@ -33,6 +34,8 @@ public class StudentServiceImpl implements StudentService{
 	private CourseRepository courseRepository;
 	@Autowired
 	private RoleRepository roleRepository;
+	@Autowired
+	private BranchRepository branchRepository;
 	@Override
 	public Student saveStudent(UserDto st) {
 		
@@ -43,6 +46,7 @@ public class StudentServiceImpl implements StudentService{
 			Course course2=courseRepository.findByCourseName(course);
 			st1.getCourses().add(course2);
 		}
+		st1.setBranch(branchRepository.getReferenceById(st.getBranch_id()));
 		userRepository.save(user);
 		return studentRepository.save(st1);
 	}

@@ -3,6 +3,7 @@ package com.example.student.controller;
 import java.net.http.HttpRequest;
 import java.security.Principal;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.student.model.Branch;
 import com.example.student.model.UserDto;
+import com.example.student.service.BranchService;
 import com.example.student.service.CourseService;
 import com.example.student.service.DepartmentService;
 import com.example.student.service.ProfessorService;
@@ -26,6 +29,8 @@ public class RegisterController {
 	@Autowired
 	private StudentService studentService;
 	@Autowired
+	private BranchService branchService;
+	@Autowired
 	private ProfessorService professorService;
 	@Autowired
 	private DepartmentService departmentService;
@@ -34,6 +39,9 @@ public class RegisterController {
 	  Collection<String> courseList=courseService.findCourses();
 	  UserDto userDto=new UserDto();
 	  userDto.getCourses().add("");
+		List<Branch> branches=branchService.findBranchList();
+
+	  model.addAttribute("branches",branches);
 	  model.addAttribute("user", new UserDto());
 	  model.addAttribute("courseList",courseList);
 	  System.out.println("Hello"+courseList.toString());

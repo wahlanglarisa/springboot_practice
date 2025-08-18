@@ -3,6 +3,11 @@ package com.example.student.model;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
@@ -26,8 +31,10 @@ public class Attendance {
 	@Id
 	@ManyToOne()
 	@JoinColumn(name="st_id")
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+
 	private Student student;
-	@ManyToOne
+	@ManyToOne()
 	@Id
 	@JoinColumn(name = "class_id")
 	private Class_Course class_Course;

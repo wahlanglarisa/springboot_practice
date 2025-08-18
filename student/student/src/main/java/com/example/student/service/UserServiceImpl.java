@@ -18,7 +18,7 @@ import com.example.student.model.repository.StudentRepository;
 import com.example.student.model.repository.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserDetailsService,UserService {
+public class UserServiceImpl implements UserDetailsService, UserService {
 	@Lazy
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -27,17 +27,17 @@ public class UserServiceImpl implements UserDetailsService,UserService {
 	@Autowired
 	private StudentRepository studentRepository;
 
-
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		
+
 		User user1 = userRepository.findByEmail(username);
-		System.out.println(userRepository.findByEmail(username)+" "+username);
+		System.out.println(userRepository.findByEmail(username) + " " + username);
 		System.out.println("In load by username function" + user1);
-		System.out.println(user1.getEmail()+" "+user1.getFirstName()+" "+user1.getLastName()+" "+user1.getPassword());
+		System.out.println(
+				user1.getEmail() + " " + user1.getFirstName() + " " + user1.getLastName() + " " + user1.getPassword());
 		return new UserPrincipal(user1);
-		
+
 	}
 
 	@Override
@@ -55,8 +55,8 @@ public class UserServiceImpl implements UserDetailsService,UserService {
 	@Override
 	public User getUserById(long id) {
 		// TODO Auto-generated method stub
-		Optional<User> optional=userRepository.findById(id);
-		if(!optional.isEmpty()) {
+		Optional<User> optional = userRepository.findById(id);
+		if (!optional.isEmpty()) {
 			return optional.get();
 		}
 		return null;
@@ -66,20 +66,32 @@ public class UserServiceImpl implements UserDetailsService,UserService {
 	public User updateUser(User updatedUser) {
 		// TODO Auto-generated method stub
 		User existingUser = userRepository.findById(updatedUser.getId())
-		        .orElseThrow(() -> new RuntimeException("User not found"));
+				.orElseThrow(() -> new RuntimeException("User not found"));
 
-		    // Update user fields
-		    existingUser.setFirstName(updatedUser.getFirstName());
-		    existingUser.setLastName(updatedUser.getLastName());
-		    existingUser.setEmail(updatedUser.getEmail());
-		    existingUser.setPassword(bCryptPasswordEncoder.encode(updatedUser.getPassword()));
+		// Update user fields
+		existingUser.setFirstName(updatedUser.getFirstName());
+		existingUser.setLastName(updatedUser.getLastName());
+		existingUser.setEmail(updatedUser.getEmail());
+		if (updatedUser.getPassword() != "") {
+			existingUser.setPassword(bCryptPasswordEncoder.encode(updatedUser.getPassword()));
+		}
+		else {
+			existingUser.setPassword(existingUser.getPassword());
 
-		    // Safely update roles (replace only if non-null)
-		    if (updatedUser.getRoles() != null) {
-		        existingUser.getRoles().clear();
-		        existingUser.getRoles().addAll(updatedUser.getRoles());
-		    }
+		}
+		// Safely update roles (replace only if non-null)
+		if (updatedUser.getRoles() != null) {
+			existingUser.getRoles().clear();
+			existingUser.getRoles().addAll(updatedUser.getRoles());
+		}
 
-		    return userRepository.save(existingUser);
+		return userRepository.save(existingUser);
+	}
+
+	@Override
+	public void deleteUser(long id) {
+		// TODO Auto-generated method stub
+		userRepository.deleteById(id);
+		;
 	}
 }

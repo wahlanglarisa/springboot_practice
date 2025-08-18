@@ -77,8 +77,8 @@
 					<td th:text="${user.lastName}"></td>
 					<td th:text="${user.roleName}"></td>
 					<td><a th:href="@{/admin/updateUserPage/{id}(id = ${user.id})}" class="btn btn-primary"
-						>Update</a>&nbsp;&nbsp;<input type='submit'
-						class="btn btn-danger" value="Delete"></td>
+						>Update</a>&nbsp;&nbsp;<a th:href="@{/admin/deleteUserPage/{id}(id = ${user.id})}"
+						class="btn btn-danger" value="Delete">Delete</a></td>
 				</tr>
 
 

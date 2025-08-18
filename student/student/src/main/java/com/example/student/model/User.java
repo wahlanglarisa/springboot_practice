@@ -23,7 +23,7 @@ import jakarta.persistence.UniqueConstraint;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -31,7 +31,7 @@ public class User {
 	@ManyToMany(fetch = FetchType.EAGER )
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id"))
 	private Collection<Role> roles;
-	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "user")
+	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE,mappedBy = "user")
 	@JoinColumn(name="st_user_id")
 	private Student student;
 	

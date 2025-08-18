@@ -26,7 +26,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	@Query("select new com.example.student.model.Student(st.firstName,st.lastName,st.emailID,st.semester,st.user) from Student st join st.courses courses where courses.id=20")
 	public List<Student> findStudentByCourse();
 
-	@Query("select new com.example.student.model.findNoOfAttendance(count(*)) " + "from StudentClass sc "
+	@Query("select new com.example.student.model.findNoOfAttendance(count(*)) " + "from Attendance sc "
 			+ "join sc.class_Course cc " + "join sc.student st " + "where st.emailID=:email  and sc.date=CURRENT_DATE "
 			+ "and to_char(current_date, 'Day')=cc.day " + "group by st.emailID ")
 	public findNoOfAttendance noOfAttendance(@Param("email") String email);

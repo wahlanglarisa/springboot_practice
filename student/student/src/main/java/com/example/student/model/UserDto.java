@@ -23,6 +23,6 @@ public
 	private String password;
 	private long semester;
 	private long dept_id;
-
+	private long branch_id;
 }
 

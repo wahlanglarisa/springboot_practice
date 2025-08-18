@@ -1,5 +1,9 @@
 package com.example.student.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -21,5 +25,7 @@ public class TestStudent {
 	@ManyToOne
 	@JoinColumn(name = "st_id")
 	@Id
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+
 	private Student student;  
 }
