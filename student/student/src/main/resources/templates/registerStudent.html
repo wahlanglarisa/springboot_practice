@@ -69,20 +69,9 @@
 			<div class="mb-3 row">
 				<label for="exampleFormControlTextarea1" class="form-label col-sm-1">Enter
 					your password</label> <input type="text" class="form-control col"
-					id="emailid" placeholder="Enter your Email ID" th:field="*{password}">
+					id="emailid" placeholder="Enter your Email ID"
+					th:field="*{password}">
 			</div>
-			<table class="table">
-				<thead>
-					<tr>
-						<td><b>Select Courses</b></td>
-					</tr>
-				</thead>
-				<tr th:each="course:${courseList}">
-					<td><input type="checkbox" class="form-check-input"
-						th:value="${course}" th:field="*{courses}">&nbsp;&nbsp;<label
-						th:text="${course}" class="form-check-label"></label></td>
-				</tr>
-			</table>
 			<table class="table">
 				<thead>
 					<tr>
@@ -95,6 +84,19 @@
 						th:text="${branch.branchName}" class="form-check-label"></label></td>
 				</tr>
 			</table>
+			<table class="table">
+				<thead>
+					<tr>
+						<td><b>Select Courses</b></td>
+					</tr>
+				</thead>
+				<tr th:each="course:${courseList}">
+					<td><input type="checkbox" class="form-check-input"
+						th:value="${course}" th:field="*{courses}">&nbsp;&nbsp;<label
+						th:text="${course}" class="form-check-label"></label></td>
+				</tr>
+			</table>
+
 			<div class="mb-3">
 				<!-- <table>
 					

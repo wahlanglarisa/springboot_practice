@@ -53,7 +53,16 @@
 	<br>
 	<br>
 	<div class="container">
+		<div class=" row parentRow">
+			<div
+				class="col-md-15 mx-2 p-3 text-center  routineBlock stDetails shadow-lg">
+				<strong>[[${stdeptBranch.stName}]]</strong><br> <br> <strong>Department
+					of [[${stdeptBranch.deptName}]] </strong><br> <br> <strong>[[${stdeptBranch.branchName}]]
+					Branch</strong> <br> <br> <br>
+			</div>
 
+		</div>
+		<br>
 		<div class=" row parentRow">
 			<div class="col-md-3 mx-2 p-3 text-center  routineBlock shadow-lg">
 				<strong>You have [[${routines.size()}]] class(es) today</strong> <br>
@@ -61,7 +70,7 @@
 			</div>
 			<br>
 			<div class="col-md-3 mx-2 p-3 text-center  routineBlock shadow-lg">
-				<strong>You have attended total of [[${totalAttendance}]]
+				<strong>You have attended total of [[${totalAttendance.Count}]]
 					class(es) today</strong>
 				<div class="progress" role="progressbar" aria-label="Basic example"
 					th:aria-valuenow=${routines.size()} aria-valuemin="0"
@@ -74,8 +83,20 @@
 
 
 			<div class="col-md-5 routineBlock shadow-lg">
-				<strong>Your Courses</strong>
-				<div th:each="routine : ${routines}" th:text='${routine.courseName}'></div>
+				<strong>Your classes today</strong>
+				<table class='table'>
+					<thead>
+						<tr>
+							<th>Course Name</th>
+							<th>Time</th>
+						</tr>
+						<tr th:each="routine :${routines}">
+						<td th:text="${routine.courseName}"></td>
+						<td th:text="${routine.time}"></td>
+						</tr>
+
+					</thead>
+				</table>
 			</div>
 		</div>
 		<br>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.student.model.Branch;
+import com.example.student.model.StudentDepartmentBranch;
 import com.example.student.model.StudentRoutine;
 import com.example.student.model.TestResults;
 import com.example.student.model.UpComingTests;
@@ -43,12 +44,14 @@ public class StudentController {
 		List<StudentRoutine> studentRoutines = studentService.findStudentClasses(principal.getName());
 		List<UpComingTests> tests = studentService.upComingTests(principal.getName());
 		List<TestResults> results = studentService.testResults(principal.getName());
+		StudentDepartmentBranch departmentBranch=studentService.getDepartmentBranch(principal.getName());
 		findNoOfAttendance totalAttendance = studentService.noOfAttendance(principal.getName());
 		model.addAttribute("user", principal.getName());
 		model.addAttribute("routines", studentRoutines);
 		model.addAttribute("tests", tests);
 		model.addAttribute("totalAttendance", totalAttendance);
 		model.addAttribute("results", results);
+		model.addAttribute("stdeptBranch",departmentBranch);
 		
 		return "studentHomepage";
 	}

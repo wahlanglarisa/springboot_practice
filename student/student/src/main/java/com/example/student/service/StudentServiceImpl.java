@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.student.model.Course;
 import com.example.student.model.Role;
 import com.example.student.model.Student;
+import com.example.student.model.StudentDepartmentBranch;
 import com.example.student.model.StudentRoutine;
 import com.example.student.model.TestResults;
 import com.example.student.model.UpComingTests;
@@ -69,6 +70,11 @@ public class StudentServiceImpl implements StudentService{
 	public List<TestResults> testResults(String email) {
 		// TODO Auto-generated method stub
 		return studentRepository.testResults(email);
+	}
+	@Override
+	public StudentDepartmentBranch getDepartmentBranch(String email) {
+		// TODO Auto-generated method stub
+		return studentRepository.getDepartmentBranch(email);
 	}
 	
 }

@@ -4,6 +4,9 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,7 +44,9 @@ public class Class_Course {
 	private List<StudentClass> students=new ArrayList<StudentClass>();
 	private String day;
 	@ManyToOne
-	@JoinColumn(name="prof_id")
+	@JoinColumn(name="prof_id",nullable = true)
+	@OnDelete(action = OnDeleteAction.SET_NULL)
+
 	private Professor professor;
 	@OneToMany(mappedBy = "class_Course")
 	private List<Attendance> attendances=new ArrayList<Attendance>();

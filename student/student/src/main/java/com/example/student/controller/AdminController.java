@@ -55,6 +55,6 @@ public class AdminController {
 			+ "deleteUserPage/{id}")
 	public String deleteUserPage(HttpServletRequest httpRequest,@PathVariable("id") long id, Model model) {
 		userService.deleteUser(id);
-		return "redirect:adminPortal";
+		return "redirect:/admin/adminPortal";
 	}
 }

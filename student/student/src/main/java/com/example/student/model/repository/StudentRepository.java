@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.student.model.Student;
+import com.example.student.model.StudentDepartmentBranch;
 import com.example.student.model.StudentRoutine;
 import com.example.student.model.TestResults;
 import com.example.student.model.UpComingTests;
@@ -36,5 +37,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
 	@Query("select new com.example.student.model.TestResults(course.courseName,test.totalMarks,ts.marks,((cast(ts.marks as float)/test.totalMarks *100))) from TestStudent ts join ts.test test join test.course course join ts.student st where st.emailID=:email and test.date<CURRENT_DATE")
 	public List<TestResults> testResults(@Param("email") String email);
+	@Query("select new com.example.student.model.StudentDepartmentBranch(concat(st.firstName,' ',st.lastName),dept.dName,branch.branchName) from Student st join st.branch branch join branch.department dept where st.emailID=:email")
+	public StudentDepartmentBranch getDepartmentBranch(@Param("email") String email);
 
 }

@@ -53,6 +53,7 @@ public class ProfessorServiceImpl implements ProfessorService {
 		Professor professor=new Professor(userDto.getFirstName(), userDto.getLastName(), userDto.getEmailID());
 		Department department=departmentRepository.getById(userDto.getDept_id());
 		professor.setDepartments(department);
+		professor.setUser(user);
 		userRepository.save(user);
 		for(String course: userDto.getCourses()) {
 			Course course1=courseRepository.findByCourseName(course);

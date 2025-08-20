@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.repository.query.Param;
 
 import com.example.student.model.Student;
+import com.example.student.model.StudentDepartmentBranch;
 import com.example.student.model.StudentRoutine;
 import com.example.student.model.TestResults;
 import com.example.student.model.UpComingTests;
@@ -17,4 +18,5 @@ public interface StudentService {
 	public findNoOfAttendance noOfAttendance(String email);
 	public List<UpComingTests> upComingTests(String email);
 	public List<TestResults> testResults(String email);
+	public StudentDepartmentBranch getDepartmentBranch(String email);
 }

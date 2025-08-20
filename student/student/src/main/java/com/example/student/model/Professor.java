@@ -3,6 +3,9 @@ package com.example.student.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,7 +19,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name="professor")
 public class Professor {
@@ -38,63 +46,16 @@ public class Professor {
 	@ManyToOne
 	@JoinColumn(name = "dept_id")
 	private Department departments; 
-	public Department getDepartment() {
-		return department;
-	}
-	public void setDepartment(Department department) {
-		this.department = department;
-	}
-	public Department getDepartments() {
-		return departments;
-	}
-	public void setDepartments(Department departments) {
-		this.departments = departments;
-	}
-	public List<Class_Course> getClass_Course() {
-		return class_Course;
-	}
-	public void setClass_Course(List<Class_Course> class_Course) {
-		this.class_Course = class_Course;
-	}
-	public List<Course> getCourses() { 
-		return courses;
-	}
-	public void setCourses(List<Course> courses) {
-		this.courses = courses;
-	}
+	@OneToOne(orphanRemoval = true, cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "user_id")
+	private User user;
+	
 	public Professor( String firstName, String lastName, String email) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 	}
-	public Professor() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public long getID() {
-		return ID;
-	}
-	public void setID(long iD) {
-		ID = iD; 
-	}
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
+	
 	
 }
