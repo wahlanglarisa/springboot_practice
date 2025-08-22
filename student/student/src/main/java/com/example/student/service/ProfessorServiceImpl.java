@@ -49,9 +49,11 @@ public class ProfessorServiceImpl implements ProfessorService {
 	@Override
 	public Professor saveProfessor(UserDto userDto) {
 		// TODO Auto-generated method stu
-		User user=new User(userDto.getFirstName(),userDto.getLastName(),userDto.getEmailID(),bCryptPasswordEncoder.encode(userDto.getPassword()),Arrays.asList(roleRepository.findByName("Professor")));
+		User user=new User(userDto.getFirstName(),userDto.getLastName(),userDto.getEmailID(),bCryptPasswordEncoder.encode(userDto.getPassword()),Arrays.asList(roleRepository.findByName(userDto.isHod()?"Head Of Department":"Professor")));
 		Professor professor=new Professor(userDto.getFirstName(), userDto.getLastName(), userDto.getEmailID());
 		Department department=departmentRepository.getById(userDto.getDept_id());
+		System.out.println(userDto.isHod());
+		
 		professor.setDepartments(department);
 		professor.setUser(user);
 		userRepository.save(user);
@@ -59,7 +61,12 @@ public class ProfessorServiceImpl implements ProfessorService {
 			Course course1=courseRepository.findByCourseName(course);
 		professor.getCourses().add(course1);
 		}
-		return professorRepository.save(professor);
+		Professor professor2= professorRepository.save(professor);
+		if(userDto.isHod()) {
+			department.setProfessor(professor);
+			departmentRepository.save(department);
+		} 
+		return professor2;
 	}
 	@Override
 	public List<FindProfessorClasses> findProfessorClasses(String email) {

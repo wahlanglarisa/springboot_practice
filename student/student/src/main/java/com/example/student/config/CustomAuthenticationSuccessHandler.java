@@ -27,7 +27,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 			redirectURL ="/admin/"
 					+ "adminPortal";
 		}
-		
+		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Head Of Department"))) {
+			redirectURL ="/hod/hodPortal";
+		}
+		;
 		
 		// TODO Auto-generated method stub
 		response.sendRedirect(redirectURL);
