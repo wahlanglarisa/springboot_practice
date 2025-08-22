@@ -59,6 +59,11 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public findNoOfAttendance noOfAttendance(String email) {
 		// TODO Auto-generated method stub
+		findNoOfAttendance attendance=studentRepository.noOfAttendance(email);
+		if(attendance==null) {
+			findNoOfAttendance attendance2=new findNoOfAttendance(0);
+			return attendance2;
+		}
 		return studentRepository.noOfAttendance(email);
 	}
 	@Override

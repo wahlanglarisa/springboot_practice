@@ -10,5 +10,5 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class findNoOfAttendance {
-	private long Count;
+	private long Count=0;
 }
