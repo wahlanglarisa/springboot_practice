@@ -97,5 +97,15 @@ public class ProfessorServiceImpl implements ProfessorService {
 		}
 		return "Sucess";
 	}
+	@Override
+	public Professor getProfByEmail(String email) {
+		// TODO Auto-generated method stub
+		return professorRepository.findByEmail(email);
+	}
+	@Override
+	public List<ProfListClasses> getDeptClass_Courses(long id) {
+		// TODO Auto-generated method stub
+		return professorRepository.getDeptClass_Courses(id);
+	}
 
 }

@@ -28,6 +28,7 @@ public class Branch {
 		private Department department;
 		@OneToMany(mappedBy = "branch")
 		private List<Student> students=new ArrayList<Student>();
+
 		
 		
 }

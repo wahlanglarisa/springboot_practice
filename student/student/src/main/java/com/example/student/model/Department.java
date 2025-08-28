@@ -36,4 +36,6 @@ public class Department {
 	private List<Professor> professors=new ArrayList<Professor>();
 	@OneToMany(mappedBy = "department")
 	private List<Branch> branches=new ArrayList<Branch>();
+	@OneToMany(mappedBy = "department")
+	private List<Course> courses=new ArrayList<Course>();
 }

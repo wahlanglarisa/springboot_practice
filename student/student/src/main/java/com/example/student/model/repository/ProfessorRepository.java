@@ -33,4 +33,9 @@ public interface ProfessorRepository extends JpaRepository<Professor, Long>{
 			+ "join class.course_class course"
 			+ " join st.student student where prof.email=:email and class.id=:id")
 	public List<AttendancePage> getAttendancePages(@Param("email") String email,@Param("id") long id);
+	@Query("select new  com.example.student.model.ProfListClasses(class.id,course.courseName,class.time,class.day)"
+			+ " from Class_Course class "
+			+ "join class.course_class course join course.department dept where dept.id=:id")
+	public List<ProfListClasses> getDeptClass_Courses(@Param("id") long id);
+	public Professor findByEmail(String email);
 }

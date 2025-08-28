@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -31,6 +32,9 @@ public class Course {
 	private List<Class_Course> course_class=new ArrayList<Class_Course>();
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "course")
 	private List<Test> tests=new ArrayList<Test>();
+	@ManyToOne
+	@JoinColumn(name="dept_id")
+	private Department department;
 	public Long getCredit() {
 		return credit;
 	}
