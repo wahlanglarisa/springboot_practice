@@ -21,4 +21,5 @@ public interface ProfessorService {
 	public String saveAttendance(saveAttendance studentClass);
 	public Professor getProfByEmail(String email);
 	public List<ProfListClasses> getDeptClass_Courses(long id);
+	public List<Professor> getProfessors();
 }

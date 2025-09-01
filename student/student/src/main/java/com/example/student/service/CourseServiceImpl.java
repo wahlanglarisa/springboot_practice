@@ -26,6 +26,11 @@ public class CourseServiceImpl implements CourseService{
 		// TODO Auto-generated method stub
 		return courseRepository.getReferenceById(id);
 	}
+	@Override
+	public List<Course> findAllCourses() {
+		// TODO Auto-generated method stub
+		return courseRepository.findAll();
+	}
 	
 
 }

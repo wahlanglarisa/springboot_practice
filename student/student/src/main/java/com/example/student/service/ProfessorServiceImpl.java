@@ -107,5 +107,10 @@ public class ProfessorServiceImpl implements ProfessorService {
 		// TODO Auto-generated method stub
 		return professorRepository.getDeptClass_Courses(id);
 	}
+	@Override
+	public List<Professor> getProfessors() {
+		// TODO Auto-generated method stub
+		return professorRepository.findAll();
+	}
 
 }
