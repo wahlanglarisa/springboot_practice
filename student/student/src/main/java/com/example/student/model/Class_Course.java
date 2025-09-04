@@ -1,11 +1,13 @@
 package com.example.student.model;
 
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -33,7 +35,8 @@ public class Class_Course {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	private Time time;
+	@DateTimeFormat(pattern = "HH:mm") // 24-hour format
+    private LocalTime time;
 	
 	private long semester;
 	@ManyToOne

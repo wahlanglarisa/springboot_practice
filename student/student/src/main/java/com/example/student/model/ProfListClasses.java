@@ -1,6 +1,9 @@
 package com.example.student.model;
 
 import java.sql.Time;
+import java.time.LocalTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,6 +16,7 @@ import lombok.Setter;
 public class ProfListClasses {
 	private long id;
 	private String courseName;
-	private Time time;
+	@DateTimeFormat(pattern = "HH:mm") // 24-hour format
+    private LocalTime time;
 	private String day;
 }

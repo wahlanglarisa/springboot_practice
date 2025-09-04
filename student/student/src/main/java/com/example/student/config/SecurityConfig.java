@@ -27,7 +27,7 @@ public class SecurityConfig {
 								"/studentData/**")
 						.permitAll().requestMatchers("/student/studentHomepage/**").hasAnyAuthority("Student")
 						.requestMatchers("/admin/**").hasAnyAuthority("Admin").requestMatchers("/professor/**")
-						.hasAnyAuthority("Professor").anyRequest().authenticated() // All other
+						.hasAnyAuthority("Professor","Head Of Department").anyRequest().authenticated() // All other
 				// requests
 				// require
 				// authentication

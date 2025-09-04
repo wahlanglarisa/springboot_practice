@@ -15,6 +15,7 @@ import com.example.student.model.Course;
 import com.example.student.model.FindProfessorClasses;
 import com.example.student.model.ProfListClasses;
 import com.example.student.model.Professor;
+import com.example.student.service.ClassService;
 import com.example.student.service.CourseService;
 import com.example.student.service.ProfessorService;
 
@@ -26,7 +27,8 @@ public class HODController {
 	private ProfessorService professorService;
 	@Autowired
 	private CourseService courseService;
-
+@Autowired
+private ClassService classService;
 	@GetMapping("/hod/hodPortal")
 	public String profHomepage(Model model, HttpServletRequest httpServletRequest) {
 		Principal principal = httpServletRequest.getUserPrincipal();
@@ -59,9 +61,11 @@ public class HODController {
 	}
 
 	@GetMapping("/hod/addNewClassPage")
-	public String addClassPage(Model model) {
+	public String addClassPage(Model model,HttpServletRequest httpServletRequest) {
+		String email=httpServletRequest.getUserPrincipal().getName();
+		Professor professor=professorService.getProfByEmail(email);
 		List<Professor> professors = professorService.getProfessors();
-		List<Course> courses = courseService.findAllCourses();
+		List<Course> courses = courseService.findbyDepartment(professor.getDepartment());
 		System.out.println(courses);
 		model.addAttribute("courses", courses);
 		model.addAttribute("professors",professors);
@@ -74,7 +78,7 @@ public class HODController {
 		System.out.println("Course Name " + class_Course.getCourse_class().getCourseName() + " Course ID "
 				+ class_Course.getCourse_class().getId());
 		System.out.println(class_Course.getProfessor().getFirstName()+" "+class_Course.getProfessor().getLastName());
-		
+		classService.savClass_Course(class_Course);
 		return "redirect:/hod/addNewClassPage";
 	}
 }

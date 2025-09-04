@@ -15,17 +15,13 @@
 	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
+<header th:insert="@{/fragments/header.html}"> </header>
 <body>
-	<nav class="navbar bg-body-tertiary">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#"> <strong>University
-					Management System</strong>
-			</a>
-		</div>
-	</nav>
 	<br>
 	<br>
-	<div class='container-md'>
+	<br>
+	<br>
+	<div class='container routineBlock'>
 		<div th:if="${param.success}">
 			<div class="alert alert-info">You have successfully registered
 				to our awesome app!!!!</div>
@@ -43,30 +39,34 @@
 			<div class="mb-3 row">
 				<select th:field="*{course_class}" class='form-select'>
 					<option selected value=0>Select a course</option>
-					<option th:each="course,itemStat:${courses}" th:text="${course.courseName}"
-						th:value="${course.id}"
-						></option>
+					<option th:each="course,itemStat:${courses}"
+						th:text="${course.courseName}" th:value="${course.id}"></option>
 
-				</select>
-					<select th:field="*{professor}" class='form-select'>
+				</select> <select th:field="*{professor}" class='form-select'>
 					<option selected value=0>Select a Professor</option>
-					<option th:each="professor:${professors}" th:text="${professor.firstName}+' '+${professor.lastName}"
-						th:value="${professor.ID}"
-						></option>
+					<option th:each="professor:${professors}"
+						th:text="${professor.firstName}+' '+${professor.lastName}"
+						th:value="${professor.ID}"></option>
 
 				</select>
-				<label for="time">Enter the Time </label><input type="time" class="form-control col" id='time' th:field="*{time}">
+			</div>
+			<div class='mb-3 row'> <label for="time" class='col-3'>Select the Time </label><input type="time"
+					class="form-control col-3" id='time' th:field="*{time}"></div>
+			<div class="mb-3 row">
+				<select class='form-select' th:field="*{day}"><option
+						selected="selected" value=0>Select Day</option>
+					<option value="Monday">Monday</option>
+					<option value="Tuesday">Tuesday</option>
+					<option value="Wednesday">Wednesday</option>
+					<option value='Thursday'>Thursday</option>
+					<option value='Friday'>Friday</option>
+				</select>
 			</div>
 			<div class="mb-3 row">
-			<select  class='form-select'><option selected="selected" >Select Day</option>
-			<option>Monday</option>
-			<option >Tuesday</option>
-			<option>Wednesday</option>
-			<option >Thursday</option>
-			<option >Friday</option>
-			</select>
+				<label for="semester">Enter the Semester</label><input type="text"
+					th:field="*{semester}" class="form-control" id="semester">
+
 			</div>
-			
 
 			<div class="mb-3">
 				<!-- <table>

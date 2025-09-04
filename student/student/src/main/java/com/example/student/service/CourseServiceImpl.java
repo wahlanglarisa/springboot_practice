@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.student.model.Course;
+import com.example.student.model.Department;
 import com.example.student.model.repository.CourseRepository;
 
 
@@ -30,6 +31,11 @@ public class CourseServiceImpl implements CourseService{
 	public List<Course> findAllCourses() {
 		// TODO Auto-generated method stub
 		return courseRepository.findAll();
+	}
+	@Override
+	public List<Course> findbyDepartment(Department department) {
+		// TODO Auto-generated method stub
+		return courseRepository.findByDepartment(department);
 	}
 	
 
