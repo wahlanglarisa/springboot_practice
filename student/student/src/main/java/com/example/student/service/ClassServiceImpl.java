@@ -16,4 +16,10 @@ public class ClassServiceImpl implements ClassService {
 		return classRepository.save(class_Course);
 	}
 
+	@Override
+	public Class_Course findById(long id) {
+		// TODO Auto-generated method stub
+		return classRepository.getReferenceById(id);
+	}
+
 }

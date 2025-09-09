@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.student.model.AttendancePage;
 import com.example.student.model.Class_Course;
+import com.example.student.model.Department;
 import com.example.student.model.FindProfessorClasses;
 import com.example.student.model.ProfListClasses;
 import com.example.student.model.Professor;
@@ -38,4 +39,9 @@ public interface ProfessorRepository extends JpaRepository<Professor, Long>{
 			+ "join class.course_class course join course.department dept where dept.id=:id")
 	public List<ProfListClasses> getDeptClass_Courses(@Param("id") long id);
 	public Professor findByEmail(String email);
+	@Query("select distinct prof from Professor prof " +
+		       "join prof.departments dept " +
+		       "left join fetch prof.class_Course " +
+		       "where dept.id = :id")
+	public List<Professor> findByDepartmentID(@Param("id") long id);
 }

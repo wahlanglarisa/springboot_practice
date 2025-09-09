@@ -56,13 +56,14 @@ public class Student {
 	@JoinColumn(name = "branch_id")
 	private Branch branch; 
 
-	public Student(String firstName, String lastName, String emailID, Long semester, User user) {
+	public Student(String firstName, String lastName, String emailID, Long semester, User user,Branch branch) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailID = emailID;
 		this.semester = semester;
 		this.user = user;
+		this.branch=branch;
 	}
 
 }

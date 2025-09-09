@@ -30,6 +30,7 @@ import com.example.student.model.repository.UserRepository;
 
 @Service
 public class ProfessorServiceImpl implements ProfessorService {
+	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
@@ -50,7 +51,7 @@ public class ProfessorServiceImpl implements ProfessorService {
 	public Professor saveProfessor(UserDto userDto) {
 		// TODO Auto-generated method stu
 		User user=new User(userDto.getFirstName(),userDto.getLastName(),userDto.getEmailID(),bCryptPasswordEncoder.encode(userDto.getPassword()),Arrays.asList(roleRepository.findByName(userDto.isHod()?"Head Of Department":"Professor")));
-		Professor professor=new Professor(userDto.getFirstName(), userDto.getLastName(), userDto.getEmailID());
+		Professor professor=new Professor(userDto.getFirstName(), userDto.getLastName(), userDto.getEmailID(),null);
 		Department department=departmentRepository.getById(userDto.getDept_id());
 		System.out.println(userDto.isHod());
 		
@@ -112,5 +113,12 @@ public class ProfessorServiceImpl implements ProfessorService {
 		// TODO Auto-generated method stub
 		return professorRepository.findAll();
 	}
+	@Override
+	public List<Professor> findByDepartmentID(long id) {
+		// TODO Auto-generated method stub
+		return professorRepository.findByDepartmentID(id);
+	}
+	
+	
 
 }

@@ -19,4 +19,5 @@ public interface StudentService {
 	public List<UpComingTests> upComingTests(String email);
 	public List<TestResults> testResults(String email);
 	public StudentDepartmentBranch getDepartmentBranch(String email);
+	public List<Student> getStudentByDepartment(long id);
 }

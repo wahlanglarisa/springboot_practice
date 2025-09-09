@@ -15,47 +15,38 @@
 	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
-<header th:insert="@{/fragments/hod_header.html}">
-	
-</header>
+<header th:insert="@{/fragments/hod_header.html}"> </header>
+<br><br>
+<br><br>
 <body>
-	
-	<br>
-	<br>
-	<div class="parentRow text-center container">
-
-		<div class="routineBlock shadow-lg">
-			<div class='d-flex'>
-	<a th:href="@{/hod/addNewClassPage}" class="btn btn-primary"
-						>Add New Class</a>&nbsp;&nbsp;</div>
-			<strong>Department Classes</strong> <br> <br>
+	<div class='container'>
+		<div class="routineBlock shadow-lg text-center">
+			<h1 class='text-center'> Department Students</h1> <br> <br>
 			<table class='table'
 				style="background-color: #D1E7E8; border-radius: 50px;">
 
 
 				<thead>
 					<tr>
-						<th>Course Name</th>
-						<th>Time</th>
-						<th>Day</th>
+						<th>Student Name</th>
+						<th>Semester</th>
+						<th>Branch</th>
 						<Th>Actions</Th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="routine : ${routines}">
-						<td th:text="${routine.courseName}"></td>
-						<td th:text="${routine.time}"></td>
-						<td th:text="${routine.day}"></td>
-						<td><a
-							th:href="@{/hod/updateClassPage/{id}(id=${routine.id})}"
-							class="btn btn-primary">Update Class</a>&nbsp;&nbsp;<a
-							th:href="@{/professor/attendancePage/{id}(id=${routine.id})}"
-							class="btn btn-danger">Delete Class</a></td>
+					<tr th:each="student, iter : ${students}">
+						<td th:text="${student.firstName} + ' ' + ${student.lastName}"></td>
+						<td th:text="${student.semester}"></td>
+						<td th:text="${student.branch.branchName}"></td>
+						<td><input type="submit" class="btn btn-primary"
+							value="Assign Class"></td>
 					</tr>
 
 				</tbody>
 
 			</table>
+
 		</div>
 	</div>
 </body>

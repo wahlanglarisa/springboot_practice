@@ -41,15 +41,19 @@ public class StudentServiceImpl implements StudentService{
 	public Student saveStudent(UserDto st) {
 		
 		User user=new User(st.getFirstName(),st.getLastName(),st.getEmailID(),bCryptPasswordEncoder.encode(st.getPassword()),Arrays.asList(roleRepository.findByName("Student")));
-		Student st1=new Student(st.getFirstName(), st.getLastName(), st.getEmailID(), st.getSemester(), user);
+		Student st1=new Student(st.getFirstName(), st.getLastName(), st.getEmailID(), st.getSemester(), user,branchRepository.getReferenceById(st.getBranch_id()));
 
 		for (String course : st.getCourses()) {
 			Course course2=courseRepository.findByCourseName(course);
 			st1.getCourses().add(course2);
 		}
-		st1.setBranch(branchRepository.getReferenceById(st.getBranch_id()));
 		userRepository.save(user);
 		return studentRepository.save(st1);
+	}
+	@Override
+	public List<Student> getStudentByDepartment(long id) {
+		// TODO Auto-generated method stub
+		return studentRepository.findStudentByDepartment(id);
 	}
 	@Override
 	public List<StudentRoutine> findStudentClasses(String email) {

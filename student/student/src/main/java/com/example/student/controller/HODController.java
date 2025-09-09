@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.student.model.Class_Course;
@@ -15,9 +16,11 @@ import com.example.student.model.Course;
 import com.example.student.model.FindProfessorClasses;
 import com.example.student.model.ProfListClasses;
 import com.example.student.model.Professor;
+import com.example.student.model.Student;
 import com.example.student.service.ClassService;
 import com.example.student.service.CourseService;
 import com.example.student.service.ProfessorService;
+import com.example.student.service.StudentService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -27,14 +30,23 @@ public class HODController {
 	private ProfessorService professorService;
 	@Autowired
 	private CourseService courseService;
+	@Autowired
+	private StudentService studentService;
 @Autowired
 private ClassService classService;
 	@GetMapping("/hod/hodPortal")
 	public String profHomepage(Model model, HttpServletRequest httpServletRequest) {
 		Principal principal = httpServletRequest.getUserPrincipal();
 		List<FindProfessorClasses> professorClasses = professorService.findProfessorClasses(principal.getName());
-		model.addAttribute("user", principal.getName());
 		List<ProfListClasses> profListClasses = professorService.getClass_Courses(principal.getName());
+		Professor professor=professorService.getProfByEmail(principal.getName());
+		List<Student> students=studentService.getStudentByDepartment(professor.getDepartment().getId());
+		System.out.println(students+" "+professor.getDepartment().getId());
+		List<Professor> professors=professorService.findByDepartmentID(professor.getDepartment().getId());
+		System.out.println(professors);
+		model.addAttribute("students",students);
+		model.addAttribute("user", principal.getName());
+		model.addAttribute("professors",professors);
 		model.addAttribute("classCount", professorClasses);
 		model.addAttribute("routines", profListClasses);
 
@@ -64,7 +76,7 @@ private ClassService classService;
 	public String addClassPage(Model model,HttpServletRequest httpServletRequest) {
 		String email=httpServletRequest.getUserPrincipal().getName();
 		Professor professor=professorService.getProfByEmail(email);
-		List<Professor> professors = professorService.getProfessors();
+		List<Professor> professors = professorService.findByDepartmentID(professor.getDepartment().getId());
 		List<Course> courses = courseService.findbyDepartment(professor.getDepartment());
 		System.out.println(courses);
 		model.addAttribute("courses", courses);
@@ -81,4 +93,31 @@ private ClassService classService;
 		classService.savClass_Course(class_Course);
 		return "redirect:/hod/addNewClassPage";
 	}
+	@GetMapping("/hod/updateClassPage/{id}")
+	public String updateClassPage(HttpServletRequest httpServletRequest,@PathVariable("id") long id,Model model) {
+		Class_Course class_Course=classService.findById(id);
+		System.out.println(class_Course);
+		String email=httpServletRequest.getUserPrincipal().getName();
+		List<Course> courses=courseService.findbyDepartment(professorService.getProfByEmail(email).getDepartment());
+		List<Professor> professors=professorService.findByDepartmentID(professorService.getProfByEmail(email).getDepartment().getId());
+		model.addAttribute("class",class_Course);
+		model.addAttribute("professors", professors);
+		return "updateClass";
+	}
+	@PostMapping("/hod/updateClass")
+	public String updateClass(@ModelAttribute("class") Class_Course class_Course) {
+		classService.savClass_Course(class_Course);
+		return "redirect:/hod/hodPortal";
+	}
+	@GetMapping("/hod/viewStudentsPage")
+	public String viewStudentPage(HttpServletRequest httpServletRequest,Model model) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+
+		Professor professor=professorService.getProfByEmail(principal.getName());
+		List<Student> students=studentService.getStudentByDepartment(professor.getDepartment().getId());
+		System.out.println(students+" "+professor.getDepartment().getId());
+		model.addAttribute("students",students);
+		return "viewStudents";
+	}
+
 }

@@ -24,8 +24,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 			+ "	 where s.emailID=:email  and to_char(current_date, 'Day')=CLAS_S.day and CLAS_S.time>current_time")
 	public List<StudentRoutine> findStudentDetails(@Param("email") String email);
 
-	@Query("select new com.example.student.model.Student(st.firstName,st.lastName,st.emailID,st.semester,st.user) from Student st join st.courses courses where courses.id=20")
-	public List<Student> findStudentByCourse();
+//	@Query("select new com.example.student.model.Student(st.firstName,st.lastName,st.emailID,st.semester,st.user) from Student st join st.courses courses where courses.id=20")
+//	public List<Student> findStudentByCourse();
 
 	@Query("select new com.example.student.model.findNoOfAttendance(count(*)) " + "from Attendance sc "
 			+ "join sc.class_Course cc " + "join sc.student st " + "where st.emailID=:email  and sc.date=CURRENT_DATE "
@@ -39,5 +39,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	public List<TestResults> testResults(@Param("email") String email);
 	@Query("select new com.example.student.model.StudentDepartmentBranch(concat(st.firstName,' ',st.lastName),dept.dName,branch.branchName) from Student st join st.branch branch join branch.department dept where st.emailID=:email")
 	public StudentDepartmentBranch getDepartmentBranch(@Param("email") String email);
-
+	
+	@Query("select new com.example.student.model.Student(st.firstName,st.lastName,st.emailID,st.semester,st.user,st.branch) from Student st join st.branch branch join branch.department dept where dept.id=:id")
+	public List<Student> findStudentByDepartment(@Param("id") long id);
 }

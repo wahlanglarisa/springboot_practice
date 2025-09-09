@@ -15,9 +15,7 @@
 	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
-<header th:insert="@{/fragments/header.html}">
-	
-</header>
+<header th:insert="@{/fragments/hod_header.html}"> </header>
 <body>
 
 
@@ -27,15 +25,17 @@
 
 		<div class=" row parentRow">
 			<div class="col-md-3 mx-2 p-3 text-center  routineBlock shadow-lg">
-				<strong>You have total [[${classCount.size()}]] class(es)
-					today</strong> <br> <br> <a th:href="@{/viewRoutine}" class="link">View
+				<h3><strong>You have total [[${classCount.size()}]] class(es)
+					today</strong></h3> <br> <br> <a th:href="@{/viewRoutine}" class="link">View
 					Routine</a>
 			</div>
 			<br>
 
 
-			<div class="col-md-5 routineBlock shadow-lg">
-				<strong>Your Classes</strong>
+			<div class="col-md-3 routineBlock shadow-lg text-center">
+				<H3>
+					<strong>Your Classes</strong>
+				</H3>
 				<table class='table'>
 					<thead>
 						<tr>
@@ -51,12 +51,11 @@
 				<a class="btn btn-primary align-center" th:href="@{/hod/viewClass}">View
 					Department Classes</a>
 			</div>
-		</div>
-		<br> <br>
-		<div class=" row parentRow">
-
-			<div class="col-md-6 routineBlock shadow-lg">
-				<strong> Your Upcoming Classes</strong> <br> <br>
+			<div class="col-md-5 routineBlock shadow-lg">
+				<h3>
+					<strong> Your Upcoming Classes</strong>
+				</h3>
+				<br> <br>
 				<table class='table'
 					style="background-color: #D1E7E8; border-radius: 50px;">
 
@@ -82,6 +81,87 @@
 					</tbody>
 
 				</table>
+			</div>
+		</div>
+		<br> <br>
+		<div class=" row parentRow">
+
+			
+			<br>
+			<br>
+			<div class="col-md-6 routineBlock shadow-lg">
+				<h3>
+					<strong> Department Students</strong>
+				</h3>
+				<br> <br>
+				<table class='table'
+					style="background-color: #D1E7E8; border-radius: 50px;">
+
+
+					<thead>
+						<tr>
+							<th>Student Name</th>
+							<th>Semester</th>
+							<th>Branch</th>
+							<Th>Actions</Th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="student, iter : ${students}">
+							<td th:text="${student.firstName} + ' ' + ${student.lastName}"
+								th:classappend="${iter.index >= 3} ? 'hidden-row' : ''"></td>
+							<td th:text="${student.semester}"
+								th:classappend="${iter.index >= 3} ? 'hidden-row' : ''"></td>
+							<td th:text="${student.branch.branchName}"
+								th:classappend="${iter.index >= 3} ? 'hidden-row' : ''"></td>
+							<td th:classappend="${iter.index >= 3} ? 'hidden-row' : ''">
+								<input type="submit" class="btn btn-primary"
+								value="Assign Class">
+							</td>
+						</tr>
+
+					</tbody>
+
+				</table>
+				<div th:if="${students.size() > 3}">
+					<a th:href='@{/hod/viewStudentsPage}' id="viewMoreBtn"
+						class="btn btn-primary active">View More</a>
+				</div>
+			</div>
+			<div class="col-md-6 routineBlock shadow-lg">
+				<h3>
+					<strong> Department Professors</strong>
+				</h3>
+				<br> <br>
+				<table class='table'
+					style="background-color: #D1E7E8; border-radius: 50px;">
+
+
+					<thead>
+						<tr>
+							<th>Professor Name</th>
+							<th>Email</th>
+							<th>Number of classes</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="prof, iter : ${professors}">
+							<td th:text="${prof.firstName} + ' ' + ${prof.lastName}"
+								th:classappend="${iter.index >= 3} ? 'hidden-row' : ''"></td>
+							<td th:text="${prof.email}"
+								th:classappend="${iter.index >= 3} ? 'hidden-row' : ''"></td>
+							<td th:text="${prof.class_Course.size()}"
+								th:classappend="${iter.index >= 3} ? 'hidden-row' : ''"></td>
+							
+						</tr>
+
+					</tbody>
+
+				</table>
+				<div th:if="${students.size() > 3}">
+					<a th:href='@{/hod/viewStudentsPage}' id="viewMoreBtn"
+						class="btn btn-primary active">View More</a>
+				</div>
 			</div>
 			<br>
 			<!--<div class="col-md-6 routineBlock shadow-lg">

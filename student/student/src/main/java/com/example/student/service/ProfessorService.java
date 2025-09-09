@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.repository.query.Param;
 
 import com.example.student.model.AttendancePage;
+import com.example.student.model.Department;
 import com.example.student.model.FindProfessorClasses;
 import com.example.student.model.ProfListClasses;
 import com.example.student.model.Professor;
@@ -22,4 +23,5 @@ public interface ProfessorService {
 	public Professor getProfByEmail(String email);
 	public List<ProfListClasses> getDeptClass_Courses(long id);
 	public List<Professor> getProfessors();
+	public List<Professor> findByDepartmentID(long id);
 }

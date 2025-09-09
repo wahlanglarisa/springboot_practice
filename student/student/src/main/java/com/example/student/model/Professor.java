@@ -50,12 +50,14 @@ public class Professor {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	public Professor( String firstName, String lastName, String email) {
+	public Professor(String firstName, String lastName, String email,List<Class_Course> class_Courses) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.class_Course=class_Courses;
 	}
 	
 	
 }
+ 
