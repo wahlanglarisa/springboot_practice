@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -107,7 +108,12 @@ private ClassService classService;
 	@PostMapping("/hod/updateClass")
 	public String updateClass(@ModelAttribute("class") Class_Course class_Course) {
 		classService.savClass_Course(class_Course);
-		return "redirect:/hod/hodPortal";
+		return "redirect:/hod/viewClass";
+	}
+	@GetMapping("/hod/deleteClass/{id}")
+	public String deleteClass(@ModelAttribute("class") Class_Course class_Course,@PathVariable("id") long id) {
+		classService.deleteClassById(id);
+		return "redirect:/hod/viewClass";
 	}
 	@GetMapping("/hod/viewStudentsPage")
 	public String viewStudentPage(HttpServletRequest httpServletRequest,Model model) {

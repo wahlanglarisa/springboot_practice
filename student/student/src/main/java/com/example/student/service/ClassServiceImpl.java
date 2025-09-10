@@ -22,4 +22,11 @@ public class ClassServiceImpl implements ClassService {
 		return classRepository.getReferenceById(id);
 	}
 
+	@Override
+	public void deleteClassById(long id) {
+		// TODO Auto-generated method stub
+		classRepository.deleteById(id);;
+		
+	}
+
 }

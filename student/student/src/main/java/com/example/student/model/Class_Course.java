@@ -43,7 +43,7 @@ public class Class_Course {
 	@JoinColumn(name="class_course_id",referencedColumnName = "id")
 
 	private Course course_class;
-	@OneToMany(mappedBy = "class_Course")
+	@OneToMany(mappedBy = "class_Course",cascade = CascadeType.REMOVE)
 	private List<StudentClass> students=new ArrayList<StudentClass>();
 	private String day;
 	@ManyToOne
@@ -51,6 +51,6 @@ public class Class_Course {
 	@OnDelete(action = OnDeleteAction.SET_NULL)
 
 	private Professor professor;
-	@OneToMany(mappedBy = "class_Course")
+	@OneToMany(mappedBy = "class_Course",cascade = CascadeType.REMOVE)
 	private List<Attendance> attendances=new ArrayList<Attendance>();
 }

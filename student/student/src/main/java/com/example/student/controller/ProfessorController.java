@@ -1,6 +1,8 @@
 package com.example.student.controller;
 
 import java.security.Principal;
+import org.springframework.security.core.Authentication;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,10 +60,15 @@ public class ProfessorController {
 	}
 
 	@PostMapping("/professor/saveAttendance/")
-	private String saveAttendance(@ModelAttribute("class") com.example.student.model.saveAttendance studentClass) {
+	private String saveAttendance(@ModelAttribute("class") com.example.student.model.saveAttendance studentClass,Authentication authentication,HttpServletRequest request) {
 		System.out.println(studentClass.getStudentClasses().getFirst().getClass_Course().getId());
 		String str=professorService.saveAttendance(studentClass);
 		System.out.println(str);
+		String redirectURL = request.getContextPath();
+
+		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Head Of Department"))) {
+			return "redirect:/hod/hodPortal";
+		}
 		return "redirect:/professor/professorHomepage";
 	}
 
