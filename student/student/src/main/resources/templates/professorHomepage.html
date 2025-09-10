@@ -15,43 +15,13 @@
 	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
+<header th:insert="@{/fragments/prof_header.html}"> </header>
+<br>
+	<br>
 <body>
-	<nav class="navbar navbar-expand-lg bg-body-tertiary">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Navbar scroll</a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarScroll"
-				aria-controls="navbarScroll" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarScroll">
-				<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
-					style="--bs-scroll-height: 100px;">
-					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="#">Home</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" role="button"
-						data-bs-toggle="dropdown" aria-expanded="false"> Link </a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">Action</a></li>
-							<li><a class="dropdown-item" href="#">Another action</a></li>
-							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="#">Something else
-									here</a></li>
-						</ul></li>
-					<li class="nav-item"><a class="nav-link disabled"
-						aria-disabled="true">Link</a></li>
-				</ul>
 
-				<span class="d-flex"><strong>Hi, [[${user}]]</strong></span>&nbsp;&nbsp;
-				<span class="d-flex"><a th:href="@{/logout}">Logout</a></span>
-			</div>
-		</div>
-	</nav>
-	<br>
-	<br>
+	  <main id="main-content">
+
 	<div class="container">
 
 		<div class=" row parentRow">
@@ -140,6 +110,7 @@
 		</div>-->
 		</div>
 	</div>
+	  </main>
 
 
 
