@@ -15,48 +15,50 @@
 	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
-<header th:insert="@{/fragments/hod_header.html}">
-	
-</header>
+<header th:insert="@{/fragments/hod_header.html}"> </header>
 <body>
-	
+
 	<br>
 	<br>
-	<div class="parentRow text-center container">
+	<main id="main-content">
 
-		<div class="routineBlock shadow-lg">
-			<div class='d-flex'>
-	<a th:href="@{/hod/addNewClassPage}" class="btn btn-primary"
-						>Add New Class</a>&nbsp;&nbsp;</div>
-			<strong>Department Classes</strong> <br> <br>
-			<table class='table'
-				style="background-color: #D1E7E8; border-radius: 50px;">
+		<div class="parentRow text-center container">
+
+			<div class="routineBlock shadow-lg">
+				<div class='d-flex'>
+					<a th:href="@{/hod/addNewClassPage}" class="btn btn-primary">Add
+						New Class</a>&nbsp;&nbsp;
+				</div>
+				<strong>Department Classes</strong> <br> <br>
+				<table class='table'
+					style="background-color: #D1E7E8; border-radius: 50px;">
 
 
-				<thead>
-					<tr>
-						<th>Course Name</th>
-						<th>Time</th>
-						<th>Day</th>
-						<Th>Actions</Th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="routine : ${routines}">
-						<td th:text="${routine.courseName}"></td>
-						<td th:text="${routine.time}"></td>
-						<td th:text="${routine.day}"></td>
-						<td><a
-							th:href="@{/hod/updateClassPage/{id}(id=${routine.id})}"
-							class="btn btn-primary">Update Class</a>&nbsp;&nbsp;<a
-							th:href="@{/hod/deleteClass/{id}(id=${routine.id})}"
-							class="btn btn-danger">Delete Class</a></td>
-					</tr>
+					<thead>
+						<tr>
+							<th>Course Name</th>
+							<th>Time</th>
+							<th>Day</th>
+							<Th>Actions</Th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="routine : ${routines}">
+							<td th:text="${routine.courseName}"></td>
+							<td th:text="${routine.time}"></td>
+							<td th:text="${routine.day}"></td>
+							<td><a
+								th:href="@{/hod/updateClassPage/{id}(id=${routine.id})}"
+								class="btn btn-primary">Update Class</a>&nbsp;&nbsp;<a
+								th:href="@{/hod/deleteClass/{id}(id=${routine.id})}"
+								class="btn btn-danger">Delete Class</a></td>
+						</tr>
 
-				</tbody>
+					</tbody>
 
-			</table>
+				</table>
+			</div>
 		</div>
-	</div>
+	</main>
 </body>
 </html>

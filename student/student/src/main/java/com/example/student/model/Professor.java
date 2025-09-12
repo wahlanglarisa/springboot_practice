@@ -47,8 +47,11 @@ public class Professor {
 	@JoinColumn(name = "dept_id")
 	private Department departments; 
 	@OneToOne(orphanRemoval = true, cascade = CascadeType.REMOVE)
+
 	@JoinColumn(name = "user_id")
 	private User user;
+	@OneToMany(mappedBy = "professor")
+	List<Test> tests=new ArrayList<Test>();
 	
 	public Professor(String firstName, String lastName, String email,List<Class_Course> class_Courses) {
 		super();

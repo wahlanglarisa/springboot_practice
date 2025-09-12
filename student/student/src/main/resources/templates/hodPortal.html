@@ -102,10 +102,12 @@
           </thead>
           <tbody>
             <tr th:each="student, iter : ${students}">
-              <td th:text="${student.firstName} + ' ' + ${student.lastName}"></td>
-              <td th:text="${student.semester}"></td>
-              <td th:text="${student.branch.branchName}"></td>
-              <td><input type="submit" class="btn btn-sm btn-primary" value="Assign Class"></td>
+              <td th:text="${student.firstName} + ' ' + ${student.lastName}"
+              th:classappend="${iter.index >= 3} ? 'hidden-row' : ''"></td>
+              <td th:text="${student.semester}" th:classappend="${iter.index >= 3} ? 'hidden-row' : ''"></td>
+              <td th:text="${student.branch.branchName}"
+              th:classappend="${iter.index >= 3} ? 'hidden-row' : ''"></td>
+              <td th:classappend="${iter.index >= 3} ? 'hidden-row' : ''"><input type="submit" class="btn btn-sm btn-primary" value="Assign Class"></td>
             </tr>
           </tbody>
         </table>

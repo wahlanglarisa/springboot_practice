@@ -1,8 +1,11 @@
 package com.example.student.model;
 
 import java.sql.Date;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,7 +36,14 @@ public class Test {
 	private Date date;
 	@ManyToOne
 	@JoinColumn(name = "course_id")
+	
 	private Course course;
+	@DateTimeFormat(pattern = "HH:mm") // 24-hour format
+    private LocalTime time;
+	 
 	private long totalMarks;
+	@ManyToOne
+	@JoinColumn(name="prof_id")
+	private Professor professor;
 }
  

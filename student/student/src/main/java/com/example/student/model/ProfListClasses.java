@@ -19,4 +19,5 @@ public class ProfListClasses {
 	@DateTimeFormat(pattern = "HH:mm") // 24-hour format
     private LocalTime time;
 	private String day;
+	private long courseID;
 }

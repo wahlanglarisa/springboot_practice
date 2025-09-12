@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.student.model.AttendancePage;
 import com.example.student.model.FindProfessorClasses;
 import com.example.student.model.ProfListClasses;
+import com.example.student.model.Professor;
 import com.example.student.model.StudentClass;
+import com.example.student.model.Test;
 import com.example.student.service.CourseService;
 import com.example.student.service.ProfessorService;
+import com.example.student.service.TestService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -28,7 +31,8 @@ public class ProfessorController {
 	private ProfessorService professorService;
 	@Autowired
 	private CourseService courseService;
-
+	@Autowired
+	private TestService testService;
 	@GetMapping("/professor/professorHomepage")
 	public String profHomepage(Model model, HttpServletRequest httpServletRequest) {
 		Principal principal = httpServletRequest.getUserPrincipal();
@@ -36,6 +40,8 @@ public class ProfessorController {
 		model.addAttribute("user", principal.getName());
 		List<ProfListClasses> profListClasses = professorService.getClass_Courses(principal.getName());
 		model.addAttribute("classCount", professorClasses);
+		Professor professor=professorService.getProfByEmail(principal.getName());
+		model.addAttribute("professor",professor);
 		model.addAttribute("routines", profListClasses);
 
 		return "professorHomepage";
@@ -69,6 +75,19 @@ public class ProfessorController {
 		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Head Of Department"))) {
 			return "redirect:/hod/hodPortal";
 		}
+		return "redirect:/professor/professorHomepage";
+	}
+	@GetMapping("/professor/createTestPage/{courseID}/{profID}")
+	private String createTestPage(Model model,@PathVariable("courseID") long courseID,@PathVariable("profID") long profID) {
+		model.addAttribute("profID",profID);
+		model.addAttribute("courseID", courseID);
+		model.addAttribute("test", new Test());
+		return "createTestPage";
+	}
+	@PostMapping("/professor/saveTest/")
+	private String saveTest(Model model,Test test) {
+		System.out.println(test.getCourse().getCourseName()+" "+test.getProfessor().getFirstName());
+		testService.createtest(test);
 		return "redirect:/professor/professorHomepage";
 	}
 

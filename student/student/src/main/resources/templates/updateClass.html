@@ -24,6 +24,8 @@
 <header th:insert="@{/fragments/hod_header.html}"> </header>
 <body>
 <br><br><br><br>
+	  <main id="main-content">
+
 	<div class='container-md'>
 		<div th:if="${param.success}">
 			<div class="alert alert-info">You have successfully registered
@@ -86,6 +88,7 @@
 			</div>
 		</form>
 	</div>
+	</main>
 </body>
 </body>
 </html>

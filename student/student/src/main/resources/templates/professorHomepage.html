@@ -17,69 +17,74 @@
 </head>
 <header th:insert="@{/fragments/prof_header.html}"> </header>
 <br>
-	<br>
+<br>
 <body>
 
-	  <main id="main-content">
+	<main id="main-content">
 
-	<div class="container">
+		<div class="container">
 
-		<div class=" row parentRow">
-			<div class="col-md-3 mx-2 p-3 text-center  routineBlock shadow-lg">
-				<strong>You have total [[${classCount.size()}]] class(es)
-					today</strong> <br> <br> <a th:href="@{/viewRoutine}" class="link">View
-					Routine</a>
+			<div class=" row parentRow">
+				<div class="col-md-3 mx-2 p-3 text-center  routineBlock shadow-lg">
+					<strong>You have total [[${classCount.size()}]] class(es)
+						today</strong> <br> <br> <a th:href="@{/viewRoutine}"
+						class="link">View Routine</a>
+				</div>
+				<br>
+
+
+				<div class="col-md-5 routineBlock shadow-lg">
+					<strong>Your Classes</strong>
+					<table class='table'>
+						<thead>
+							<tr>
+								<th>Course Name</th>
+								<th>Number of Classes</th>
+							</tr>
+							<tr th:each="class : ${classCount}">
+								<td th:text="${class.courseName}"></td>
+								<td th:text="${class.count}"></td>
+							</tr>
+						</thead>
+					</table>
+				</div>
 			</div>
-			<br>
+			<br> <br>
+			<div class=" row parentRow">
 
+				<div class="col-md-6 routineBlock shadow-lg">
+					<strong> Your Upcoming Classes</strong> <br> <br>
+					<table class='table'
+						style="background-color: #D1E7E8; border-radius: 50px;">
+					
 
-			<div class="col-md-5 routineBlock shadow-lg">
-				<strong>Your Classes</strong>
-				<table class='table'>
-					<thead>
-						<tr>
-							<th>Course Name</th>
-							<th>Number of Classes</th>
-						</tr>
-						<tr th:each="class : ${classCount}">
-							<td th:text="${class.courseName}"></td>
-							<td th:text="${class.count}"></td>
-						</tr>
-					</thead>
-				</table>
-			</div>
-		</div>
-		<br> <br>
-		<div class=" row parentRow">
+						<thead>
+							<tr>
+								<th>Course Name</th>
+								<th>Time</th>
+								<th>Day</th>
+								<Th>Actions</Th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="routine : ${routines}">
+								<td th:text="${routine.courseName}"></td>
+								<td th:text="${routine.time}"></td>
+								<td th:text="${routine.day}"></td>
+								<td><a
+									th:href="@{/professor/attendancePage/{id}(id=${routine.id})}"
+									class="btn btn-primary">Take Attendance</a>&nbsp;&nbsp;<a
+									th:href="@{/professor/createTestPage/{courseID}/{profID}(courseID=
+									${routine.courseID},profID=${professor.ID})}"
+									class="btn btn-primary">Create Test</a></td>
+							</tr>
 
-			<div class="col-md-6 routineBlock shadow-lg">
-				<strong> Your Upcoming Classes</strong> <br> <br>
-				<table class='table'
-					style="background-color: #D1E7E8; border-radius: 50px;">
+						</tbody>
 
-
-					<thead>
-						<tr>
-							<th>Course Name</th>
-							<th>Time</th>
-							<th>Day</th>
-							<Th>Actions</Th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="routine : ${routines}">
-							<td th:text="${routine.courseName}"></td>
-							<td th:text="${routine.time}"></td>
-							<td th:text="${routine.day}"></td>
-							<td><a th:href="@{/professor/attendancePage/{id}(id=${routine.id})}" class="btn btn-primary">Take Attendance</a></td>
-						</tr>
-
-					</tbody>
-
-				</table>
-			</div>
-			<br>
-			<!--<div class="col-md-6 routineBlock shadow-lg">
+					</table>
+				</div>
+				<br>
+				<!--<div class="col-md-6 routineBlock shadow-lg">
 				<strong> Your Course Test Results. Congrats </strong> <br> <br>
 				<table class='table routineBlock'
 					style="background-color: #D1E7E8; border-radius: 50px;">
@@ -108,9 +113,9 @@
 				</table>
 			</div>
 		</div>-->
+			</div>
 		</div>
-	</div>
-	  </main>
+	</main>
 
 
 
