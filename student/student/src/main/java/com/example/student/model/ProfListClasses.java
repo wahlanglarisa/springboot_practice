@@ -20,4 +20,5 @@ public class ProfListClasses {
     private LocalTime time;
 	private String day;
 	private long courseID;
+	private Professor professor;
 }

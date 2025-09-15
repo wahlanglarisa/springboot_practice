@@ -35,6 +35,8 @@ public class Course {
 	@ManyToOne
 	@JoinColumn(name="dept_id")
 	private Department department;
+	@ManyToMany(mappedBy = "courses")
+	private List<Professor> professors;
 	public Long getCredit() {
 		return credit;
 	}

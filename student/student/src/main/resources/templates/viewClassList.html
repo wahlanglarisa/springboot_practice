@@ -15,7 +15,7 @@
 	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
-<header th:insert="@{/fragments/hod_header.html}"> </header>
+<header th:insert="~{@{/fragments/prof_header.html}}"> </header>
 <body>
 
 	<br>
@@ -39,6 +39,7 @@
 							<th>Course Name</th>
 							<th>Time</th>
 							<th>Day</th>
+							<th>Professor</th>
 							<Th>Actions</Th>
 						</tr>
 					</thead>
@@ -47,6 +48,7 @@
 							<td th:text="${routine.courseName}"></td>
 							<td th:text="${routine.time}"></td>
 							<td th:text="${routine.day}"></td>
+							<td th:text="${routine.professor.firstName}+' '+${routine.professor.lastName}"></td>
 							<td><a
 								th:href="@{/hod/updateClassPage/{id}(id=${routine.id})}"
 								class="btn btn-primary">Update Class</a>&nbsp;&nbsp;<a

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.student.model.AttendancePage;
+import com.example.student.model.Course;
 import com.example.student.model.FindProfessorClasses;
 import com.example.student.model.ProfListClasses;
 import com.example.student.model.Professor;
@@ -78,10 +79,23 @@ public class ProfessorController {
 		return "redirect:/professor/professorHomepage";
 	}
 	@GetMapping("/professor/createTestPage/{courseID}/{profID}")
-	private String createTestPage(Model model,@PathVariable("courseID") long courseID,@PathVariable("profID") long profID) {
+	private String createTestPage(Principal principal,Model model,@PathVariable("courseID") long courseID,@PathVariable("profID") long profID) {
 		model.addAttribute("profID",profID);
 		model.addAttribute("courseID", courseID);
 		model.addAttribute("test", new Test());
+		Professor professor=professorService.getProfByEmail(principal.getName());
+		model.addAttribute("professor",professor);
+		return "createTestPagewithCourse";
+	}
+	@GetMapping("/professor/createTestPage/{profID}")
+	private String createTestPage(Model model,@PathVariable("profID") long profID,Principal principal) {
+		model.addAttribute("profID",profID);
+		model.addAttribute("test", new Test());
+		Professor professor=professorService.getProfByEmail(principal.getName());
+		model.addAttribute("professor",professor);
+		List<Course> courses=courseService.findByProfessor(professor.getID());
+		System.out.println(courses);
+		model.addAttribute("courses",courses);
 		return "createTestPage";
 	}
 	@PostMapping("/professor/saveTest/")

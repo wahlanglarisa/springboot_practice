@@ -37,6 +37,7 @@
 				<div class="alert alert-danger">Invalid username or password.</div>
 			</div>
 		<input type="hidden" name="professor" th:value="${profID}">
+				<input type="hidden" name="course" th:value="${courseID}">
 		
 			<!-- logout message -->
 			<div th:if="${param.logout}">
