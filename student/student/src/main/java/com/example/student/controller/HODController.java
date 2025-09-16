@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.student.model.Class_Course;
 import com.example.student.model.Course;
-import com.example.student.model.FindProfessorClasses;
-import com.example.student.model.ProfListClasses;
 import com.example.student.model.Professor;
 import com.example.student.model.Student;
+import com.example.student.model.wrapper.FindProfessorClasses;
+import com.example.student.model.wrapper.ProfListClasses;
 import com.example.student.service.ClassService;
 import com.example.student.service.CourseService;
 import com.example.student.service.ProfessorService;

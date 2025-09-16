@@ -1,17 +1,15 @@
-package com.example.student.model;
-
-import java.sql.Date;
+package com.example.student.model.wrapper;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpComingTests {
+public class FindProfessorClasses {
 	private String courseName;
-	private long totalMarks;
-	private Date date;
+	private long count;
 }

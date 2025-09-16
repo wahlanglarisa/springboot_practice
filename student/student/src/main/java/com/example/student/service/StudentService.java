@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.data.repository.query.Param;
 
 import com.example.student.model.Student;
-import com.example.student.model.StudentDepartmentBranch;
-import com.example.student.model.StudentRoutine;
-import com.example.student.model.TestResults;
-import com.example.student.model.UpComingTests;
-import com.example.student.model.UserDto;
-import com.example.student.model.findNoOfAttendance;
+import com.example.student.model.wrapper.StudentDepartmentBranch;
+import com.example.student.model.wrapper.StudentRoutine;
+import com.example.student.model.wrapper.TestResults;
+import com.example.student.model.wrapper.UpComingTests;
+import com.example.student.model.wrapper.UserDto;
+import com.example.student.model.wrapper.findNoOfAttendance;
 
 public interface StudentService {
 	public Student saveStudent(UserDto st);
@@ -20,4 +20,5 @@ public interface StudentService {
 	public List<TestResults> testResults(String email);
 	public StudentDepartmentBranch getDepartmentBranch(String email);
 	public List<Student> getStudentByDepartment(long id);
+	public List<Student> findStudentByClassID(long id);
 }

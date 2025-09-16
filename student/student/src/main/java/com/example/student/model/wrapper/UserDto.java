@@ -1,4 +1,4 @@
-package com.example.student.model;
+package com.example.student.model.wrapper;
 
 import java.util.ArrayList;
 import java.util.List;

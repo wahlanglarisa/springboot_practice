@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.student.model.Class_Course;
-import com.example.student.model.repository.ClassRepository;
+import com.example.student.repository.ClassRepository;
 @Service
 public class ClassServiceImpl implements ClassService {
 	@Autowired

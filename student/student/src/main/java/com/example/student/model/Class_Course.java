@@ -53,4 +53,6 @@ public class Class_Course {
 	private Professor professor;
 	@OneToMany(mappedBy = "class_Course",cascade = CascadeType.REMOVE)
 	private List<Attendance> attendances=new ArrayList<Attendance>();
+	@OneToMany(mappedBy = "class_Course")
+	private List<Test> tests=new ArrayList<Test>();
 }

@@ -34,14 +34,14 @@
 			alt="" loading="lazy" />&nbsp;&nbsp;<span>
 					Home</span>
 			</a> 
-			<a th:href="@{/professor/createTestPage/{profID}(profID=${professor.ID})}"
+			<a th:href="@{/professor/viewAllClasses}"
 				class="list-group-item list-group-item-action py-2 ripple"
 				> <i class="fas fa-tachometer-alt fa-fw me-3"></i><img
 			th:src="@{/07a4df83-a7dd-464a-bc0c-6f704b343a9b.svg}" height="25"
-			alt="" loading="lazy" />&nbsp;&nbsp;<span>View
+			alt="" loading="lazy" />&nbsp;&nbsp;<span>
 				Create Test</span>
 			</a>
-
+		
 
 		</div>
 	</div>
@@ -62,7 +62,7 @@
 		</button>
 
 		<!-- Brand -->
-		<a class="navbar-brand" th:href="@{/hod/hodPortal}"> <img
+		<a class="navbar-brand" th:href="@{/professor/professorHomepage}"> <img
 			th:src="@{/ChatGPT Image Sep 3, 2025, 01_04_50 PM.png}" height="25"
 			alt="" loading="lazy" /> <span> University Management System
 		</span>

@@ -1,4 +1,4 @@
-package com.example.student.model.repository;
+package com.example.student.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

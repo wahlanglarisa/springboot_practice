@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.student.model.Branch;
-import com.example.student.model.UserDto;
+import com.example.student.model.wrapper.UserDto;
 import com.example.student.service.BranchService;
 import com.example.student.service.CourseService;
 import com.example.student.service.DepartmentService;

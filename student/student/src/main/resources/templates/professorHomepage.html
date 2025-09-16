@@ -47,6 +47,7 @@
 							</tr>
 						</thead>
 					</table>
+
 				</div>
 			</div>
 			<br> <br>
@@ -56,7 +57,7 @@
 					<strong> Your Upcoming Classes</strong> <br> <br>
 					<table class='table'
 						style="background-color: #D1E7E8; border-radius: 50px;">
-					
+
 
 						<thead>
 							<tr>
@@ -82,6 +83,39 @@
 						</tbody>
 
 					</table>
+					<span><a th:href="@{/professor/viewAllClasses}"
+						class="btn btn-primary form-submit">View Classes</a></span>
+				</div>
+				<br>
+				<div class="col-md-6 routineBlock shadow-lg">
+					<strong> Your Tests</strong> <br> <br>
+					<table class='table'
+						style="background-color: #D1E7E8; border-radius: 50px;">
+
+
+						<thead>
+							<tr>
+								<th>Course Name</th>
+								<th>Time</th>
+								<th>Date</th>
+								<Th>Actions</Th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="routine : ${tests}">
+								<td th:text="${routine.course.courseName}"></td>
+								<td th:text="${routine.time}"></td>
+								<td th:text="${routine.date}"></td>
+								<td><a
+									href="#"
+									class="btn btn-primary">Add Marks</a></td>
+							</tr>
+
+						</tbody>
+
+					</table>
+					<span><a th:href="@{/professor/viewAllClasses}"
+						class="btn btn-primary form-submit">View Tests</a></span>
 				</div>
 				<br>
 				<!--<div class="col-md-6 routineBlock shadow-lg">

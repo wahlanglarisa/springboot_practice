@@ -1,4 +1,4 @@
-package com.example.student.model;
+package com.example.student.model.wrapper;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FindProfessorClasses {
-	private String courseName;
-	private long count;
+public class findNoOfAttendance {
+	private long Count=0;
 }

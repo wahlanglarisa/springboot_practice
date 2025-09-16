@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.student.model.AttendancePage;
 import com.example.student.model.Course;
-import com.example.student.model.FindProfessorClasses;
-import com.example.student.model.ProfListClasses;
 import com.example.student.model.Professor;
 import com.example.student.model.StudentClass;
 import com.example.student.model.Test;
+import com.example.student.model.wrapper.AttendancePage;
+import com.example.student.model.wrapper.FindProfessorClasses;
+import com.example.student.model.wrapper.ProfListClasses;
 import com.example.student.service.CourseService;
 import com.example.student.service.ProfessorService;
 import com.example.student.service.TestService;
@@ -38,10 +38,13 @@ public class ProfessorController {
 	public String profHomepage(Model model, HttpServletRequest httpServletRequest) {
 		Principal principal = httpServletRequest.getUserPrincipal();
 		List<FindProfessorClasses> professorClasses = professorService.findProfessorClasses(principal.getName());
-		model.addAttribute("user", principal.getName());
 		List<ProfListClasses> profListClasses = professorService.getClass_Courses(principal.getName());
-		model.addAttribute("classCount", professorClasses);
 		Professor professor=professorService.getProfByEmail(principal.getName());
+
+		List<Test> tests=testService.findByProfessor(professor);
+		model.addAttribute("user", principal.getName());
+		model.addAttribute("classCount", professorClasses);
+		model.addAttribute("tests",tests);
 		model.addAttribute("professor",professor);
 		model.addAttribute("routines", profListClasses);
 
@@ -59,7 +62,7 @@ public class ProfessorController {
 		model.addAttribute("user", email);
 
 		model.addAttribute("students", attendancePages);
-		model.addAttribute("class", new com.example.student.model.saveAttendance());
+		model.addAttribute("class", new com.example.student.model.wrapper.saveAttendance());
 		System.out.println(courseService.findById(attendancePages.getFirst().getCourseID()));
 		System.out.println(id + " " + attendancePages);
 		return "attendancePage";
@@ -67,7 +70,7 @@ public class ProfessorController {
 	}
 
 	@PostMapping("/professor/saveAttendance/")
-	private String saveAttendance(@ModelAttribute("class") com.example.student.model.saveAttendance studentClass,Authentication authentication,HttpServletRequest request) {
+	private String saveAttendance(@ModelAttribute("class") com.example.student.model.wrapper.saveAttendance studentClass,Authentication authentication,HttpServletRequest request) {
 		System.out.println(studentClass.getStudentClasses().getFirst().getClass_Course().getId());
 		String str=professorService.saveAttendance(studentClass);
 		System.out.println(str);
@@ -78,10 +81,11 @@ public class ProfessorController {
 		}
 		return "redirect:/professor/professorHomepage";
 	}
-	@GetMapping("/professor/createTestPage/{courseID}/{profID}")
-	private String createTestPage(Principal principal,Model model,@PathVariable("courseID") long courseID,@PathVariable("profID") long profID) {
+	@GetMapping("/professor/createTestPage/{courseID}/{profID}/{classID}")
+	private String createTestPage(Principal principal,Model model,@PathVariable("courseID") long courseID,@PathVariable("profID") long profID,@PathVariable("classID") long classID) {
 		model.addAttribute("profID",profID);
 		model.addAttribute("courseID", courseID);
+		model.addAttribute("classID", classID);
 		model.addAttribute("test", new Test());
 		Professor professor=professorService.getProfByEmail(principal.getName());
 		model.addAttribute("professor",professor);
@@ -103,6 +107,17 @@ public class ProfessorController {
 		System.out.println(test.getCourse().getCourseName()+" "+test.getProfessor().getFirstName());
 		testService.createtest(test);
 		return "redirect:/professor/professorHomepage";
+	}
+	@GetMapping("/professor/viewAllClasses")
+	public String viewProfClasses(Model model,HttpServletRequest httpServletRequest) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+		String email = principal.getName();
+		List<ProfListClasses> profListClasses=professorService.getProfClass_Courses(email);
+		Professor professor=professorService.getProfByEmail(principal.getName());
+		
+		model.addAttribute("routines", profListClasses);
+		model.addAttribute("professor",professor);
+		return "viewClassesProf";
 	}
 
 }

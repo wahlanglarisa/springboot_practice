@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.student.model.Department;
-import com.example.student.model.repository.DepartmentRepository;
+import com.example.student.repository.DepartmentRepository;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {

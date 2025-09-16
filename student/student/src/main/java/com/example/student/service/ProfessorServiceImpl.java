@@ -10,23 +10,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.student.model.Attendance;
-import com.example.student.model.AttendancePage;
 import com.example.student.model.Course;
 import com.example.student.model.Department;
-import com.example.student.model.FindProfessorClasses;
-import com.example.student.model.ProfListClasses;
 import com.example.student.model.Professor;
 import com.example.student.model.StudentClass;
 import com.example.student.model.User;
-import com.example.student.model.UserDto;
-import com.example.student.model.saveAttendance;
-import com.example.student.model.repository.AttendanceRepository;
-import com.example.student.model.repository.CourseRepository;
-import com.example.student.model.repository.DepartmentRepository;
-import com.example.student.model.repository.ProfessorRepository;
-import com.example.student.model.repository.RoleRepository;
-import com.example.student.model.repository.StudentClassRepository;
-import com.example.student.model.repository.UserRepository;
+import com.example.student.model.wrapper.AttendancePage;
+import com.example.student.model.wrapper.FindProfessorClasses;
+import com.example.student.model.wrapper.ProfListClasses;
+import com.example.student.model.wrapper.UserDto;
+import com.example.student.model.wrapper.saveAttendance;
+import com.example.student.repository.AttendanceRepository;
+import com.example.student.repository.CourseRepository;
+import com.example.student.repository.DepartmentRepository;
+import com.example.student.repository.ProfessorRepository;
+import com.example.student.repository.RoleRepository;
+import com.example.student.repository.StudentClassRepository;
+import com.example.student.repository.UserRepository;
 
 @Service
 public class ProfessorServiceImpl implements ProfessorService {
@@ -68,6 +68,11 @@ public class ProfessorServiceImpl implements ProfessorService {
 			departmentRepository.save(department);
 		} 
 		return professor2;
+	}
+	@Override
+	public List<ProfListClasses> getProfClass_Courses(String email) {
+		// TODO Auto-generated method stub
+		return professorRepository.getProfClass_Courses(email);
 	}
 	@Override
 	public List<FindProfessorClasses> findProfessorClasses(String email) {

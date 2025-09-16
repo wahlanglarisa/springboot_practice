@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.student.model.Course;
 import com.example.student.model.Department;
 import com.example.student.model.Professor;
-import com.example.student.model.repository.CourseRepository;
+import com.example.student.repository.CourseRepository;
 
 
 

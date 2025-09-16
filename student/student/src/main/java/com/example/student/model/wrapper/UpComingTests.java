@@ -1,4 +1,4 @@
-package com.example.student.model;
+package com.example.student.model.wrapper;
 
 import java.sql.Date;
 
@@ -10,9 +10,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TestResults {
+public class UpComingTests {
 	private String courseName;
 	private long totalMarks;
-	private long marksObtained;
-	private double percentage;
+	private Date date;
 }

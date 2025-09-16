@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 import com.example.student.model.User;
 import com.example.student.model.UserList;
 import com.example.student.model.UserPrincipal;
-import com.example.student.model.repository.StudentRepository;
-import com.example.student.model.repository.UserRepository;
+import com.example.student.repository.StudentRepository;
+import com.example.student.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService {

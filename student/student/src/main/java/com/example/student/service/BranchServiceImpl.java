@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.student.model.Branch;
-import com.example.student.model.repository.BranchRepository;
+import com.example.student.repository.BranchRepository;
 @Service
 public class BranchServiceImpl implements BranchService {
 	@Autowired

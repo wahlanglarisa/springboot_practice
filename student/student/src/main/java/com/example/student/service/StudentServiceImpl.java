@@ -10,18 +10,18 @@ import org.springframework.stereotype.Service;
 import com.example.student.model.Course;
 import com.example.student.model.Role;
 import com.example.student.model.Student;
-import com.example.student.model.StudentDepartmentBranch;
-import com.example.student.model.StudentRoutine;
-import com.example.student.model.TestResults;
-import com.example.student.model.UpComingTests;
 import com.example.student.model.User;
-import com.example.student.model.UserDto;
-import com.example.student.model.findNoOfAttendance;
-import com.example.student.model.repository.BranchRepository;
-import com.example.student.model.repository.CourseRepository;
-import com.example.student.model.repository.RoleRepository;
-import com.example.student.model.repository.StudentRepository;
-import com.example.student.model.repository.UserRepository;
+import com.example.student.model.wrapper.StudentDepartmentBranch;
+import com.example.student.model.wrapper.StudentRoutine;
+import com.example.student.model.wrapper.TestResults;
+import com.example.student.model.wrapper.UpComingTests;
+import com.example.student.model.wrapper.UserDto;
+import com.example.student.model.wrapper.findNoOfAttendance;
+import com.example.student.repository.BranchRepository;
+import com.example.student.repository.CourseRepository;
+import com.example.student.repository.RoleRepository;
+import com.example.student.repository.StudentRepository;
+import com.example.student.repository.UserRepository;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -39,7 +39,7 @@ public class StudentServiceImpl implements StudentService{
 	private BranchRepository branchRepository;
 	@Override
 	public Student saveStudent(UserDto st) {
-		
+		 
 		User user=new User(st.getFirstName(),st.getLastName(),st.getEmailID(),bCryptPasswordEncoder.encode(st.getPassword()),Arrays.asList(roleRepository.findByName("Student")));
 		Student st1=new Student(st.getFirstName(), st.getLastName(), st.getEmailID(), st.getSemester(), user,branchRepository.getReferenceById(st.getBranch_id()));
 
@@ -54,6 +54,11 @@ public class StudentServiceImpl implements StudentService{
 	public List<Student> getStudentByDepartment(long id) {
 		// TODO Auto-generated method stub
 		return studentRepository.findStudentByDepartment(id);
+	}
+	@Override
+	public List<Student> findStudentByClassID(long id) {
+		// TODO Auto-generated method stub
+		return studentRepository.findStudentByClassID(id);
 	}
 	@Override
 	public List<StudentRoutine> findStudentClasses(String email) {

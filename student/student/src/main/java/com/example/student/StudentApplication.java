@@ -13,13 +13,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.example.student.model.Course;
 import com.example.student.model.Professor;
 import com.example.student.model.Student;
-import com.example.student.model.StudentRoutine;
 import com.example.student.model.User;
-import com.example.student.model.repository.CourseRepository;
-import com.example.student.model.repository.ProfessorRepository;
-import com.example.student.model.repository.RoleRepository;
-import com.example.student.model.repository.StudentRepository;
-import com.example.student.model.repository.UserRepository;
+import com.example.student.model.wrapper.StudentRoutine;
+import com.example.student.repository.CourseRepository;
+import com.example.student.repository.ProfessorRepository;
+import com.example.student.repository.RoleRepository;
+import com.example.student.repository.StudentRepository;
+import com.example.student.repository.UserRepository;
 
 @SpringBootApplication
 public class StudentApplication implements CommandLineRunner{
