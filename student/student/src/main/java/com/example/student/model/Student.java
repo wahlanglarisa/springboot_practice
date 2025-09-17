@@ -31,7 +31,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "student", uniqueConstraints = { @UniqueConstraint(columnNames = { "emailid" }) })
 public class Student {
-	@Id
+	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long ID;
 	private String firstName;

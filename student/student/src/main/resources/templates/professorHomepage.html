@@ -75,8 +75,8 @@
 								<td><a
 									th:href="@{/professor/attendancePage/{id}(id=${routine.id})}"
 									class="btn btn-primary">Take Attendance</a>&nbsp;&nbsp;<a
-									th:href="@{/professor/createTestPage/{courseID}/{profID}(courseID=
-									${routine.courseID},profID=${professor.ID})}"
+									th:href="@{/professor/createTestPage/{courseID}/{profID}/{classID}(courseID=
+									${routine.courseID},profID=${professor.ID},classID=${routine.id})}"
 									class="btn btn-primary">Create Test</a></td>
 							</tr>
 
@@ -107,7 +107,7 @@
 								<td th:text="${routine.time}"></td>
 								<td th:text="${routine.date}"></td>
 								<td><a
-									href="#"
+									th:href="@{/professor/addMarksStudents/{testID}(testID=${routine.id})}"
 									class="btn btn-primary">Add Marks</a></td>
 							</tr>
 
