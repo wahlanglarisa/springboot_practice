@@ -20,7 +20,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "test_student")
-// @IdClass(TestStudentID.class)
+@IdClass(TestStudentID.class)
 
 public class TestStudent {
 	@Column(name="marks",updatable = true)
