@@ -51,3 +51,4 @@ public interface ProfessorRepository extends JpaRepository<Professor, Long>{
 			+ "where prof.email=:email")
 	public List<ProfListClasses> getProfClass_Courses(@Param("email") String email);
 }
+ 

@@ -33,14 +33,12 @@ public class User {
 	private String lastName;
 	private String email;
 	private String password;
-	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL )
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id"))
-	private Collection<Role> roles;
+	private Collection<Role> roles; 
 	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE,mappedBy = "user")
-	@JoinColumn(name="st_user_id")
 	private Student student;
 	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE,mappedBy = "user")
-	@JoinColumn(name="pf_user_id")
 	private Professor professor;
 
 	
@@ -52,7 +50,7 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.roles = roles;
-	}
-	
-
-}
+	} 
+	 
+ 
+} 

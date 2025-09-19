@@ -50,13 +50,13 @@ public class ProfessorServiceImpl implements ProfessorService {
 	@Override
 	public Professor saveProfessor(UserDto userDto) {
 		// TODO Auto-generated method stu
+		System.out.println(roleRepository.findByName(userDto.isHod()?"Head Of Department":"Professor"));
 		User user=new User(userDto.getFirstName(),userDto.getLastName(),userDto.getEmailID(),bCryptPasswordEncoder.encode(userDto.getPassword()),Arrays.asList(roleRepository.findByName(userDto.isHod()?"Head Of Department":"Professor")));
-		Professor professor=new Professor(userDto.getFirstName(), userDto.getLastName(), userDto.getEmailID(),null);
+		Professor professor=new Professor(userDto.getFirstName(), userDto.getLastName(), userDto.getEmailID(),null,user);
 		Department department=departmentRepository.getById(userDto.getDept_id());
 		System.out.println(userDto.isHod());
 		
 		professor.setDepartments(department);
-		professor.setUser(user);
 		userRepository.save(user);
 		for(String course: userDto.getCourses()) {
 			Course course1=courseRepository.findByCourseName(course);
@@ -67,14 +67,14 @@ public class ProfessorServiceImpl implements ProfessorService {
 			department.setProfessor(professor);
 			departmentRepository.save(department);
 		} 
-		return professor2;
+		return professor2; 
 	}
 	@Override
 	public List<ProfListClasses> getProfClass_Courses(String email) {
 		// TODO Auto-generated method stub
 		return professorRepository.getProfClass_Courses(email);
 	}
-	@Override
+	@Override 
 	public List<FindProfessorClasses> findProfessorClasses(String email) {
 		// TODO Auto-generated method stub
 		return professorRepository.findProfessorClasses(email);

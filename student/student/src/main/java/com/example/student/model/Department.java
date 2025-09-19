@@ -3,6 +3,9 @@ package com.example.student.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,6 +34,8 @@ public class Department {
 	private String dName;
 	@OneToOne()
 	@JoinColumn(name="hod_id")
+	   @OnDelete(action = OnDeleteAction.SET_NULL)
+
 	private Professor professor;
 	@OneToMany(mappedBy = "departments")
 	private List<Professor> professors=new ArrayList<Professor>();

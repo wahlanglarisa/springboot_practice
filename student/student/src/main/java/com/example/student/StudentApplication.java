@@ -47,11 +47,12 @@ public class StudentApplication implements CommandLineRunner{
 //	}
 	@Override
 	public void run(String... args) throws Exception {
-//		// TODO Auto-generated method stub
-//		System.out.println(repository.findByName("Admin"));
-//		User user=new User("Larisa","Wahlang","admin@gmail.com",bCryptPasswordEncoder.encode("admin123"),Arrays.asList(repository.findByName("Admin")));
-//		userRepository.save(user);
+		// TODO Auto-generated method stub
+		// System.out.println(repository.findByName("Admin"));
+		// User user=new User("Larisa","Wahlang","admin@gmail.com",bCryptPasswordEncoder.encode("admin123"),Arrays.asList(repository.findByName("Admin")));
+		// userRepository.save(user);
 
-	}
+	} 
 
 }
+ 

@@ -20,25 +20,25 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http.csrf().disable() // CSRF protection is disabled for simplicity, reconsider enabling it in
-										// production
-				.authorizeHttpRequests(authorize -> authorize
-						.requestMatchers("/js/**", "/registerStudent/**", "/css/**", "**.js", "/images/**", "/html/**",
-								"/studentData/**")
-						.permitAll().requestMatchers("/student/studentHomepage/**").hasAnyAuthority("Student")
-						.requestMatchers("/admin/**").hasAnyAuthority("Admin").requestMatchers("/professor/**")
-						.hasAnyAuthority("Professor","Head Of Department").anyRequest().authenticated() // All other
-				// requests
-				// require
-				// authentication
-				).formLogin(form -> form.loginPage("/login").successHandler(customSuccessHandler())
-						.failureHandler((request, response, exception) -> {
-							exception.printStackTrace(); // Log exact error
-							response.sendRedirect("/login?error=true");
-						}).permitAll()// Allow anyone to access the login page
-										// Allow logout without restriction
-				).logout(logout -> logout.permitAll() // Allow logout without restriction
-				).build();
+		return http.csrf(csrf -> csrf.disable()) // CSRF protection is disabled for simplicity, reconsider enabling it in
+                // production
+                .authorizeHttpRequests(authorize -> authorize
+                                .requestMatchers("/js/**", "/registerStudent/**", "/css/**", "**.js", "/images/**", "/html/**",
+                                        "/studentData/**")
+                                .permitAll().requestMatchers("/student/studentHomepage/**").hasAnyAuthority("Student")
+                                .requestMatchers("/admin/**").hasAnyAuthority("Admin").requestMatchers("/professor/**")
+                                .hasAnyAuthority("Professor", "Head Of Department").anyRequest().authenticated() // All other
+                // requests
+                // require
+                // authentication
+                ).formLogin(form -> form.loginPage("/login").successHandler(customSuccessHandler())
+                                .failureHandler((request, response, exception) -> {
+                                    exception.printStackTrace(); // Log exact error
+                                    response.sendRedirect("/login?error=true");
+                                }).permitAll()// Allow anyone to access the login page
+                // Allow logout without restriction
+                ).logout(logout -> logout.permitAll() // Allow logout without restriction
+                ).build();
 
 	}
 

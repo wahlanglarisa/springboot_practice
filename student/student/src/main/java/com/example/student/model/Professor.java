@@ -46,21 +46,22 @@ public class Professor {
 	@ManyToOne
 	@JoinColumn(name = "dept_id")
 	private Department departments; 
-	@OneToOne(orphanRemoval = true, cascade = CascadeType.REMOVE)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 
 	@JoinColumn(name = "user_id")
 	private User user;
 	@OneToMany(mappedBy = "professor")
 	List<Test> tests=new ArrayList<Test>();
 	
-	public Professor(String firstName, String lastName, String email,List<Class_Course> class_Courses) {
+	public Professor(String firstName, String lastName, String email,List<Class_Course> class_Courses,User user) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.class_Course=class_Courses;
+		this.user=user;
 	}
 	
 	
 }
- 
+    

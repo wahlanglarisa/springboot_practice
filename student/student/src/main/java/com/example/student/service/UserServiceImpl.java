@@ -5,6 +5,10 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,8 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.student.model.User;
-import com.example.student.model.UserList;
 import com.example.student.model.UserPrincipal;
+import com.example.student.model.wrapper.UserList;
 import com.example.student.repository.StudentRepository;
 import com.example.student.repository.UserRepository;
 
@@ -47,9 +51,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public List<UserList> userLists() {
+	public Page<UserList> userLists(int pageNo,int pageSize,String sortField,String sortDirection) {
+		Sort sort;
+    if (sortField.equals("roleName")) {
+        sort = Sort.by(sortDirection.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, "r.name");
+    } else {
+        sort = Sort.by(sortDirection.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
+    }
+		Pageable pageable= PageRequest.of(pageNo-1, pageSize,sort);
 		// TODO Auto-generated method stub
-		return userRepository.userLists();
+		// TODO Auto-generated method stub
+		return userRepository.userLists(pageable);
 	}
 
 	@Override
@@ -90,8 +102,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 	@Override
 	public void deleteUser(long id) {
-		// TODO Auto-generated method stub
-		userRepository.deleteById(id);
+		// TODO Auto-generated 
+		User user=userRepository.getReferenceById(id);
+		System.out.println("Before Delete "+user.getProfessor());
+		userRepository.delete(user);
 		;
 	}
 }

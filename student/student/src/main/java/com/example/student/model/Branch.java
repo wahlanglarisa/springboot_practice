@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Branch {
-		@Id
+		@Id 
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private long id;
 		private String branchName;

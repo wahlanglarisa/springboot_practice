@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.student.model.Branch;
 import com.example.student.model.User;
-import com.example.student.model.UserList;
 import com.example.student.model.wrapper.StudentDepartmentBranch;
 import com.example.student.model.wrapper.StudentRoutine;
 import com.example.student.model.wrapper.TestResults;
 import com.example.student.model.wrapper.UpComingTests;
+import com.example.student.model.wrapper.UserList;
 import com.example.student.model.wrapper.findNoOfAttendance;
 import com.example.student.service.BranchService;
 import com.example.student.service.StudentService;

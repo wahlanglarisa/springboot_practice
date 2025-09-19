@@ -35,7 +35,7 @@ public class Course {
 	@ManyToOne
 	@JoinColumn(name="dept_id")
 	private Department department;
-	@ManyToMany(mappedBy = "courses")
+	@ManyToMany(mappedBy = "courses",cascade = CascadeType.REMOVE)
 	private List<Professor> professors;
 	public Long getCredit() {
 		return credit;
