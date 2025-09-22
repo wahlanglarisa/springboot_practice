@@ -35,8 +35,26 @@ public class Course {
 	@ManyToOne
 	@JoinColumn(name="dept_id")
 	private Department department;
-	@ManyToMany(mappedBy = "courses",cascade = CascadeType.REMOVE)
+	@ManyToMany(mappedBy = "courses")
 	private List<Professor> professors;
+	public List<Test> getTests() {
+		return tests;
+	}
+	public void setTests(List<Test> tests) {
+		this.tests = tests;
+	}
+	public Department getDepartment() {
+		return department;
+	}
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+	public List<Professor> getProfessors() {
+		return professors;
+	}
+	public void setProfessors(List<Professor> professors) {
+		this.professors = professors;
+	}
 	public Long getCredit() {
 		return credit;
 	}

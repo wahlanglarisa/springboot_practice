@@ -33,14 +33,15 @@ public class Department {
 	private long id;
 	private String dName;
 	@OneToOne()
-	@JoinColumn(name="hod_id")
-	   @OnDelete(action = OnDeleteAction.SET_NULL)
+	@OnDelete(action = OnDeleteAction.SET_NULL)
+
+	@JoinColumn(name = "hod_id")
 
 	private Professor professor;
 	@OneToMany(mappedBy = "departments")
-	private List<Professor> professors=new ArrayList<Professor>();
+	private List<Professor> professors = new ArrayList<Professor>();
 	@OneToMany(mappedBy = "department")
-	private List<Branch> branches=new ArrayList<Branch>();
+	private List<Branch> branches = new ArrayList<Branch>();
 	@OneToMany(mappedBy = "department")
-	private List<Course> courses=new ArrayList<Course>();
+	private List<Course> courses = new ArrayList<Course>();
 }

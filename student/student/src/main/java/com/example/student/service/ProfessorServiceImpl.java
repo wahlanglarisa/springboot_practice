@@ -30,7 +30,7 @@ import com.example.student.repository.UserRepository;
 
 @Service
 public class ProfessorServiceImpl implements ProfessorService {
-	
+
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
@@ -47,54 +47,68 @@ public class ProfessorServiceImpl implements ProfessorService {
 	private AttendanceRepository attendanceRepository;
 	@Autowired
 	private DepartmentRepository departmentRepository;
+
 	@Override
 	public Professor saveProfessor(UserDto userDto) {
 		// TODO Auto-generated method stu
-		System.out.println(roleRepository.findByName(userDto.isHod()?"Head Of Department":"Professor"));
-		User user=new User(userDto.getFirstName(),userDto.getLastName(),userDto.getEmailID(),bCryptPasswordEncoder.encode(userDto.getPassword()),Arrays.asList(roleRepository.findByName(userDto.isHod()?"Head Of Department":"Professor")));
-		Professor professor=new Professor(userDto.getFirstName(), userDto.getLastName(), userDto.getEmailID(),null,user);
-		Department department=departmentRepository.getById(userDto.getDept_id());
+		System.out.println(roleRepository.findByName(userDto.isHod() ? "Head Of Department" : "Professor"));
+		User user = new User(userDto.getFirstName(), userDto.getLastName(), userDto.getEmailID(),
+				bCryptPasswordEncoder.encode(userDto.getPassword()),
+				Arrays.asList(roleRepository.findByName(userDto.isHod() ? "Head Of Department" : "Professor")));
+		Professor professor = new Professor(userDto.getFirstName(), userDto.getLastName(), userDto.getEmailID(), null,
+				user);
+		Department department = departmentRepository.getById(userDto.getDept_id());
 		System.out.println(userDto.isHod());
-		
+
 		professor.setDepartments(department);
 		userRepository.save(user);
-		for(String course: userDto.getCourses()) {
-			Course course1=courseRepository.findByCourseName(course);
-		professor.getCourses().add(course1);
+		
+		for (String course : userDto.getCourses()) {
+			Course course1 = courseRepository.findByCourseName(course);
+			professor.getCourses().add(course1);
 		}
-		Professor professor2= professorRepository.save(professor);
-		if(userDto.isHod()) {
+		Professor professor2 = professorRepository.save(professor);
+		Professor professor3=null;
+		if (userDto.isHod()) {
 			department.setProfessor(professor);
 			departmentRepository.save(department);
-		} 
-		return professor2; 
+			professor2.setDepartment(department);
+			professor3=professorRepository.save(professor2);
+		}
+
+		return professor3;
 	}
+
 	@Override
 	public List<ProfListClasses> getProfClass_Courses(String email) {
 		// TODO Auto-generated method stub
 		return professorRepository.getProfClass_Courses(email);
 	}
-	@Override 
+
+	@Override
 	public List<FindProfessorClasses> findProfessorClasses(String email) {
 		// TODO Auto-generated method stub
 		return professorRepository.findProfessorClasses(email);
 	}
+
 	@Override
 	public List<ProfListClasses> getClass_Courses(String email) {
 		// TODO Auto-generated method stub
 		return professorRepository.getClass_Courses(email);
 	}
+
 	@Override
-	public List<AttendancePage> getAttendancePages(String email,long id) {
+	public List<AttendancePage> getAttendancePages(String email, long id) {
 		// TODO Auto-generated method stub
-		return professorRepository.getAttendancePages(email,id);
+		return professorRepository.getAttendancePages(email, id);
 	}
+
 	@Override
 	public String saveAttendance(saveAttendance studentClass) {
 		// TODO Auto-generated method stub
 		System.out.println("in save attendance function");
-		for(Attendance studentClass2:studentClass.getStudentClasses()) {
-			if(studentClass2.getStudent().getID()!=0) {
+		for (Attendance studentClass2 : studentClass.getStudentClasses()) {
+			if (studentClass2.getStudent().getID() != 0) {
 				System.out.println(studentClass2.getClass_Course().getId());
 				studentClass2.setDate(new Date(System.currentTimeMillis()));
 				studentClass2.setTime(new Time(new java.util.Date().getTime()));
@@ -103,27 +117,30 @@ public class ProfessorServiceImpl implements ProfessorService {
 		}
 		return "Sucess";
 	}
+
 	@Override
 	public Professor getProfByEmail(String email) {
 		// TODO Auto-generated method stub
 		return professorRepository.findByEmail(email);
 	}
+
 	@Override
 	public List<ProfListClasses> getDeptClass_Courses(long id) {
 		// TODO Auto-generated method stub
+		System.out.println("In getDeptClass_Courses function");
 		return professorRepository.getDeptClass_Courses(id);
 	}
+
 	@Override
 	public List<Professor> getProfessors() {
 		// TODO Auto-generated method stub
 		return professorRepository.findAll();
 	}
+
 	@Override
 	public List<Professor> findByDepartmentID(long id) {
 		// TODO Auto-generated method stub
 		return professorRepository.findByDepartmentID(id);
 	}
-	
-	
 
 }

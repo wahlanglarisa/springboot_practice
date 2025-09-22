@@ -15,11 +15,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.student.model.Department;
+import com.example.student.model.Professor;
+import com.example.student.model.Role;
 import com.example.student.model.User;
 import com.example.student.model.UserPrincipal;
 import com.example.student.model.wrapper.UserList;
+import com.example.student.repository.DepartmentRepository;
+import com.example.student.repository.ProfessorRepository;
 import com.example.student.repository.StudentRepository;
 import com.example.student.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService {
@@ -30,6 +37,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	private UserRepository userRepository;
 	@Autowired
 	private StudentRepository studentRepository;
+	@Autowired
+	private ProfessorRepository professorRepository;
+	@Autowired
+	private DepartmentRepository departmentRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -51,14 +62,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public Page<UserList> userLists(int pageNo,int pageSize,String sortField,String sortDirection) {
+	public Page<UserList> userLists(int pageNo, int pageSize, String sortField, String sortDirection) {
 		Sort sort;
-    if (sortField.equals("roleName")) {
-        sort = Sort.by(sortDirection.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, "r.name");
-    } else {
-        sort = Sort.by(sortDirection.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
-    }
-		Pageable pageable= PageRequest.of(pageNo-1, pageSize,sort);
+		if (sortField.equals("roleName")) {
+			sort = Sort.by(sortDirection.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, "r.name");
+		} else {
+			sort = Sort.by(sortDirection.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
+		}
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 		return userRepository.userLists(pageable);
@@ -86,8 +97,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		existingUser.setEmail(updatedUser.getEmail());
 		if (updatedUser.getPassword() != "") {
 			existingUser.setPassword(bCryptPasswordEncoder.encode(updatedUser.getPassword()));
-		}
-		else {
+		} else {
 			existingUser.setPassword(existingUser.getPassword());
 
 		}
@@ -100,12 +110,26 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		return userRepository.save(existingUser);
 	}
 
+	@Transactional
 	@Override
 	public void deleteUser(long id) {
-		// TODO Auto-generated 
-		User user=userRepository.getReferenceById(id);
-		System.out.println("Before Delete "+user.getProfessor());
+		// TODO Auto-generated
+		User user = userRepository.getReferenceById(id);
+		System.out.println("Before Delete " + user.getProfessor());
+		List<Role> roles = (List<Role>) user.getRoles();
+		System.out.println(roles.get(0).getName());
+		if (roles.get(0).getName().equals("Head Of Department")) {
+			Professor professor = professorRepository.getReferenceById(user.getProfessor().getID());
+			Department department = professor.getDepartment();
+			System.out.println(department);
+			if (department != null) {
+				System.out.println("Removing HOD Privileges");
+				department.setProfessor(null);
+				departmentRepository.save(department);
+			}
+			user.setProfessor(null);
+			professorRepository.delete(professor);
+		}
 		userRepository.delete(user);
-		;
 	}
 }

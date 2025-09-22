@@ -48,7 +48,7 @@
 							<td th:text="${routine.courseName}"></td>
 							<td th:text="${routine.time}"></td>
 							<td th:text="${routine.day}"></td>
-							<td th:text="${routine.professor.firstName}+' '+${routine.professor.lastName}"></td>
+							<td th:text="${routine.professor}"></td>
 							<td><a
 								th:href="@{/hod/updateClassPage/{id}(id=${routine.id})}"
 								class="btn btn-primary">Update Class</a>&nbsp;&nbsp;<a
