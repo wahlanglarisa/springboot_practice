@@ -16,15 +16,13 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
 	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<link th:href=@{/css/student.css} rel="stylesheet" />
 </head>
+
+<header th:insert="@{/fragments/admin_header.html}"> </header>
+
 <body>
-	<nav class="navbar bg-body-tertiary">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#"> <strong>University
-					Management System</strong>
-			</a>
-		</div>
-	</nav>
+	<main id="main-content">
 	<br>
 	<br>
 	<div class='container-md'>
@@ -42,6 +40,9 @@
 			<div th:if="${param.logout}">
 				<div class="alert alert-info">You have been logged out.</div>
 			</div>
+				<h1>
+				<strong>Register Student Details</strong>
+			</h1>
 			<div class="mb-3 row">
 				<label for="exampleFormControlInput1"
 					class="form-label col col-sm-1">Enter your First Name</label> <input
@@ -111,6 +112,7 @@
 			</div>
 		</form>
 	</div>
+	</main>
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {

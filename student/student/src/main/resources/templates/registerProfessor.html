@@ -20,14 +20,10 @@
 	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
+<header th:insert="@{/fragments/admin_header.html}"> </header>
+
 <body>
-	<nav class="navbar bg-body-tertiary">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#"> <strong>University
-					Management System</strong>
-			</a>
-		</div>
-	</nav>
+	<main id="main-content">
 	<br>
 	<br>
 	<div class='container-md '>
@@ -123,6 +119,7 @@
 			</div>
 		</form>
 	</div>
+	</main>
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
