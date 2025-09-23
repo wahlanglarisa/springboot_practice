@@ -90,5 +90,10 @@ public class StudentServiceImpl implements StudentService{
 		// TODO Auto-generated method stub
 		return studentRepository.getDepartmentBranch(email);
 	}
+	@Override
+	public Student findStudentByEmailId(String email) {
+		// TODO Auto-generated method stub
+		return studentRepository.findByEmailID(email);
+	}
 	
 }

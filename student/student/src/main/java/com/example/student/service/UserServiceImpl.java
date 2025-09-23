@@ -116,20 +116,36 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		// TODO Auto-generated
 		User user = userRepository.getReferenceById(id);
 		System.out.println("Before Delete " + user.getProfessor());
-		List<Role> roles = (List<Role>) user.getRoles();
-		System.out.println(roles.get(0).getName());
-		if (roles.get(0).getName().equals("Head Of Department")) {
-			Professor professor = professorRepository.getReferenceById(user.getProfessor().getID());
-			Department department = professor.getDepartment();
-			System.out.println(department);
-			if (department != null) {
-				System.out.println("Removing HOD Privileges");
-				department.setProfessor(null);
-				departmentRepository.save(department);
+
+		try {
+			userRepository.delete(user);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			List<Role> roles = (List<Role>) user.getRoles();
+			System.out.println(roles.get(0).getName());
+			if (roles.get(0).getName().equals("Head Of Department")) {
+				Professor professor = professorRepository.getReferenceById(user.getProfessor().getID());
+				Department department = professor.getDepartment();
+				System.out.println(department);
+				if (department != null) {
+					System.out.println("Removing HOD Privileges");
+					department.setProfessor(null);
+					departmentRepository.save(department);
+				}
+				user.setProfessor(null);
+				professorRepository.delete(professor);
+			} else if (roles.get(0).getName().equals("Professor")) {
+				Professor professor = professorRepository.getReferenceById(user.getProfessor().getID());
+				professor.setClass_Course(null);
+				professor.setCourses(null);
+				professor.setDepartments(null);
+				professor.setTests(null);
+				user.setProfessor(null);
+				professorRepository.delete(professor);
 			}
-			user.setProfessor(null);
-			professorRepository.delete(professor);
+			userRepository.delete(user);
+
 		}
-		userRepository.delete(user);
 	}
 }

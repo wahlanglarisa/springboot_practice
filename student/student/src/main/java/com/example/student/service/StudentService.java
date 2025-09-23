@@ -21,4 +21,5 @@ public interface StudentService {
 	public StudentDepartmentBranch getDepartmentBranch(String email);
 	public List<Student> getStudentByDepartment(long id);
 	public List<Student> findStudentByClassID(long id);
+	public Student findStudentByEmailId(String email);
 }

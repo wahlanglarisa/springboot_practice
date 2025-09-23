@@ -55,4 +55,8 @@ public class Class_Course {
 	private List<Attendance> attendances=new ArrayList<Attendance>();
 	@OneToMany(mappedBy = "class_Course")
 	private List<Test> tests=new ArrayList<Test>();
+	@ManyToOne()
+	@JoinColumn(name="branch_id")
+	private Branch branch;
+
 }
