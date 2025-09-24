@@ -5,6 +5,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Entity;
@@ -48,6 +50,7 @@ public class Test {
 
 	private long totalMarks;
 	@ManyToOne
+	@OnDelete(action = OnDeleteAction.SET_NULL)
 	@JoinColumn(name = "prof_id")
 	private Professor professor;
 }

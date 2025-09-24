@@ -35,7 +35,7 @@ public class Professor {
 	private String firstName;
 	private String lastName;
 	private String email;
-	@ManyToMany( fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "course_professor", joinColumns = { @JoinColumn(name = "prof_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "course_id") })
 	private List<Course> courses = new ArrayList<Course>();
@@ -56,6 +56,8 @@ public class Professor {
 	@JoinColumn(name = "user_id")
 	private User user;
 	@OneToMany(mappedBy = "professor")
+	@OnDelete(action = OnDeleteAction.SET_NULL)
+
 	List<Test> tests = new ArrayList<Test>();
 
 	public Professor(String firstName, String lastName, String email, List<Class_Course> class_Courses, User user) {
