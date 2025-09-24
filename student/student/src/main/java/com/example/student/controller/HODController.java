@@ -21,6 +21,7 @@ import com.example.student.model.wrapper.AddStudentClass;
 import com.example.student.model.wrapper.FindProfessorClasses;
 import com.example.student.model.wrapper.ProfListClasses;
 import com.example.student.model.wrapper.SaveStudentClass;
+import com.example.student.service.BranchService;
 import com.example.student.service.ClassService;
 import com.example.student.service.CourseService;
 import com.example.student.service.ProfessorService;
@@ -44,6 +45,8 @@ public class HODController {
 	private ClassService classService;
 	@Autowired
 	private StudentClassService studentClassService;
+	@Autowired
+	private BranchService branchService;
 
 	@GetMapping("/hod/hodPortal")
 	public String profHomepage(Model model, HttpServletRequest httpServletRequest) {
@@ -92,6 +95,8 @@ public class HODController {
 		List<Professor> professors = professorService.findByDepartmentID(professor.getDepartment().getId());
 		List<Course> courses = courseService.findbyDepartment(professor.getDepartment());
 		System.out.println(courses);
+			List<Branch> branches=branchService.findBranchByDepartment(professorService.getProfByEmail(email).getDepartment());
+		model.addAttribute("branches", branches);
 		model.addAttribute("courses", courses);
 		model.addAttribute("professors", professors);
 		model.addAttribute("class", new Class_Course());
@@ -116,6 +121,8 @@ public class HODController {
 		List<Course> courses = courseService.findbyDepartment(professorService.getProfByEmail(email).getDepartment());
 		List<Professor> professors = professorService
 				.findByDepartmentID(professorService.getProfByEmail(email).getDepartment().getId());
+		List<Branch> branches=branchService.findBranchByDepartment(professorService.getProfByEmail(email).getDepartment());
+		model.addAttribute("branches", branches);
 		model.addAttribute("class", class_Course);
 		model.addAttribute("professors", professors);
 		return "updateClass";
