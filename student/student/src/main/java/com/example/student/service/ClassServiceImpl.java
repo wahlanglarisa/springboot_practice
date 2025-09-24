@@ -1,8 +1,11 @@
 package com.example.student.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.student.model.Branch;
 import com.example.student.model.Class_Course;
 import com.example.student.repository.ClassRepository;
 @Service
@@ -28,5 +31,13 @@ public class ClassServiceImpl implements ClassService {
 		classRepository.deleteById(id);;
 		
 	}
+
+	@Override
+	public List<Class_Course> findByBranchIDAndSemester(Long id, Long semester) {
+		// TODO Auto-generated method stub
+		return classRepository.findByBranchIDAndSemester(id, semester);
+	}
+
+	
 
 }

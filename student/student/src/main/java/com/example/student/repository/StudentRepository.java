@@ -40,7 +40,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	@Query("select new com.example.student.model.wrapper.StudentDepartmentBranch(concat(st.firstName,' ',st.lastName),dept.dName,branch.branchName) from Student st join st.branch branch join branch.department dept where st.emailID=:email")
 	public StudentDepartmentBranch getDepartmentBranch(@Param("email") String email);
 	
-	@Query("select new com.example.student.model.Student(st.firstName,st.lastName,st.emailID,st.semester,st.user,st.branch) from Student st join st.branch branch join branch.department dept where dept.id=:id")
+	@Query("select st from Student st join st.branch branch join branch.department dept where dept.id=:id")
 	public List<Student> findStudentByDepartment(@Param("id") long id);
 	@Query("select student from Student student join student.class_Courses class where class.class_Course.id=:id")
 	public List<Student> findStudentByClassID(@Param("id") long id);
