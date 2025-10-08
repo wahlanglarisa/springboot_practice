@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.student.model.Course;
 import com.example.student.model.Department;
-import com.example.student.model.Professor;
 import com.example.student.repository.CourseRepository;
 
 
@@ -42,6 +41,11 @@ public class CourseServiceImpl implements CourseService{
 	public List<Course> findByProfessor(long id) {
 		// TODO Auto-generated method stub
 		return courseRepository.findCoursesByProfID(id);
+	}
+	@Override
+	public List<String> findbyDepartmentID(long id) {
+		// TODO Auto-generated method stub
+		return courseRepository.findCoursesByDepartmentID(id);
 	}
 	
 

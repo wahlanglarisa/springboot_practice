@@ -68,7 +68,7 @@ public class RegisterController {
   }
   @PostMapping("/professorData")
   public String GetProfessorData(@ModelAttribute("user") UserDto user,Model model) {
-	  System.out.println("From /studentData "+user.getDept_id());
+	  System.out.println("From /studentData "+user.getDept_id()+user.getCourses());
 	 professorService.saveProfessor(user);
 //	  studentService.saveStudent(user);
 	  return "redirect:/registerProfessor?success";

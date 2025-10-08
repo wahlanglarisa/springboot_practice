@@ -110,7 +110,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		return userRepository.save(existingUser);
 	}
 
-	@Transactional
 	@Override
 	public void deleteUser(long id) {
 		// TODO Auto-generated
@@ -121,7 +120,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			userRepository.delete(user);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
+			System.out.println("Caught exception "+e.getMessage());
 			List<Role> roles = (List<Role>) user.getRoles();
 			System.out.println(roles.get(0).getName());
 			if (roles.get(0).getName().equals("Head Of Department")) {
