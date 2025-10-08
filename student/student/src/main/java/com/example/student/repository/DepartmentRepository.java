@@ -7,5 +7,6 @@ import com.example.student.model.Department;
 
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department, Long>{
+    
 
 }

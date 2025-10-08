@@ -12,10 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.student.model.Course;
 import com.example.student.model.User;
 import com.example.student.model.wrapper.UserList;
+import com.example.student.service.CourseService;
 import com.example.student.service.StudentService;
 import com.example.student.service.UserService;
 
@@ -27,6 +31,8 @@ public class AdminController {
 	private StudentService studentService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private CourseService courseService;
 	@GetMapping("/admin/adminPortal/{pageNo}")
 	public String AdminPortal(HttpServletRequest httpRequest, Model model,@PathVariable(value="pageNo") int pageNo,@RequestParam("sortField") String sortField,@RequestParam("sortDir") String sortDir) {
 			int pageSize=5;
