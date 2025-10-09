@@ -1,8 +1,11 @@
 package com.example.student.controller;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+
 import org.springframework.security.core.Authentication;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +58,7 @@ public class ProfessorController {
 		model.addAttribute("tests", tests);
 		model.addAttribute("professor", professor);
 		model.addAttribute("routines", profListClasses);
+		model.addAttribute("date", LocalDateTime.now());
 
 		return "professorHomepage";
 
@@ -127,7 +131,8 @@ public class ProfessorController {
 	private String saveTestStudent(@ModelAttribute("testMarks") UpdateTestStudent testStudent) {
 		System.out.println(testStudent.getTestStudents());
 		for (TestStudent tStudent : testStudent.getTestStudents()) {
-			System.out.println(tStudent.getTestStudentID()+" "+tStudent.getMarks()+" "+tStudent.getStudent()+" "+tStudent.getTest());
+			System.out.println(tStudent.getTestStudentID() + " " + tStudent.getMarks() + " " + tStudent.getStudent()
+					+ " " + tStudent.getTest());
 		}
 		testStudentService.saveTestStudent(testStudent.getTestStudents());
 		return "redirect:/professor/professorHomepage";
@@ -152,6 +157,17 @@ public class ProfessorController {
 		model.addAttribute("testMarks", new UpdateTestStudent());
 		model.addAttribute("testStudents", studentsTestData);
 		return "AddStudentMarks";
+	}
+
+	@GetMapping("/professor/viewRoutine/{day}")
+	public String viewRoutinePage(Model model, @PathVariable("day") String day, HttpServletRequest httpServletRequest) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+		String email = principal.getName();
+		List<ProfListClasses> profListClasses = professorService.getProfClass_Courses_By_Day(email, day);
+		System.out.println(profListClasses);
+		model.addAttribute("routine", profListClasses);
+		model.addAttribute("day", day);
+		return "viewRoutine";
 	}
 
 }

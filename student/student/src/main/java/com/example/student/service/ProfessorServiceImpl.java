@@ -13,7 +13,6 @@ import com.example.student.model.Attendance;
 import com.example.student.model.Course;
 import com.example.student.model.Department;
 import com.example.student.model.Professor;
-import com.example.student.model.StudentClass;
 import com.example.student.model.User;
 import com.example.student.model.wrapper.AttendancePage;
 import com.example.student.model.wrapper.FindProfessorClasses;
@@ -141,6 +140,12 @@ public class ProfessorServiceImpl implements ProfessorService {
 	public List<Professor> findByDepartmentID(long id) {
 		// TODO Auto-generated method stub
 		return professorRepository.findByDepartmentID(id);
+	}
+
+	@Override
+	public List<ProfListClasses> getProfClass_Courses_By_Day(String email, String day) {
+		// TODO Auto-generated method stub
+		return professorRepository.getProfClass_Courses_By_Day(email, day);
 	}
 
 }
