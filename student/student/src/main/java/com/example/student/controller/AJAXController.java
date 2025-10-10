@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.student.model.Course;
 import com.example.student.model.wrapper.ProfListClasses;
+import com.example.student.model.wrapper.StudentRoutine;
 import com.example.student.service.CourseService;
 import com.example.student.service.ProfessorService;
+import com.example.student.service.StudentService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -23,6 +25,8 @@ import jakarta.servlet.http.HttpServletRequest;
 public class AJAXController {
     	@Autowired
 	private CourseService courseService;
+	@Autowired
+	private StudentService studentService;
 	@Autowired
 	private ProfessorService professorService;
 	@RequestMapping(value="/admin/"
@@ -44,5 +48,15 @@ public class AJAXController {
 		System.out.println(day);
 		return profListClasses;
 	}
+	@RequestMapping("/student/viewRoutinePage/")
+	public List<StudentRoutine> viewRoutinePage(Model model, HttpServletRequest httpServletRequest,@RequestParam("day") String day) {
+		Principal principal=httpServletRequest.getUserPrincipal();
+		String email=principal.getName();
+		List<StudentRoutine> studentRoutines=studentService.getStudentRoutines(email,day);
+		model.addAttribute("routine", studentRoutines);
+		return studentRoutines;	 
+	
+	}
+	
 }
 

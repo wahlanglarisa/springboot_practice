@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.student.model.StudentClass;
 import com.example.student.model.wrapper.AddStudentClass;
 import com.example.student.model.wrapper.SaveStudentClass;
+import com.example.student.model.wrapper.StudentRoutine;
 import com.example.student.repository.StudentClassRepository;
 import com.example.student.repository.StudentRepository;
 
@@ -15,6 +16,8 @@ import com.example.student.repository.StudentRepository;
 public class StudentClassServiceImpl implements StudentClassService{
     @Autowired
     private StudentClassRepository studentClassRepository; 
+    @Autowired
+    private StudentRepository studentRepository;
     @Override
     public StudentClass savStudentClass(SaveStudentClass saveStudentClass) {
         // TODO Auto-generated method stub
@@ -32,5 +35,6 @@ public class StudentClassServiceImpl implements StudentClassService{
         }
         return studentClass;
     }
+  
 
 }

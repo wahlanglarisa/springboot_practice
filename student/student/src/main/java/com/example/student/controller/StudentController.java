@@ -1,6 +1,7 @@
 package com.example.student.controller;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +53,19 @@ public class StudentController {
 		model.addAttribute("totalAttendance", totalAttendance);
 		model.addAttribute("results", results);
 		model.addAttribute("stdeptBranch",departmentBranch);
+		model.addAttribute("date",LocalDate.now());
 		
 		return "studentHomepage";
 	}
+	@GetMapping("/student/viewRoutinePage/{day}")
+	public String viewRoutinePage(Model model, HttpServletRequest httpServletRequest,@PathVariable("day") String day) {
+		Principal principal=httpServletRequest.getUserPrincipal();
+		String email=principal.getName();
+		List<StudentRoutine> studentRoutines=studentService.getStudentRoutines(email,day);
+		model.addAttribute("routine", studentRoutines);
+		return "viewRoutineStudent";	
+	
+	}
+	
 
 }

@@ -14,12 +14,23 @@ import com.example.student.model.wrapper.findNoOfAttendance;
 
 public interface StudentService {
 	public Student saveStudent(UserDto st);
+
 	public List<StudentRoutine> findStudentClasses(String email);
+
 	public findNoOfAttendance noOfAttendance(String email);
+
 	public List<UpComingTests> upComingTests(String email);
+
 	public List<TestResults> testResults(String email);
+
 	public StudentDepartmentBranch getDepartmentBranch(String email);
+
 	public List<Student> getStudentByDepartment(long id);
+
 	public List<Student> findStudentByClassID(long id);
+
 	public Student findStudentByEmailId(String email);
+
+	public List<StudentRoutine> getStudentRoutines(String email,String day);
+
 }

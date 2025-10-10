@@ -19,4 +19,5 @@ public class StudentRoutine {
     private LocalTime time;
 	private String courseName;
 	private String studentName;
+	private String day;
 }
