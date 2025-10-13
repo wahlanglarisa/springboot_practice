@@ -14,6 +14,6 @@ public interface CourseService {
 	public List<Course> findbyDepartment(Department department);
 	public List<Course> findByProfessor(long id);
 		public List<String> findbyDepartmentID(long id);
-
+	public Course addCourse(Course course);
 
 }

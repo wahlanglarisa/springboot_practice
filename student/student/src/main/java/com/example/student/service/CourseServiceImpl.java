@@ -47,6 +47,11 @@ public class CourseServiceImpl implements CourseService{
 		// TODO Auto-generated method stub
 		return courseRepository.findCoursesByDepartmentID(id);
 	}
+	@Override
+	public Course addCourse(Course course) {
+		// TODO Auto-generated method stub
+		return courseRepository.save(course);
+	}
 	
 
 }

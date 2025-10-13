@@ -28,7 +28,7 @@
         <div class="col-12 col-md-4">
           <div class="routineBlock text-center shadow-lg">
             <h3><strong>You have total [[${classCount.size()}]] class(es) today</strong></h3>
-            <a th:href="@{/viewRoutine}" class="btn btn-link mt-3">View Routine</a>
+            <a  th:href="@{/professor/viewRoutine/{day}(day=${#temporals.dayOfWeekName(date)})}" class="btn btn-link mt-3">View Routine</a>
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 package com.example.student.controller;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,7 @@ import com.example.student.model.wrapper.AddStudentClass;
 import com.example.student.model.wrapper.FindProfessorClasses;
 import com.example.student.model.wrapper.ProfListClasses;
 import com.example.student.model.wrapper.SaveStudentClass;
-import com.example.student.service.BranchService;
-import com.example.student.service.ClassService;
-import com.example.student.service.CourseService;
-import com.example.student.service.ProfessorService;
-import com.example.student.service.StudentClassService;
-import com.example.student.service.StudentService;
-
+import com.example.student.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class HODController {
+
+ 
 	@Autowired
 	private ProfessorService professorService;
 	@Autowired
@@ -47,6 +44,10 @@ public class HODController {
 	private StudentClassService studentClassService;
 	@Autowired
 	private BranchService branchService;
+	@Autowired
+	private DepartmentService departmentService;
+
+
 
 	@GetMapping("/hod/hodPortal")
 	public String profHomepage(Model model, HttpServletRequest httpServletRequest) {
@@ -63,6 +64,7 @@ public class HODController {
 		model.addAttribute("professors", professors);
 		model.addAttribute("classCount", professorClasses);
 		model.addAttribute("routines", profListClasses);
+		model.addAttribute("date", LocalDateTime.now());
 
 		return "hodPortal";
 
@@ -113,6 +115,12 @@ public class HODController {
 		return "redirect:/hod/addNewClassPage";
 	}
 
+	@GetMapping("/hod/addNewCoursePage")
+	public String addNewCoursePage(Model model, HttpServletRequest httpServletRequest) {
+		model.addAttribute("course", new Course());
+		model.addAttribute("departments", departmentService.findAllDepartments());
+		return "addNewCourse";
+	}
 	@GetMapping("/hod/updateClassPage/{id}")
 	public String updateClassPage(HttpServletRequest httpServletRequest, @PathVariable("id") long id, Model model) {
 		Class_Course class_Course = classService.findById(id);
@@ -172,5 +180,13 @@ public class HODController {
 		studentClassService.savStudentClass(addStudentClass);
 		return "redirect:/hod/hodPortal";
 	}
+	@PostMapping("/hod/saveCourse")
+	public String saveCourse(@ModelAttribute("course") Course course) {
+		//TODO: process POST request
+		courseService.addCourse(course);
+		System.out.println(course.getCourseName()+"\t"+course.getDepartment().getDName());
+		return "redirect:/hod/hodPortal";
+	}
+	
 
-}
+} 
