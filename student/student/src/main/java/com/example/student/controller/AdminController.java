@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.student.model.Course;
+import com.example.student.model.Department;
 import com.example.student.model.User;
 import com.example.student.model.wrapper.UserList;
 import com.example.student.service.CourseService;
@@ -70,6 +71,12 @@ public class AdminController {
 			+ "deleteUserPage/{id}")
 	public String deleteUserPage(HttpServletRequest httpRequest,@PathVariable("id") long id, Model model) {
 		userService.deleteUser(id);
+		return "redirect:/admin/adminPortal/1?sortField=email&sortDir=asc";
+	}
+		@GetMapping("/admin/"
+			+ "createDepartmentPage/")
+	public String createDepartmentPage(HttpServletRequest httpRequest, Model model) {
+		model.addAttribute("department", new Department());
 		return "redirect:/admin/adminPortal/1?sortField=email&sortDir=asc";
 	}
 }

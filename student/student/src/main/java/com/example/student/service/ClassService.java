@@ -9,5 +9,5 @@ public interface ClassService {
 	public Class_Course savClass_Course(Class_Course class_Course);
 	public Class_Course findById(long id);
 	public void deleteClassById(long id);
-	public List<Class_Course> findByBranchIDAndSemester(Long id,Long semester);
+	public List<Class_Course> findByBranchIDAndSemester(Long id,Long semester,Long st_id);
 }

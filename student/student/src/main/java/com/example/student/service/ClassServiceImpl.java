@@ -33,9 +33,9 @@ public class ClassServiceImpl implements ClassService {
 	}
 
 	@Override
-	public List<Class_Course> findByBranchIDAndSemester(Long id, Long semester) {
+	public List<Class_Course> findByBranchIDAndSemester(Long id, Long semester,Long st_id) {
 		// TODO Auto-generated method stub
-		return classRepository.findByBranchIDAndSemester(id, semester);
+		return classRepository.findByBranchIDAndSemester(id, semester,st_id);
 	}
 
 	

@@ -68,10 +68,10 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="routine : ${routines}">
-								<td th:text="${routine.courseName}"></td>
-								<td th:text="${routine.time}"></td>
-								<td th:text="${routine.day}"></td>
+							<tr th:each="routine ,iter : ${routines}">
+								<td th:text="${routine.courseName}" th:classappend="${iter.index>=3}?'hidden-row':''"></td>
+								<td th:text="${routine.time}" th:classappend="${iter.index>=3}?'hidden-row':''"></td>
+								<td th:text="${routine.day}" th:classappend="${iter.index>=3}?'hidden-row':''"></td>
 								<td><a
 									th:href="@{/professor/attendancePage/{id}(id=${routine.id})}"
 									class="btn btn-primary">Take Attendance</a>&nbsp;&nbsp;<a
@@ -83,7 +83,7 @@
 						</tbody>
 
 					</table>
-					<span><a th:href="@{/professor/viewAllClasses}"
+					<span th:if="${routines.size()>3}"><a th:href="@{/professor/viewAllClasses}"
 						class="btn btn-primary form-submit">View Classes</a></span>
 				</div>
 				<br>
@@ -154,4 +154,9 @@
 
 
 </body>
+<div class="container">
+
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
+    th:insert="@{/fragments/footer.html}">
+</div>
 </html>

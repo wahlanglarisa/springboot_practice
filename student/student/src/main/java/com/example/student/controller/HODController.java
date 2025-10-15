@@ -162,7 +162,7 @@ public class HODController {
 	@GetMapping("/hod/assignClassPage/{studentID}/{branch}/{semester}")
 	public String assignClassPage(Model model, @PathVariable("branch") Long branch,
 			@PathVariable("semester") Long semester, @PathVariable("studentID") Long studentID) {
-		List<Class_Course> class_Courses = classService.findByBranchIDAndSemester(branch, semester);
+		List<Class_Course> class_Courses = classService.findByBranchIDAndSemester(branch, semester,studentID);
 		model.addAttribute("classes", class_Courses);
 		model.addAttribute("studentID", studentID);
 		model.addAttribute("saveClass", new SaveStudentClass());
