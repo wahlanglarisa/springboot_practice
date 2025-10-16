@@ -60,7 +60,7 @@
                             <td th:text="${class.time}"></td>
                             <td><input type="checkbox" class="form-checkbox"
                                  
-                                  th:field="*{addStudentClasses[__${item.index}__].checked}" th:attr="">
+                                  th:field="*{addStudentClasses[__${item.index}__].checked}" >
                                 <input type="hidden" 
                                  th:value="${studentID}"
                                   th:name="|addStudentClasses[${item.index}].student|">

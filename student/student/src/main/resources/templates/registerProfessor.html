@@ -60,18 +60,12 @@
 						your password</label> <input type="password" class="form-control col" id="emailid"
 						placeholder="Enter your Password" th:field="*{password}">
 				</div>
-				<table class="table">
-					<thead>
-						<tr>
-							<td><b>Select Department</b></td>
-						</tr>
-					</thead>
-					<tr th:each="dept:${department}">
-						<td><input type="radio" class="form-check-input" th:value="${dept.id}" th:field="*{dept_id}"
-								th:onclick="'clicked('+${dept.id}+')'">&nbsp;&nbsp;<label th:text="${dept.dName}"
-								class="form-check-label"></label></td>
-					</tr>
-				</table>
+				<select class="form-select" id="deptSelect"  th:field="*{dept_id}" onchange="clicked()">
+					<option th:each="dept:${department}" th:value="${dept.id}" >[[${dept.dName}]]</option>
+				</select>
+				<br>
+				<br>
+
 				<table class="table" id="course_table">
 					<thead>
 						<tr>
@@ -115,7 +109,9 @@
 	function courseclick(item){
 		alert(item);
 	}
-	function clicked(itemVal) {
+	function clicked() {
+		alert(document.getElementById('deptSelect').value)
+		itemVal=document.getElementById('deptSelect').value
 		$.ajax({
 			url: "/admin/"
 				+ "getDepartmentAJAX/",
