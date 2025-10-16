@@ -46,10 +46,7 @@ public class StudentServiceImpl implements StudentService {
 		Student st1 = new Student(st.getFirstName(), st.getLastName(), st.getEmailID(), st.getSemester(), user,
 				branchRepository.getReferenceById(st.getBranch_id()));
 
-		for (String course : st.getCourses()) {
-			Course course2 = courseRepository.findByCourseName(course);
-			st1.getCourses().add(course2);
-		}
+	
 		userRepository.save(user);
 		return studentRepository.save(st1);
 	}
@@ -108,9 +105,9 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public List<StudentRoutine> getStudentRoutines(String email,String day) {
+	public List<StudentRoutine> getStudentRoutines(String email,String day,Long semester,Long branchid) {
 		// TODO Auto-generated method stub
-		return studentRepository.getStudentRoutines(email,day);
+		return studentRepository.getStudentRoutines(email,day,semester,branchid);
 	}
 
 }

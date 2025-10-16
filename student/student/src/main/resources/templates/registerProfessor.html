@@ -65,20 +65,6 @@
 				</select>
 				<br>
 				<br>
-
-				<table class="table" id="course_table">
-					<thead>
-						<tr>
-							<td><b>Select Courses</b></td>
-						</tr>
-					</thead>
-					<tbody id="course_table_body"></tbody>
-					<!-- <tr th:each="course:${courseList}">
-						<td><input type="checkbox" class="form-check-input" th:value="${course}"
-								th:field="*{courses}">&nbsp;&nbsp;<label th:text="${course}"
-								class="form-check-label"></label></td>
-					</tr> -->
-				</table>
 				<div class="mb-3 row">
 					<span class="col-sm-1">Head of Department</span>
 					<div class="col-sm-4">
@@ -106,42 +92,7 @@
 	</main>
 </body>
 <script type="text/javascript">
-	function courseclick(item){
-		alert(item);
-	}
-	function clicked() {
-		alert(document.getElementById('deptSelect').value)
-		itemVal=document.getElementById('deptSelect').value
-		$.ajax({
-			url: "/admin/"
-				+ "getDepartmentAJAX/",
-			method: "get",
-			dataType:"json",
-			data: {
-				id: itemVal
-			}
-			, success: function (response) {
-				courseElement = document.getElementById("course_table_body")
-				courseElement.innerHTML="";
-					response.forEach(element => {
-						i = 0
-						newRow = courseElement.insertRow(i)
-						cell = newRow.insertCell(0)
-						cell.innerHTML = `<input type='checkbox' class='form-check-input' value='${element}' name='courses' onclick='courseclick(${element})'>  <label value='${element}' class='form-check-label'>${element}</label>`
-						console.log(element)
-						i++;
-					});
-			}
-		})
-	}
-	$(document).ready(function () {
-
-		$("#toggle").change(function () {
-			$("#hodid").val($(this).prop("checked"));
-			alert($("#hodid").val())
-		})
-
-	});
+	
 </script>
 <div class="container">
 

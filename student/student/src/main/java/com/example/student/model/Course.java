@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +17,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name="course",uniqueConstraints = {@UniqueConstraint(columnNames = {"course_name"})})
 public class Course {
@@ -37,76 +43,17 @@ public class Course {
 	private Department department;
 	@ManyToMany(mappedBy = "courses")
 	private List<Professor> professors;
-	public List<Test> getTests() {
-		return tests;
-	}
-	public void setTests(List<Test> tests) {
-		this.tests = tests;
-	}
-	public Department getDepartment() {
-		return department;
-	}
-	public void setDepartment(Department department) {
-		this.department = department;
-	}
-	public List<Professor> getProfessors() {
-		return professors;
-	}
-	public void setProfessors(List<Professor> professors) {
-		this.professors = professors;
-	}
-	public Long getCredit() {
-		return credit;
-	}
-	public void setCredit(Long credit) {
-		this.credit = credit;
-	}
-	public List<Class_Course> getCourse_class() {
-		return course_class;
-	}
-	public void setCourse_class(List<Class_Course> course_class) {
-		this.course_class = course_class;
-	}
-	public List<Student> getStudent() {
-		return student;
-	}
-	public void setStudent(List<Student> student) {
-		this.student = student;
-	}
-	public List<Student> getProfessor() {
-		return professor;
-	}
-	public void setProfessor(List<Student> professor) {
-		this.professor = professor;
-	}
-	@ManyToMany(mappedBy = "courses")
-	List<Student> professor;
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getCourseName() {
-		return courseName;
-	}
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
-	}
-	public Long getCredits() {
-		return credit;
-	}
-	public void setCredits(Long credits) {
-		this.credit = credits;
-	}
+	@Column(name="semester",nullable = true)
+	private Long semester;
+	@ManyToOne
+	@JoinColumn(name="branch_id")
+	private Branch branch;
+	@Column(name="isElective",nullable = true)
+	private Boolean elective;
 	public Course(String courseName, long i) {
 		super();
 		
 		this.courseName = courseName;
 		this.credit = i;
-	}
-	public Course() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 }

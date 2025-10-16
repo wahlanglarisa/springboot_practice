@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.student.model.Course;
+import com.example.student.model.Student;
 import com.example.student.model.wrapper.ProfListClasses;
 import com.example.student.model.wrapper.StudentRoutine;
 import com.example.student.service.CourseService;
@@ -52,7 +53,8 @@ public class AJAXController {
 	public List<StudentRoutine> viewRoutinePage(Model model, HttpServletRequest httpServletRequest,@RequestParam("day") String day) {
 		Principal principal=httpServletRequest.getUserPrincipal();
 		String email=principal.getName();
-		List<StudentRoutine> studentRoutines=studentService.getStudentRoutines(email,day);
+		Student student=studentService.findStudentByEmailId(email);
+		List<StudentRoutine> studentRoutines=studentService.getStudentRoutines(email,day,student.getSemester(),student.getBranch().getId());
 		model.addAttribute("routine", studentRoutines);
 		return studentRoutines;	 
 	

@@ -30,6 +30,8 @@ public class Branch {
 		private List<Student> students=new ArrayList<Student>();
 		@OneToMany(mappedBy = "branch")
 		private List<Class_Course> class_Courses=new ArrayList<Class_Course>();
+		@OneToMany(mappedBy = "branch")
+		private List<Course> courses=new ArrayList<Course>();
 		
 		
 }

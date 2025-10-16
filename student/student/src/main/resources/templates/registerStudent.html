@@ -85,18 +85,7 @@
 						th:text="${branch.branchName}" class="form-check-label"></label></td>
 				</tr>
 			</table>
-			<table class="table">
-				<thead>
-					<tr>
-						<td><b>Select Courses</b></td>
-					</tr>
-				</thead>
-				<tr th:each="course:${courseList}">
-					<td><input type="checkbox" class="form-check-input"
-						th:value="${course}" th:field="*{courses}">&nbsp;&nbsp;<label
-						th:text="${course}" class="form-check-label"></label></td>
-				</tr>
-			</table>
+			
 
 			<div class="mb-3">
 				<!-- <table>

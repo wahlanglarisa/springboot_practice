@@ -18,6 +18,5 @@ public class StudentRoutine {
 	@DateTimeFormat(pattern = "HH:mm") // 24-hour format
     private LocalTime time;
 	private String courseName;
-	private String studentName;
 	private String day;
 }

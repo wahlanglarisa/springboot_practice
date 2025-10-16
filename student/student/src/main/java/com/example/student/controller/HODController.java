@@ -83,7 +83,7 @@ public class HODController {
 		Professor professor = professorService.getProfByEmail(principal.getName());
 		List<ProfListClasses> profListClasses = professorService
 				.getDeptClass_Courses(professor.getDepartment().getId());
-
+ 
 		System.out.println("Department ID: " + professor.getDepartment().getId() + "List: " + profListClasses);
 		model.addAttribute("routines", profListClasses);
 		return "viewClassList";

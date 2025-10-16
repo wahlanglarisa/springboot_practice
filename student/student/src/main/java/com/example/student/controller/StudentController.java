@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.student.model.Branch;
+import com.example.student.model.Student;
 import com.example.student.model.User;
 import com.example.student.model.wrapper.StudentDepartmentBranch;
 import com.example.student.model.wrapper.StudentRoutine;
@@ -61,7 +62,8 @@ public class StudentController {
 	public String viewRoutinePage(Model model, HttpServletRequest httpServletRequest,@PathVariable("day") String day) {
 		Principal principal=httpServletRequest.getUserPrincipal();
 		String email=principal.getName();
-		List<StudentRoutine> studentRoutines=studentService.getStudentRoutines(email,day);
+		Student student=studentService.findStudentByEmailId(email);
+		List<StudentRoutine> studentRoutines=studentService.getStudentRoutines(email,day,student.getSemester(),student.getBranch().getId());
 		model.addAttribute("routine", studentRoutines);
 		return "viewRoutineStudent";	
 	

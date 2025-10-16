@@ -31,6 +31,6 @@ public interface StudentService {
 
 	public Student findStudentByEmailId(String email);
 
-	public List<StudentRoutine> getStudentRoutines(String email,String day);
+	public List<StudentRoutine> getStudentRoutines(String email,String day,Long semester,Long branchid);
 
 }

@@ -18,16 +18,14 @@ import com.example.student.model.wrapper.findNoOfAttendance;
 public interface StudentRepository extends JpaRepository<Student, Long> {
 	public Student findByEmailID(String userName);
 
-	@Query("SELECT new com.example.student.model.wrapper.StudentRoutine(CLAS_S.semester,CLAS_S.time,COURSE.courseName,concat(s.firstName,' ',s.lastName),CLAS_S.day) "
-			+ "FROM\r\n" + " StudentClass sc join	sc.class_Course CLAS_S\r\n"
-			+ "	JOIN sc.student s JOIN CLAS_S.course_class COURSE \r\n"
-			+ "	 where s.emailID=:email  and trim(to_char(current_date, 'Day'))=CLAS_S.day")
+	@Query("SELECT distinct  new com.example.student.model.wrapper.StudentRoutine(cc.semester,cc.time,COURSE.courseName,cc.day) "
+			+ "FROM\r\n" + " Class_Course cc join	cc.course_class COURSE\r\n"
+			+ "	 where trim(to_char(current_date, 'Day'))=cc.day")
 	public List<StudentRoutine> findStudentDetails(@Param("email") String email);
-@Query("SELECT new com.example.student.model.wrapper.StudentRoutine(CLAS_S.semester,CLAS_S.time,COURSE.courseName,concat(s.firstName,' ',s.lastName),CLAS_S.day) "
-			+ "FROM\r\n" + " StudentClass sc join	sc.class_Course CLAS_S\r\n"
-			+ "	JOIN sc.student s JOIN CLAS_S.course_class COURSE \r\n"
-			+ "	 where s.emailID=:email and (CLAS_S.day=:day)")
-	public List<StudentRoutine> getStudentRoutines(@Param("email") String email,@Param("day") String day);
+@Query("SELECT new com.example.student.model.wrapper.StudentRoutine(cc.semester,cc.time,COURSE.courseName,cc.day) "
+			+ "FROM\r\n" + " Class_Course cc join cc.course_class COURSE\r\n"			
+			+ "	 where  (cc.day=:day) and cc.semester=:semester and COURSE.semester=:semester and cc.branch.id=:branch_id and COURSE.branch.id=:branch_id")
+	public List<StudentRoutine> getStudentRoutines(@Param("email") String email,@Param("day") String day,@Param("semester") Long semester,@Param("branch_id") Long branchid);
 //	@Query("select new com.example.student.model.Student(st.firstName,st.lastName,st.emailID,st.semester,st.user) from Student st join st.courses courses where courses.id=20")
 //	public List<Student> findStudentByCourse();
 
