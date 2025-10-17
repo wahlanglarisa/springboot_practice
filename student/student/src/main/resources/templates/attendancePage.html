@@ -19,9 +19,14 @@
 <header th:insert="@{/fragments/prof_header.html}"> </header>
 
 <body>
+	<br>
+	<br>
+	<br>
+	<br>
+
 	<main id="main-content">
 		<div class="container text-center">
-			<strong>Attendance for [[${course.courseName}]]</strong>
+			<h3>Attendance for [[${course.courseName}]]</h3>
 			<form th:action="@{/professor/saveAttendance/}" th:object="${class}" method="post">
 				<table class="table">
 					<tr>

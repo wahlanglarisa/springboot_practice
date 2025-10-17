@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.example.student.model.Branch;
 import com.example.student.model.Course;
 import com.example.student.model.Department;
 import com.example.student.model.Professor;
@@ -23,5 +24,6 @@ public interface CourseRepository extends JpaRepository<Course, Long>{
 	public List<Course> findCoursesByProfID(@Param("id") long id );
 	@Query("select c.courseName from Course c join c.department dept where dept.id=:id")
 	public List<String> findCoursesByDepartmentID(@Param("id") long id);
+	public List<Course>  findByBranchAndSemester(Branch branch,Long Semester);
 }
  

@@ -27,7 +27,7 @@
         <!-- Total Classes -->
         <div class="col-12 col-md-4">
           <div class="routineBlock text-center shadow-lg">
-            <h3><strong>You have total [[${classCount.size()}]] class(es) today</strong></h3>
+            <h3><strong>You have total [[${routines.size()}]] class(es) today</strong></h3>
             <a th:href="@{/professor/viewRoutine/{day}(day=${#temporals.dayOfWeekName(date)})}"
               class="btn btn-link mt-3">View Routine</a>
           </div>
@@ -107,8 +107,7 @@
                   <td th:text="${student.branch.branchName}" th:classappend="${iter.index >= 3} ? 'hidden-row' : ''">
                   </td>
                   <td th:classappend="${iter.index >= 3} ? 'hidden-row' : ''"><a class="btn btn-sm btn-primary"
-                      th:href="@{/hod/assignClassPage/{studentID}/{branch}/{semester}(branch=${student.branch.id},semester=${student.semester},studentID=${student.ID})}">Assign
-                    Elective Course</a></td>
+                      th:href="@{/hod/assignClassPage/{studentID}/{branch}/{semester}(branch=${student.branch.id},semester=${student.semester},studentID=${student.ID})}">Assign Class</a></td>
                 </tr>
               </tbody>
             </table>

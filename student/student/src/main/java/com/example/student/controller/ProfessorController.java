@@ -68,6 +68,7 @@ public class ProfessorController {
 	private String attendancePage(Model model, HttpServletRequest httpServletRequest, @PathVariable("id") long id) {
 		Principal principal = httpServletRequest.getUserPrincipal();
 		String email = principal.getName();
+		Course course=courseService.findById(id);
 		List<AttendancePage> attendancePages = professorService.getAttendancePages(email, id);
 		model.addAttribute("course", courseService.findById(attendancePages.getFirst().getCourseID()));
 		System.out.println(attendancePages.getFirst().getClass_id());

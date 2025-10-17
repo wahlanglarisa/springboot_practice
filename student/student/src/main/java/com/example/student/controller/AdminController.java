@@ -36,7 +36,7 @@ public class AdminController {
 	private CourseService courseService;
 	@GetMapping("/admin/adminPortal/{pageNo}")
 	public String AdminPortal(HttpServletRequest httpRequest, Model model,@PathVariable(value="pageNo") int pageNo,@RequestParam("sortField") String sortField,@RequestParam("sortDir") String sortDir) {
-			int pageSize=5;
+			int pageSize=10;
 		System.out.println(pageNo);
 		Principal principal = httpRequest.getUserPrincipal();
 		Page<UserList> users =userService.userLists(pageNo,pageSize,sortField,sortDir);
@@ -65,7 +65,7 @@ public class AdminController {
 	public String updateUser(@ModelAttribute("user") User user) {
 		System.out.println("Password "+user.getPassword());
 		userService.updateUser(user);
-		return "redirect:adminPortal";
+		return "redirect:/admin/adminPortal/1?sortField=email&sortDir=asc";
 	}
 	@GetMapping("/admin/"
 			+ "deleteUserPage/{id}")

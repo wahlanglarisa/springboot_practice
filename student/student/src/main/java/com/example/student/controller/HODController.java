@@ -56,7 +56,7 @@ public class HODController {
 		List<ProfListClasses> profListClasses = professorService.getClass_Courses(principal.getName());
 		Professor professor = professorService.getProfByEmail(principal.getName());
 		List<Student> students = studentService.getStudentByDepartment(professor.getDepartment().getId());
-		System.out.println(students + " " + professor.getDepartment().getId());
+		System.out.println(students + " " + professor.getDepartment().getId()+" "+professorClasses.size()+" "+professorClasses);
 		List<Professor> professors = professorService.findByDepartmentID(professor.getDepartment().getId());
 		System.out.println(professors);
 		model.addAttribute("students", students);
@@ -107,8 +107,8 @@ public class HODController {
 
 	@PostMapping("/hod/saveClass")
 	public String saveClass(@ModelAttribute("class") Class_Course class_Course, HttpServletRequest httpServletRequest) {
-		System.out.println("Course Name " + class_Course.getCourse_class().getCourseName() + " Course ID "
-				+ class_Course.getCourse_class().getId());
+		System.out.println("Course Name " + class_Course.getCourse().getCourseName() + " Course ID "
+				+ class_Course.getCourse().getId());
 		System.out
 				.println(class_Course.getProfessor().getFirstName() + " " + class_Course.getProfessor().getLastName());
 		classService.savClass_Course(class_Course);

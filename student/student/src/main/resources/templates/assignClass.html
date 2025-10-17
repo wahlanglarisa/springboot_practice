@@ -55,7 +55,7 @@
                     </thead>
                     <tbody>
                         <tr th:each="class,item :${classes}">
-                            <td th:text="${class.course_class.courseName}"></td>
+                            <td th:text="${class.course.courseName}"></td>
                             <td th:text="${class.day}"></td>
                             <td th:text="${class.time}"></td>
                             <td><input type="checkbox" class="form-checkbox"

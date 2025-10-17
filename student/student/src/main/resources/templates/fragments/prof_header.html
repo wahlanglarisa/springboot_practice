@@ -8,7 +8,9 @@
 <script>
 	$(document).ready(function() {
 		// Restore active state
+		
 		let activeLink = localStorage.getItem("activeLink");
+		
 		if (activeLink) {
 			$("#sidebarMenu a").removeClass("active");
 			$("#sidebarMenu a[href='" + activeLink + "']").addClass("active");
@@ -62,7 +64,7 @@
 		</button>
 
 		<!-- Brand -->
-		<a class="navbar-brand" th:href="@{/professor/professorHomepage}"> <img
+		<a class="navbar-brand" th:href="@{/professor/professorHomepage}" id="navbar-brand"> <img
 			th:src="@{/ChatGPT Image Sep 3, 2025, 01_04_50 PM.png}" height="25"
 			alt="" loading="lazy" /> <span> University Management System
 		</span>

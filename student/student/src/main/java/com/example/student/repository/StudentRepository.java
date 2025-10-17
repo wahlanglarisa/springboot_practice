@@ -19,11 +19,11 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	public Student findByEmailID(String userName);
 
 	@Query("SELECT distinct  new com.example.student.model.wrapper.StudentRoutine(cc.semester,cc.time,COURSE.courseName,cc.day) "
-			+ "FROM\r\n" + " Class_Course cc join	cc.course_class COURSE\r\n"
+			+ "FROM\r\n" + " Class_Course cc join	cc.course COURSE\r\n"
 			+ "	 where trim(to_char(current_date, 'Day'))=cc.day")
 	public List<StudentRoutine> findStudentDetails(@Param("email") String email);
 @Query("SELECT new com.example.student.model.wrapper.StudentRoutine(cc.semester,cc.time,COURSE.courseName,cc.day) "
-			+ "FROM\r\n" + " Class_Course cc join cc.course_class COURSE\r\n"			
+			+ "FROM\r\n" + " Class_Course cc join cc.course COURSE\r\n"			
 			+ "	 where  (cc.day=:day) and cc.semester=:semester and COURSE.semester=:semester and cc.branch.id=:branch_id and COURSE.branch.id=:branch_id")
 	public List<StudentRoutine> getStudentRoutines(@Param("email") String email,@Param("day") String day,@Param("semester") Long semester,@Param("branch_id") Long branchid);
 //	@Query("select new com.example.student.model.Student(st.firstName,st.lastName,st.emailID,st.semester,st.user) from Student st join st.courses courses where courses.id=20")

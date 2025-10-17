@@ -17,13 +17,13 @@ import com.example.student.model.wrapper.ProfListClasses;
 public interface ProfessorRepository extends JpaRepository<Professor, Long>{
 	@Query("select new com.example.student.model.wrapper.FindProfessorClasses(course.courseName,count(*)) "
 			+ "from Professor prof "
-			+ " join prof.class_Course class join class.course_class course where prof.email=:email and "
+			+ " join prof.class_Course class join class.course course where prof.email=:email and "
 			+ "trim(to_char(current_date, 'Day'))=class.day group by course.courseName")
 	public List<FindProfessorClasses> findProfessorClasses(@Param("email") String email); 
 	@Query("select new com.example.student.model.wrapper.ProfListClasses(class.id,course.courseName,class.time,class.day,course.id,concat(prof.firstName,' ',prof.lastName)) "
 			+ "from Professor prof "
 			+ "join prof.class_Course class "
-			+ " join class.course_class course "
+			+ " join class.course course "
 			+ "where prof.email=:email and"
 			+ " trim(to_char(current_date, 'Day'))=class.day and current_time<class.time")
 	public List<ProfListClasses> getClass_Courses(@Param("email") String email);
@@ -31,12 +31,12 @@ public interface ProfessorRepository extends JpaRepository<Professor, Long>{
 			+ " from Professor prof"
 			+ " join prof.class_Course class"
 			+ " join class.students st "
-			+ "join class.course_class course"
+			+ "join class.course course"
 			+ " join st.student student where prof.email=:email and class.id=:id")
 	public List<AttendancePage> getAttendancePages(@Param("email") String email,@Param("id") long id);
 	@Query("select new  com.example.student.model.wrapper.ProfListClasses(class.id,course.courseName,class.time,class.day,course.id,concat(class.professor.firstName,' ',class.professor.lastName))"
 			+ " from Class_Course class "
-			+ "join class.course_class course join course.department dept left join class.professor where dept.id=:id")
+			+ "join class.course course join course.department dept left join class.professor where dept.id=:id")
 	public List<ProfListClasses> getDeptClass_Courses(@Param("id") long id);
 	public Professor findByEmail(String email);
 	@Query("select distinct prof from Professor prof " +
@@ -47,13 +47,13 @@ public interface ProfessorRepository extends JpaRepository<Professor, Long>{
 	@Query("select new com.example.student.model.wrapper.ProfListClasses(class.id,course.courseName,class.time,class.day,course.id,concat(prof.firstName,' ',prof.lastName)) "
 			+ "from Professor prof "
 			+ "join prof.class_Course class "
-			+ " join class.course_class course "
+			+ " join class.course course "
 			+ "where prof.email=:email")
 	public List<ProfListClasses> getProfClass_Courses(@Param("email") String email);
 		@Query("select new com.example.student.model.wrapper.ProfListClasses(class.id,course.courseName,class.time,class.day,course.id,concat(prof.firstName,' ',prof.lastName)) "
 			+ "from Professor prof "
 			+ "join prof.class_Course class "
-			+ " join class.course_class course "
+			+ " join class.course course "
 			+ "where prof.email=:email and class.day=:day")
 	public List<ProfListClasses> getProfClass_Courses_By_Day(@Param("email") String email,@Param("day") String day);
 }

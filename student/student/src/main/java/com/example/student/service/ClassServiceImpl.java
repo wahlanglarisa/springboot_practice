@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.student.model.Branch;
 import com.example.student.model.Class_Course;
+import com.example.student.model.Course;
 import com.example.student.repository.ClassRepository;
 @Service
 public class ClassServiceImpl implements ClassService {
@@ -36,6 +37,12 @@ public class ClassServiceImpl implements ClassService {
 	public List<Class_Course> findByBranchIDAndSemester(Long id, Long semester,Long st_id) {
 		// TODO Auto-generated method stub
 		return classRepository.findByBranchIDAndSemester(id, semester,st_id);
+	}
+
+	@Override
+	public List<Class_Course> findByCourseAndSemesterAndBranch(Course course, Long Semester, Branch Branch) {
+		// TODO Auto-generated method stub
+		return classRepository.findByCourseAndSemesterAndBranch(course, Semester, Branch);
 	}
 
 	

@@ -39,12 +39,19 @@
 						<th scope="col"><a
 								th:href="@{'/admin/adminPortal/'+${currentPage}+'?sortField=lastName&sortDir='+${reverseSortDir}}">User
 								User Last Name</a></th>
-						<th scope="col"><a
-								th:href="@{'/admin/adminPortal/'+${currentPage}+'?sortField=roleName&sortDir='+${reverseSortDir}}">User
-								Role</a></th>
+						<th scope="col" class="row">
+							<div><select class="form-select" id="role_Select" onchange="clicked()">
+									<option selected>User Role (Select Option to Filter)</option>
+									<option>Student</option>
+									<option>Admin</option>
+									<option>Professor</option>
+									<option>Head Of Department</option>
+								</select></div>
+						</th>
 						<th scope="col">Action</th>
 
 					</tr>
+				<tbody id="user_body">
 					<tr th:each="user : ${users}">
 						<td th:text="${user.email}"></td>
 						<td th:text="${user.firstName}"></td>
@@ -55,13 +62,14 @@
 								th:href="@{/admin/deleteUserPage/{id}(id = ${user.id})}" class="btn btn-danger"
 								value="Delete">Delete</a></td>
 					</tr>
+				</tbody>
 
 
 				</thead>
 			</table>
-			<div th:if="${totalPages>1}" align="center" class="justify-content-center">
+			<div th:if="${totalPages>1}" align="center" class="justify-content-center" id="pagenumbers">
 
-				<div class="row justify-content-center" align="center" >
+				<div class="row justify-content-center" align="center">
 
 					<div class="col-sm-1 pagination">
 						<span th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item"> <a
@@ -88,7 +96,67 @@
 </body>
 <div class="container">
 
-  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
-    th:insert="@{/fragments/footer.html}">
+	<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
+		th:insert="@{/fragments/footer.html}">
 </div>
+<script th:inline="javascript">
+	function clicked() {
+		alert(document.getElementById("role_Select").value)
+		$.ajax({
+			url: "/admin/adminPortalAjax/" + 1 + "?sortField=email&sortDir=asc",
+			method: "get",
+			dataType: "json",
+			data: {
+				role: document.getElementById("role_Select").value
+			}
+			, success: function (response) {
+				courseElement = document.getElementById("user_body")
+				console.log(response.length)
+				courseElement.innerHTML = "";
+				response.forEach(element => {
+					var updatelink=/*[[@{/admin/updateUserPage/}]]*/
+					deleteLink=/*[[@{/admin/deleteUserPage/}]]*/
+					i = 0
+					newRow = courseElement.insertRow(i)
+					cell = newRow.insertCell(0)
+					cell.innerHTML = `${element.email}`
+					cell2 = newRow.insertCell(1)
+					cell2.innerHTML = `${element.firstName}`
+					cell3 = newRow.insertCell(2)
+					cell3.innerHTML = `${element.lastName}`
+					cell4 = newRow.insertCell(3)
+					cell4.innerHTML = `${element.roleName}`
+					cell5 = newRow.insertCell(4)
+					cell5.innerHTML = `<a href='${updatelink}${element.id}'
+								class="btn btn-primary">Update</a>&nbsp;&nbsp;<a href="${deleteLink}${element.id}" class="btn btn-danger"
+								value="Delete">Delete</a></td>`
+					console.log(element)
+					i++;
+
+
+				});
+				if (response.length > 10) {
+					var innerHtml = '	<div class="row justify-content-center" align="center">'
+					for (i = 0; i < response.length; i++) {
+						innerHtml += `<span class="page-item"> <a
+								
+								"http://127.0.0.1/admin/adminPortal/${i}?sortField=email&sortDir=asc}"
+								class="page-link">[[${i}]]</a></span>`
+					}
+					innerHtml += "</div>"
+
+					document.getElementById("pagenumbers").innerHTML = innerHtml
+				}
+				else{
+					document.getElementById("pagenumbers").innerHTML = ""
+				}
+
+			}
+			, error: function (var1, var2, var3) {
+				console.log(var1, var2, var3)
+			}
+		})
+	}
+</script>
+
 </html>

@@ -42,7 +42,7 @@ public class Class_Course {
 	@ManyToOne
 	@JoinColumn(name="class_course_id",referencedColumnName = "id")
 
-	private Course course_class;
+	private Course course;
 	@OneToMany(mappedBy = "class_Course",cascade = CascadeType.REMOVE)
 	private List<StudentClass> students=new ArrayList<StudentClass>();
 	private String day;

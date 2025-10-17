@@ -33,7 +33,7 @@ public class Course {
 	private Long credit;
 	@ManyToMany(mappedBy = "courses",cascade = CascadeType.REMOVE)
 	List<Student> student;
-	@OneToMany(mappedBy = "course_class")
+	@OneToMany(mappedBy = "course")
 //	@JoinColumn(name="class_course_id",referencedColumnName = "id")
 	private List<Class_Course> course_class=new ArrayList<Class_Course>();
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "course")

@@ -31,10 +31,10 @@
 			</div>
 			<form th:action="@{/hod/updateClass}" method="post" th:object="${class}">
 				<input type="hidden" th:value='${class.id}' th:field='${class.id}'>
-				<input type="hidden" th:value='${class.course_class.id}' th:field='${class.course_class.id}'>
+				<input type="hidden" th:value='${class.course.id}' th:field='${class.course.id}'>
 
 				<h1><strong>Update for
-						[[${class.course_class.courseName}]]</strong></h1>
+						[[${class.course.courseName}]]</strong></h1>
 				<div th:if="${param.error}">
 					<div class="alert alert-danger">Invalid username or password.</div>
 				</div>

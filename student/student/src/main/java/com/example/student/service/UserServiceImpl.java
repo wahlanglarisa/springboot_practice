@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.example.student.model.Department;
 import com.example.student.model.Professor;
 import com.example.student.model.Role;
+import com.example.student.model.Student;
 import com.example.student.model.User;
 import com.example.student.model.UserPrincipal;
 import com.example.student.model.wrapper.UserList;
@@ -106,6 +107,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			existingUser.getRoles().clear();
 			existingUser.getRoles().addAll(updatedUser.getRoles());
 		}
+		for(Role role :existingUser.getRoles()){
+			if(role.getName().equals("Student")){
+				existingUser.getStudent().setFirstName(updatedUser.getFirstName());
+				existingUser.getStudent().setLastName(updatedUser.getLastName());
+				existingUser.getStudent().setEmailID(updatedUser.getEmail());
+
+			}
+			if(role.getName().equals("Professor") || role.getName().equals("Head Of Department")){
+				existingUser.getProfessor().setFirstName(updatedUser.getFirstName());
+				existingUser.getProfessor().setLastName(updatedUser.getLastName());
+				existingUser.getProfessor().setEmail(updatedUser.getEmail());
+			}
+		}
 
 		return userRepository.save(existingUser);
 	}
@@ -147,5 +161,21 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			userRepository.delete(user);
 
 		}
+	}
+
+	@Override
+	public List<UserList> userListsFilteredByRole(int pageNo, int pageSize, String sortField, String sortDirection,
+			String role) {
+		// TODO Auto-generated method stub
+Sort sort;
+		if (sortField.equals("roleName")) {
+			sort = Sort.by(sortDirection.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, "r.name");
+		} else {
+			sort = Sort.by(sortDirection.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
+		}
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		return userRepository.userListsRoleFiltered(pageable,role);		
 	}
 }
