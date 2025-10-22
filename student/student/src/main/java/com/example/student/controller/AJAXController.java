@@ -71,17 +71,17 @@ public class AJAXController {
 
 	}
 
-	@RequestMapping("/admin/adminPortalAjax/{pageNo}")
-	public List<UserList> AdminPortal(HttpServletRequest httpRequest, Model model,
-			@PathVariable(value = "pageNo") int pageNo, @RequestParam("sortField") String sortField,
-			@RequestParam("sortDir") String sortDir, @RequestParam("role") String role) {
-		int pageSize = 10;
-		System.out.println(pageNo);
-		Principal principal = httpRequest.getUserPrincipal();
-		List<UserList> users = userService.userListsFilteredByRole(pageNo, pageSize, sortField, sortDir, role);
+	// @RequestMapping("/admin/adminPortalAjax/{pageNo}")
+	// public List<UserList> AdminPortal(HttpServletRequest httpRequest, Model model,
+	// 		@PathVariable(value = "pageNo") int pageNo, @RequestParam("sortField") String sortField,
+	// 		@RequestParam("sortDir") String sortDir, @RequestParam("role") String role) {
+	// 	int pageSize = 10;
+	// 	System.out.println(pageNo);
+	// 	Principal principal = httpRequest.getUserPrincipal();
+	// 	List<UserList> users = userService.userListsFilteredByRole(pageNo, pageSize, sortField, sortDir, role);
 
-		System.out.println(users);
-		return users;
-	}
+	// 	System.out.println(users);
+	// 	return users;
+	// }
 
 }

@@ -17,6 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	@Query("select new com.example.student.model.wrapper.UserList(u.firstName,u.lastName,u.email,r.name,u.id) from User u join u.roles r")
 	public Page<UserList> userLists(Pageable pageable);
 	@Query("select new com.example.student.model.wrapper.UserList(u.firstName,u.lastName,u.email,r.name,u.id) from User u join u.roles r where r.name=:role")
-	public List<UserList> userListsRoleFiltered(Pageable pageable,@Param("role") String roleName);
+	public Page<UserList> userListsRoleFiltered(Pageable pageable,@Param("role") String roleName);
 	}
    

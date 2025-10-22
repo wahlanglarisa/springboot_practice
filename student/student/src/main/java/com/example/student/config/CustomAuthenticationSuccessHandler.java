@@ -24,7 +24,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 			redirectURL = "/professor/professorHomepage";
 		}
 		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Admin"))) {
-			redirectURL ="/admin/adminPortal/1?sortField=email&sortDir=asc";
+			redirectURL ="/admin/adminPortal/1?sortField=email&sortDir=asc&role=";
 		}
 		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Head Of Department"))) {
 			redirectURL ="/hod/hodPortal";

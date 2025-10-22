@@ -34,46 +34,60 @@ public class AdminController {
 	private UserService userService;
 	@Autowired
 	private CourseService courseService;
+
 	@GetMapping("/admin/adminPortal/{pageNo}")
-	public String AdminPortal(HttpServletRequest httpRequest, Model model,@PathVariable(value="pageNo") int pageNo,@RequestParam("sortField") String sortField,@RequestParam("sortDir") String sortDir) {
-			int pageSize=10;
+	public String AdminPortal(HttpServletRequest httpRequest, Model model, @PathVariable(value = "pageNo") int pageNo,
+			@RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir,@RequestParam("role") String role) {
+		int pageSize = 10;
 		System.out.println(pageNo);
 		Principal principal = httpRequest.getUserPrincipal();
-		Page<UserList> users =userService.userLists(pageNo,pageSize,sortField,sortDir);
-		model.addAttribute("users",users);
+		Page<UserList> users = null;
+		System.out.println("Role "+role);
+		if(!(role.isEmpty())){
+			System.out.println(!(role.isEmpty()));
+			users=userService.userListsFilteredByRole(pageNo, pageSize, sortField, sortDir, role);
+		}
+		else{
+			users = userService.userLists(pageNo, pageSize, sortField, sortDir);
+		}
+		model.addAttribute("users", users);
 		model.addAttribute("user", principal.getName());
-			model.addAttribute("currentPage",pageNo);
-		model.addAttribute("totalPages",users.getTotalPages());
-		model.addAttribute("totalItems",users.getTotalElements());
-		model.addAttribute("sortField",sortField);
-		model.addAttribute("sortDir",sortDir);
-		model.addAttribute("reverseSortDir", sortDir.equals("asc")?"desc":"asc");
-
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPages", users.getTotalPages());
+		model.addAttribute("totalItems", users.getTotalElements());
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+		model.addAttribute("role",role);
 		return "adminPortal";
 	}
+
 	@GetMapping("/admin/"
 			+ "updateUserPage/{id}")
-	public String updateUserPage(HttpServletRequest httpRequest,@PathVariable("id") long id, Model model) {
+	public String updateUserPage(HttpServletRequest httpRequest, @PathVariable("id") long id, Model model) {
 		Principal principal = httpRequest.getUserPrincipal();
-		User user=userService.getUserById(id);
+		User user = userService.getUserById(id);
 		System.out.println(user);
 		model.addAttribute("user", user);
 
 		return "updateUser";
 	}
+
 	@PostMapping("/admin/updateUser")
 	public String updateUser(@ModelAttribute("user") User user) {
-		System.out.println("Password "+user.getPassword());
+		System.out.println("Password " + user.getPassword());
 		userService.updateUser(user);
 		return "redirect:/admin/adminPortal/1?sortField=email&sortDir=asc";
 	}
+
 	@GetMapping("/admin/"
 			+ "deleteUserPage/{id}")
-	public String deleteUserPage(HttpServletRequest httpRequest,@PathVariable("id") long id, Model model) {
+	public String deleteUserPage(HttpServletRequest httpRequest, @PathVariable("id") long id, Model model) {
 		userService.deleteUser(id);
 		return "redirect:/admin/adminPortal/1?sortField=email&sortDir=asc";
 	}
-		@GetMapping("/admin/"
+
+	@GetMapping("/admin/"
 			+ "createDepartmentPage/")
 	public String createDepartmentPage(HttpServletRequest httpRequest, Model model) {
 		model.addAttribute("department", new Department());

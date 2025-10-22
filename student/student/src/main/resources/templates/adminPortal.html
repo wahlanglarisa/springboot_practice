@@ -31,22 +31,41 @@
 				<thead>
 					<tr>
 						<th scope="col"><a
-								th:href="@{'/admin/adminPortal/'+${currentPage}+'?sortField=email&sortDir='+${reverseSortDir}}">User
+								th:href="@{'/admin/adminPortal/'+${currentPage}+'?sortField=email&sortDir='+${reverseSortDir}+'&role='+${role}}">User
 								Email</a></th>
 						<th scope="col"><a
-								th:href="@{'/admin/adminPortal/'+${currentPage}+'?sortField=firstName&sortDir='+${reverseSortDir}}">User
+								th:href="@{'/admin/adminPortal/'+${currentPage}+'?sortField=firstName&sortDir='+${reverseSortDir}+'&role='+${role}}">User
 								User First Name</a></th>
 						<th scope="col"><a
-								th:href="@{'/admin/adminPortal/'+${currentPage}+'?sortField=lastName&sortDir='+${reverseSortDir}}">User
+								th:href="@{'/admin/adminPortal/'+${currentPage}+'?sortField=lastName&sortDir='+${reverseSortDir}+'&role='+${role}}">User
 								User Last Name</a></th>
-						<th scope="col" class="row">
-							<div><select class="form-select" id="role_Select" onchange="clicked()">
-									<option selected>User Role (Select Option to Filter)</option>
-									<option>Student</option>
-									<option>Admin</option>
-									<option>Professor</option>
-									<option>Head Of Department</option>
-								</select></div>
+						<th scope="col" >
+							<div class="row">
+								<div class="dropdown col">
+									<button class="btn btn-secondary dropdown-toggle" type="button"
+										id="dropdownMenuButton" data-bs-toggle="dropdown">
+										User Role (Select Option to Filter)
+									</button>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<li><a class="dropdown-item"
+												th:href="@{'/admin/adminPortal/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir} + '&role=Student'}">Student</a>
+										</li>
+										<li><a class="dropdown-item"
+												th:href="@{'/admin/adminPortal/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir} + '&role=Admin'}">Admin</a>
+										</li>
+										<li><a class="dropdown-item"
+												th:href="@{'/admin/adminPortal/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir} + '&role=Professor'}">Professor</a>
+										</li>
+										<li><a class="dropdown-item"
+												th:href="@{'/admin/adminPortal/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir} + '&role=Head Of Department'}">Head
+												Of Department</a></li>
+									</ul>
+								</div>
+								<div class="col"><a
+										th:href="@{'/admin/adminPortal/'+${currentPage}+'?sortField=email&sortDir='+${reverseSortDir}+'&role='}"><img
+											th:src="@{/remove-filter_18950215.png}" width="30px" height="30px" title="Clear Filter"></a>
+								</div>
+							</div>
 						</th>
 						<th scope="col">Action</th>
 
@@ -74,16 +93,16 @@
 					<div class="col-sm-1 pagination">
 						<span th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item"> <a
 								th:if="${currentPage!=i}"
-								th:href="@{'/admin/adminPortal/'+${i}+'?sortField='+${sortField}+'&sortDir='+${sortDir}}"
+								th:href="@{'/admin/adminPortal/'+${i}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+'&role='+${role}}"
 								class="page-link">[[${i}]]</a> <span th:unless="${currentPage!=i}"
 								class="page-item active"><a class="page-link">[[${i}]]</a></span>
 
 						</span> <span class="page-item"> <a th:if="${currentPage<totalPages}"
-								th:href="@{'/admin/adminPortal/'+${currentPage + 1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}}"
+								th:href="@{'/admin/adminPortal/'+${currentPage + 1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+'&role='+${role}}"
 								class="page-link"><b>Next</b></a></span> <span th:unless="${currentPage<totalPages}"
 							class="page-item"><span class="page-link" style="color: black;"><b>Next</b></span></span>
 						<span class="page-item"> <a th:if="${currentPage<totalPages}"
-								th:href="@{'/admin/adminPortal/'+${totalPages}+'?sortField='+${sortField}+'&sortDir='+${sortDir}}"
+								th:href="@{'/admin/adminPortal/'+${totalPages}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+'&role='+${role}}"
 								class="page-link"><b>Last</b></a></span> <span th:unless="${currentPage<totalPages}"
 							class="page-item"><span class="page-link" style="color: black;"><b>Last</b></span></span>
 					</div>
@@ -114,9 +133,9 @@
 				console.log(response.length)
 				courseElement.innerHTML = "";
 				response.forEach(element => {
-					var updatelink=/*[[@{/admin/updateUserPage/}]]*/
-					deleteLink=/*[[@{/admin/deleteUserPage/}]]*/
-					i = 0
+					var updatelink =/*[[@{/admin/updateUserPage/}]]*/
+						deleteLink =/*[[@{/admin/deleteUserPage/}]]*/
+						i = 0
 					newRow = courseElement.insertRow(i)
 					cell = newRow.insertCell(0)
 					cell.innerHTML = `${element.email}`
@@ -147,7 +166,7 @@
 
 					document.getElementById("pagenumbers").innerHTML = innerHtml
 				}
-				else{
+				else {
 					document.getElementById("pagenumbers").innerHTML = ""
 				}
 

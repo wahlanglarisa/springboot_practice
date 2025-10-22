@@ -107,14 +107,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			existingUser.getRoles().clear();
 			existingUser.getRoles().addAll(updatedUser.getRoles());
 		}
-		for(Role role :existingUser.getRoles()){
-			if(role.getName().equals("Student")){
+		for (Role role : existingUser.getRoles()) {
+			if (role.getName().equals("Student")) {
 				existingUser.getStudent().setFirstName(updatedUser.getFirstName());
 				existingUser.getStudent().setLastName(updatedUser.getLastName());
 				existingUser.getStudent().setEmailID(updatedUser.getEmail());
 
 			}
-			if(role.getName().equals("Professor") || role.getName().equals("Head Of Department")){
+			if (role.getName().equals("Professor") || role.getName().equals("Head Of Department")) {
 				existingUser.getProfessor().setFirstName(updatedUser.getFirstName());
 				existingUser.getProfessor().setLastName(updatedUser.getLastName());
 				existingUser.getProfessor().setEmail(updatedUser.getEmail());
@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			// e.printStackTrace();
-			System.out.println("Caught exception "+e.getMessage());
+			System.out.println("Caught exception " + e.getMessage());
 			List<Role> roles = (List<Role>) user.getRoles();
 			System.out.println(roles.get(0).getName());
 			if (roles.get(0).getName().equals("Head Of Department")) {
@@ -164,10 +164,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public List<UserList> userListsFilteredByRole(int pageNo, int pageSize, String sortField, String sortDirection,
+	public Page<UserList> userListsFilteredByRole(int pageNo, int pageSize, String sortField, String sortDirection,
 			String role) {
 		// TODO Auto-generated method stub
-Sort sort;
+		Sort sort;
 		if (sortField.equals("roleName")) {
 			sort = Sort.by(sortDirection.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, "r.name");
 		} else {
@@ -176,6 +176,6 @@ Sort sort;
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
-		return userRepository.userListsRoleFiltered(pageable,role);		
+		return userRepository.userListsRoleFiltered(pageable, role);
 	}
 }
