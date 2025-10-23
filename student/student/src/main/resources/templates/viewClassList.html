@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT"
-	crossorigin="anonymous">
-<!--  -->
-<link th:href=@{/css/student.css} rel="stylesheet" />
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+	<!--  -->
+	<link th:href=@{/css/student.css} rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+		integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <header th:insert="@{/fragments/hod_header.html}"> </header>
+
 <body>
 
 	<br>
@@ -30,8 +28,7 @@
 						New Class</a>&nbsp;&nbsp;
 				</div>
 				<strong>Department Classes</strong> <br> <br>
-				<table class='table'
-					style="background-color: #D1E7E8; border-radius: 50px;">
+				<table class='table' style="background-color: #D1E7E8; border-radius: 50px;">
 
 
 					<thead>
@@ -49,23 +46,43 @@
 							<td th:text="${routine.time}"></td>
 							<td th:text="${routine.day}"></td>
 							<td th:text="${routine.professor}"></td>
-							<td><a
-								th:href="@{/hod/updateClassPage/{id}(id=${routine.id})}"
-								class="btn btn-primary">Update Class</a>&nbsp;&nbsp;<a
-								th:href="@{/hod/deleteClass/{id}(id=${routine.id})}"
-								class="btn btn-danger">Delete Class</a></td>
+							<td><a th:href="@{/hod/updateClassPage/{id}(id=${routine.id})}"
+									class="btn btn-primary">Update Class</a>&nbsp;&nbsp;<a
+									th:href="@{/hod/deleteClass/{id}(id=${routine.id})}" class="btn btn-danger">Delete
+									Class</a></td>
 						</tr>
 
 					</tbody>
 
 				</table>
+				<div th:if="${totalPages>1}">
+					<div class="row justify-content-center" >
+
+						<div class="col-sm-1 pagination"><span th:each=" i: ${#numbers.sequence(1,totalPages)}"
+								class="page-item"><a th:if="${currentPage!=i}" th:href="@{'/hod/viewClass/'+${i}}"
+									class="page-link">[[${i}]]</a><a th:unless="${currentPage!=i}"
+									class="page-link active" aria-disabled="true">[[${i}]]</a></span>
+							<span class="page-item"><a th:if="${currentPage<totalPages}"
+									th:href="@{'/hod/viewClass/'+${currentPage+1}}" class="page-link">Next</a><a
+									th:unless="${currentPage<totalPages}" style="color:black;background-color: grey;"
+									class="page-link">Next</a></span>
+							<span class="page-item"><a th:if="${currentPage<totalPages}"
+									th:href="@{'/hod/viewClass/'+${totalPages}}" class="page-link">Last</a><a
+									th:unless="${currentPage<totalPages}" style="color:black;background-color: grey;"
+									class="page-link active">Last</a></span>
+						</div>
+
+					</div>
+
+				</div>
 			</div>
 		</div>
 	</main>
 </body>
 <div class="container">
 
-  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
-    th:insert="@{/fragments/footer.html}">
+	<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
+		th:insert="@{/fragments/footer.html}">
 </div>
+
 </html>

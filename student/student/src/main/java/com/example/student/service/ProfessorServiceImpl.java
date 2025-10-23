@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -124,10 +126,10 @@ public class ProfessorServiceImpl implements ProfessorService {
 	}
 
 	@Override
-	public List<ProfListClasses> getDeptClass_Courses(long id) {
+	public Page<ProfListClasses> getDeptClass_Courses(long id,Pageable pageable) {
 		// TODO Auto-generated method stub
 		System.out.println("In getDeptClass_Courses function");
-		return professorRepository.getDeptClass_Courses(id);
+		return professorRepository.getDeptClass_Courses(id,pageable);
 	}
 
 	@Override

@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -70,8 +73,8 @@ public class HODController {
 
 	}
 
-	@GetMapping("/hod/viewClass")
-	public String viewClass(Model model, HttpServletRequest httpServletRequest) {
+	@GetMapping("/hod/viewClass/{pageNo}")
+	public String viewClass(Model model, HttpServletRequest httpServletRequest,@PathVariable("pageNo") int pageNo) {
 		Principal principal = httpServletRequest.getUserPrincipal();
 		// List<FindProfessorClasses> professorClasses =
 		// professorService.findProfessorClasses(principal.getName());
@@ -81,11 +84,16 @@ public class HODController {
 		// model.addAttribute("classCount", professorClasses);
 		// model.addAttribute("routines", profListClasses);
 		Professor professor = professorService.getProfByEmail(principal.getName());
-		List<ProfListClasses> profListClasses = professorService
-				.getDeptClass_Courses(professor.getDepartment().getId());
+		int pageSize=5;
+		Pageable page=PageRequest.of(pageNo-1, pageSize);
+		Page<ProfListClasses> profListClasses = professorService
+				.getDeptClass_Courses(professor.getDepartment().getId(),page);
  
 		System.out.println("Department ID: " + professor.getDepartment().getId() + "List: " + profListClasses);
 		model.addAttribute("routines", profListClasses);
+		model.addAttribute("totalPages", profListClasses.getTotalPages());
+		model.addAttribute("totalItems", profListClasses.getTotalElements());
+		model.addAttribute("currentPage",pageNo);
 		return "viewClassList";
 
 	}

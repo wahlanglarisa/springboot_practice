@@ -2,6 +2,8 @@ package com.example.student.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 
 import com.example.student.model.Department;
@@ -26,7 +28,7 @@ public interface ProfessorService {
 
 	public Professor getProfByEmail(String email);
 
-	public List<ProfListClasses> getDeptClass_Courses(long id);
+	public Page<ProfListClasses> getDeptClass_Courses(long id,Pageable pageable);
 
 	public List<Professor> getProfessors();
 

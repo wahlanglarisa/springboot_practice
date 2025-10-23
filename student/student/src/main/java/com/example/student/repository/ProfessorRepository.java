@@ -2,6 +2,8 @@ package com.example.student.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -37,7 +39,7 @@ public interface ProfessorRepository extends JpaRepository<Professor, Long>{
 	@Query("select new  com.example.student.model.wrapper.ProfListClasses(class.id,course.courseName,class.time,class.day,course.id,concat(class.professor.firstName,' ',class.professor.lastName))"
 			+ " from Class_Course class "
 			+ "join class.course course join course.department dept left join class.professor where dept.id=:id")
-	public List<ProfListClasses> getDeptClass_Courses(@Param("id") long id);
+	public Page<ProfListClasses> getDeptClass_Courses(@Param("id") long id,Pageable pageable);
 	public Professor findByEmail(String email);
 	@Query("select distinct prof from Professor prof " +
 		       "join prof.departments dept " +
