@@ -37,7 +37,7 @@
 					<div class="alert alert-info">You have been logged out.</div>
 				</div>
 				<div class="mb-3 row">
-					<select th:field="*{course_class}" class='form-select'>
+					<select th:field="*{course}" class='form-select'>
 						<option selected value=0>Select a course</option>
 						<option th:each="course,itemStat:${courses}" th:text="${course.courseName}"
 							th:value="${course.id}"></option>

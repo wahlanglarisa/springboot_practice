@@ -34,7 +34,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Controller
 public class HODController {
 
- 
 	@Autowired
 	private ProfessorService professorService;
 	@Autowired
@@ -50,8 +49,6 @@ public class HODController {
 	@Autowired
 	private DepartmentService departmentService;
 
-
-
 	@GetMapping("/hod/hodPortal")
 	public String profHomepage(Model model, HttpServletRequest httpServletRequest) {
 		Principal principal = httpServletRequest.getUserPrincipal();
@@ -59,7 +56,8 @@ public class HODController {
 		List<ProfListClasses> profListClasses = professorService.getClass_Courses(principal.getName());
 		Professor professor = professorService.getProfByEmail(principal.getName());
 		List<Student> students = studentService.getStudentByDepartment(professor.getDepartment().getId());
-		System.out.println(students + " " + professor.getDepartment().getId()+" "+professorClasses.size()+" "+professorClasses);
+		System.out.println(students + " " + professor.getDepartment().getId() + " " + professorClasses.size() + " "
+				+ professorClasses);
 		List<Professor> professors = professorService.findByDepartmentID(professor.getDepartment().getId());
 		System.out.println(professors);
 		model.addAttribute("students", students);
@@ -74,7 +72,7 @@ public class HODController {
 	}
 
 	@GetMapping("/hod/viewClass/{pageNo}")
-	public String viewClass(Model model, HttpServletRequest httpServletRequest,@PathVariable("pageNo") int pageNo) {
+	public String viewClass(Model model, HttpServletRequest httpServletRequest, @PathVariable("pageNo") int pageNo) {
 		Principal principal = httpServletRequest.getUserPrincipal();
 		// List<FindProfessorClasses> professorClasses =
 		// professorService.findProfessorClasses(principal.getName());
@@ -84,16 +82,16 @@ public class HODController {
 		// model.addAttribute("classCount", professorClasses);
 		// model.addAttribute("routines", profListClasses);
 		Professor professor = professorService.getProfByEmail(principal.getName());
-		int pageSize=5;
-		Pageable page=PageRequest.of(pageNo-1, pageSize);
+		int pageSize = 5;
+		Pageable page = PageRequest.of(pageNo - 1, pageSize);
 		Page<ProfListClasses> profListClasses = professorService
-				.getDeptClass_Courses(professor.getDepartment().getId(),page);
- 
+				.getDeptClass_Courses(professor.getDepartment().getId(), page);
+
 		System.out.println("Department ID: " + professor.getDepartment().getId() + "List: " + profListClasses);
 		model.addAttribute("routines", profListClasses);
 		model.addAttribute("totalPages", profListClasses.getTotalPages());
 		model.addAttribute("totalItems", profListClasses.getTotalElements());
-		model.addAttribute("currentPage",pageNo);
+		model.addAttribute("currentPage", pageNo);
 		return "viewClassList";
 
 	}
@@ -105,7 +103,8 @@ public class HODController {
 		List<Professor> professors = professorService.findByDepartmentID(professor.getDepartment().getId());
 		List<Course> courses = courseService.findbyDepartment(professor.getDepartment());
 		System.out.println(courses);
-			List<Branch> branches=branchService.findBranchByDepartment(professorService.getProfByEmail(email).getDepartment());
+		List<Branch> branches = branchService
+				.findBranchByDepartment(professorService.getProfByEmail(email).getDepartment());
 		model.addAttribute("branches", branches);
 		model.addAttribute("courses", courses);
 		model.addAttribute("professors", professors);
@@ -126,9 +125,11 @@ public class HODController {
 	@GetMapping("/hod/addNewCoursePage")
 	public String addNewCoursePage(Model model, HttpServletRequest httpServletRequest) {
 		model.addAttribute("course", new Course());
-		model.addAttribute("departments", departmentService.findAllDepartments());
+		Professor professor = professorService.getProfByEmail(httpServletRequest.getUserPrincipal().getName());
+		model.addAttribute("branches", branchService.findBranchByDepartment(professor.getDepartment()));
 		return "addNewCourse";
 	}
+
 	@GetMapping("/hod/updateClassPage/{id}")
 	public String updateClassPage(HttpServletRequest httpServletRequest, @PathVariable("id") long id, Model model) {
 		Class_Course class_Course = classService.findById(id);
@@ -137,7 +138,8 @@ public class HODController {
 		List<Course> courses = courseService.findbyDepartment(professorService.getProfByEmail(email).getDepartment());
 		List<Professor> professors = professorService
 				.findByDepartmentID(professorService.getProfByEmail(email).getDepartment().getId());
-		List<Branch> branches=branchService.findBranchByDepartment(professorService.getProfByEmail(email).getDepartment());
+		List<Branch> branches = branchService
+				.findBranchByDepartment(professorService.getProfByEmail(email).getDepartment());
 		model.addAttribute("branches", branches);
 		model.addAttribute("class", class_Course);
 		model.addAttribute("professors", professors);
@@ -170,7 +172,7 @@ public class HODController {
 	@GetMapping("/hod/assignClassPage/{studentID}/{branch}/{semester}")
 	public String assignClassPage(Model model, @PathVariable("branch") Long branch,
 			@PathVariable("semester") Long semester, @PathVariable("studentID") Long studentID) {
-		List<Class_Course> class_Courses = classService.findByBranchIDAndSemester(branch, semester,studentID);
+		List<Class_Course> class_Courses = classService.findByBranchIDAndSemester(branch, semester, studentID);
 		model.addAttribute("classes", class_Courses);
 		model.addAttribute("studentID", studentID);
 		model.addAttribute("saveClass", new SaveStudentClass());
@@ -188,13 +190,17 @@ public class HODController {
 		studentClassService.savStudentClass(addStudentClass);
 		return "redirect:/hod/hodPortal";
 	}
+
 	@PostMapping("/hod/saveCourse")
-	public String saveCourse(@ModelAttribute("course") Course course) {
-		//TODO: process POST request
+	public String saveCourse(@ModelAttribute("course") Course course, HttpServletRequest httpServletRequest) {
+		// TODO: process POST request
+
+		Professor professor = professorService.getProfByEmail(httpServletRequest.getUserPrincipal().getName());
+		course.setDepartment(professor.getDepartment());
 		courseService.addCourse(course);
-		System.out.println(course.getCourseName()+"\t"+course.getDepartment().getDName());
+
+		System.out.println(course.getCourseName() + "\t" + course.getDepartment().getDName());
 		return "redirect:/hod/hodPortal";
 	}
-	
 
-} 
+}
