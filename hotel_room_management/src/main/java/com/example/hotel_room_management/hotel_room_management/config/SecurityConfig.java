@@ -1,0 +1,73 @@
+package com.example.hotel_room_management.hotel_room_management.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+	// @Autowired
+	// private UserDetailsService userDetailsService;
+
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		return http.csrf(csrf -> csrf.disable()) // CSRF protection is disabled for simplicity, reconsider enabling it
+													// in
+				// production
+				.authorizeHttpRequests(authorize -> authorize
+						.requestMatchers("/js/**", "/css/**", "/js/**", "/images/**", "/html/**", "/")
+						.permitAll().requestMatchers("/**").permitAll().anyRequest().authenticated() // All other
+				// requests
+				// require
+				// authentication
+				).formLogin(form -> form.loginPage("/login").usernameParameter("username")
+						.passwordParameter("password")
+						.failureHandler((request, response, exception) -> {
+							exception.printStackTrace(); // Log exact error
+							System.out.println(request.getHeaderNames());
+							response.sendRedirect("/login?error=true");
+						}).permitAll()// Allow anyone to access the login page
+				// Allow logout without restriction
+				).logout(logout -> logout.permitAll() // Allow logout without restriction
+				).build();
+
+	}
+
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	// @Bean
+	// public AuthenticationProvider authenticationProvider() {
+	// DaoAuthenticationProvider provider =new
+	// DaoAuthenticationProvider(userDetailsService);
+	// provider.setPasswordEncoder(bCryptPasswordEncoder());
+	// System.out.println("Inside AuthenticationProvider Function");
+	// return provider;
+	// }
+	@Bean
+	public UserDetailsService userDetailsService() {
+		UserDetails user = org.springframework.security.core.userdetails.User
+				.withUsername("larisa")
+				.password(bCryptPasswordEncoder().encode("password"))
+				.roles("USER")
+				.build();
+
+		return new org.springframework.security.provisioning.InMemoryUserDetailsManager(user);
+	}
+	// @Bean
+	// public AuthenticationSuccessHandler customSuccessHandler() {
+	// return new CustomAuth enticationSuccessHandler();
+	// }
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT"
+	crossorigin="anonymous">
+<!--  -->
+<link th:href=@{/css/student.css} rel="stylesheet" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<!-- Sidebar -->
+<script>
+	$(document).ready(function() {
+		// Restore active state
+		let activeLink = localStorage.getItem("activeLink");
+		if (activeLink) {
+			$("#sidebarMenu a").removeClass("active");
+			$("#sidebarMenu a[href='" + activeLink + "']").addClass("active");
+		}
+
+		// On click, set active and save
+		$("#sidebarMenu a").click(function() {
+			$("#sidebarMenu a").removeClass("active");
+			$(this).addClass("active");
+			localStorage.setItem("activeLink", $(this).attr("href"));
+			
+		});
+	});
+</script>
+<nav id="sidebarMenu"
+	class="collapse d-lg-block sidebar collapse bg-white">
+	<div class="position-sticky">
+		<div class="list-group list-group-flush mx-3 mt-4">
+			<a th:href="@{/hod/hodPortal}"
+				class="list-group-item list-group-item-action py-2 ripple"
+				aria-current="true"> <i class="fas fa-tachometer-alt fa-fw me-3"></i><img
+			th:src="@{/home.svg}" height="25"
+			alt="" loading="lazy" />&nbsp;&nbsp;<span>
+					Home</span>
+			</a> 
+			<a th:href="@{/hod/viewClass}"
+				class="list-group-item list-group-item-action py-2 ripple"
+				> <i class="fas fa-tachometer-alt fa-fw me-3"></i><img
+			th:src="@{/07a4df83-a7dd-464a-bc0c-6f704b343a9b.svg}" height="25"
+			alt="" loading="lazy" />&nbsp;&nbsp;<span>View
+					Department Classes</span>
+			</a><a th:href="@{/hod/addNewClassPage}"
+				class="list-group-item list-group-item-action py-2 ripple"> <i
+				class="fas fa-chart-area fa-fw me-3"></i><img
+			th:src="@{/c8e87a4e-49ac-40ac-aa78-53ad749e91a0.svg}" height="25"
+			alt="" loading="lazy" />&nbsp;&nbsp;<span>Add New Class</span>
+
+			</a> 
+			<a th:href="@{/hod/addNewCoursePage}"
+				class="list-group-item list-group-item-action py-2 ripple"> <i
+				class="fas fa-chart-area fa-fw me-3"></i><img
+			th:src="@{/c8e87a4e-49ac-40ac-aa78-53ad749e91a0.svg}" height="25"
+			alt="" loading="lazy" />&nbsp;&nbsp;<span>Add New Course</span>
+
+			</a> 
+
+
+		</div>
+	</div>
+</nav>
+<!-- Sidebar -->
+
+<!-- Navbar -->
+<nav id="main-navbar"
+	class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+	<!-- Container wrapper -->
+	<div class="container-fluid">
+		<!-- Toggle button -->
+		<button class="navbar-toggler" type="button"
+			data-mdb-toggle="collapse" data-mdb-target="#sidebarMenu"
+			aria-controls="sidebarMenu" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<i class="fas fa-bars"></i>
+		</button>
+
+		<!-- Brand -->
+		<a class="navbar-brand" th:href="@{/hod/hodPortal}"> <img
+			th:src="@{/ChatGPT Image Sep 3, 2025, 01_04_50 PM.png}" height="25"
+			alt="" loading="lazy" /> <span> University Management System
+		</span>
+		</a>
+		<a class="navbar-brand d-flex" th:href="@{/logout}"> Logout
+		</a>
+		<!-- Search form -->
+
+
+		<!-- Right links -->
+
+	</div>
+	<!-- Container wrapper -->
+</nav>
+<!-- Navbar -->
+</html>
