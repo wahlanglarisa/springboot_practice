@@ -38,7 +38,7 @@ public class AdminController {
 	@GetMapping("/admin/adminPortal/{pageNo}")
 	public String AdminPortal(HttpServletRequest httpRequest, Model model, @PathVariable(value = "pageNo") int pageNo,
 			@RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir,@RequestParam("role") String role) {
-		int pageSize = 10;
+		int pageSize = 5;
 		System.out.println(pageNo);
 		Principal principal = httpRequest.getUserPrincipal();
 		Page<UserList> users = null;
