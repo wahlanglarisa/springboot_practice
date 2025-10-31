@@ -2,11 +2,28 @@
     "configurations": [
         {
             "type": "java",
+            "name": "HotelRoomManagementApplication",
+            "request": "launch",
+            "mainClass": "com.example.hotel_room_management.hotel_room_management.HotelRoomManagementApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-StudentApplication<student>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "mainClass": "com.example.student.StudentApplication",
             "projectName": "student",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-HotelRoomManagementApplication<hotel_room_management>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.hotel_room_management.hotel_room_management.HotelRoomManagementApplication",
+            "projectName": "hotel_room_management",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
