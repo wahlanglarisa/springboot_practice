@@ -1,181 +1,201 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-		crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-		integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Admin Portal</title>
+
+	<!-- ✅ Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!--  -->
 	<link th:href=@{/css/student.css} rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+
+	<!-- ✅ jQuery (optional, for AJAX) -->
 </head>
-<header th:insert="@{/fragments/admin_header.html}"> </header>
+<header th:insert="@{/fragments/admin_header.html}"></header>
 
-<body>
+<body class="p-5">
+
+	<!-- ✅ Header should be INSIDE body -->
+
 	<main id="main-content">
-		<br>
-		<br>
-		<div class='container justify-content-center'>
-			<div class='d-flex'>
-				<a th:href="@{/registerStudent}" class="btn btn-primary">Add New Student</a>&nbsp;&nbsp;<a
-					th:href="@{/registerProfessor}" class="btn btn-primary">Add New Professor</a>
+		<div class="container justify-content-center mt-5">
+
+			<!-- Action buttons -->
+			<div class="d-flex mb-3">
+				<a th:href="@{/registerStudent}" class="btn btn-primary me-2">Add New Student</a>
+				<a th:href="@{/registerProfessor}" class="btn btn-primary">Add New Professor</a>
 			</div>
-			<table class='table'>
+
+			<!-- ✅ Dropdown (outside table, position static) -->
+
+			<!-- ✅ Table -->
+			<table class="table">
 				<thead>
 					<tr>
-						<th scope="col"><a
-								th:href="@{'/admin/adminPortal/'+${currentPage}+'?sortField=email&sortDir='+${reverseSortDir}+'&role='+${role}}">User
-								Email</a></th>
-						<th scope="col"><a
-								th:href="@{'/admin/adminPortal/'+${currentPage}+'?sortField=firstName&sortDir='+${reverseSortDir}+'&role='+${role}}">User
-								User First Name</a></th>
-						<th scope="col"><a
-								th:href="@{'/admin/adminPortal/'+${currentPage}+'?sortField=lastName&sortDir='+${reverseSortDir}+'&role='+${role}}">User
-								User Last Name</a></th>
-						<th scope="col" >
-							<div class="row">
-								<div class="dropdown col">
-									<button class="btn btn-secondary dropdown-toggle" type="button"
-										id="dropdownMenuButton" data-bs-toggle="dropdown">
-										User Role (Select Option to Filter)
-									</button>
-									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										<li><a class="dropdown-item"
-												th:href="@{'/admin/adminPortal/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir} + '&role=Student'}">Student</a>
-										</li>
-										<li><a class="dropdown-item"
-												th:href="@{'/admin/adminPortal/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir} + '&role=Admin'}">Admin</a>
-										</li>
-										<li><a class="dropdown-item"
-												th:href="@{'/admin/adminPortal/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir} + '&role=Professor'}">Professor</a>
-										</li>
-										<li><a class="dropdown-item"
-												th:href="@{'/admin/adminPortal/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir} + '&role=Head Of Department'}">Head
-												Of Department</a></li>
-									</ul>
-								</div>
-								<div class="col"><a
-										th:href="@{'/admin/adminPortal/'+${currentPage}+'?sortField=email&sortDir='+${reverseSortDir}+'&role='}"><img
-											th:src="@{/remove-filter_18950215.png}" width="30px" height="30px" title="Clear Filter"></a>
-								</div>
+						<th>
+							<a
+								th:href="@{'/admin/adminPortal/'+${currentPage}+'?sortField=email&sortDir='+${reverseSortDir}+'&role='+${role}}">
+								User Email
+							</a>
+						</th>
+						<th>
+							<a
+								th:href="@{'/admin/adminPortal/'+${currentPage}+'?sortField=firstName&sortDir='+${reverseSortDir}+'&role='+${role}}">
+								First Name
+							</a>
+						</th>
+						<th>
+							<a
+								th:href="@{'/admin/adminPortal/'+${currentPage}+'?sortField=lastName&sortDir='+${reverseSortDir}+'&role='+${role}}">
+								Last Name
+							</a>
+						</th>
+						<th>
+							<div class="dropdown mb-3" style="position: static;">
+								<button class="btn btn-secondary dropdown-toggle" type="button"
+									data-bs-toggle="dropdown" aria-expanded="false">
+									User Role (Select Option to Filter)
+								</button>
+								<ul class="dropdown-menu">
+									<li>
+										<a class="dropdown-item"
+											th:href="@{'/admin/adminPortal/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir} + '&role=Student'}">
+											Student
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item"
+											th:href="@{'/admin/adminPortal/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir} + '&role=Admin'}">
+											Admin
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item"
+											th:href="@{'/admin/adminPortal/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir} + '&role=Professor'}">
+											Professor
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item"
+											th:href="@{'/admin/adminPortal/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir} + '&role=Head Of Department'}">
+											Head Of Department
+										</a>
+									</li>
+								</ul>
 							</div>
 						</th>
-						<th scope="col">Action</th>
-
+						<th>Action</th>
 					</tr>
+				</thead>
+
 				<tbody id="user_body">
 					<tr th:each="user : ${users}">
 						<td th:text="${user.email}"></td>
 						<td th:text="${user.firstName}"></td>
 						<td th:text="${user.lastName}"></td>
 						<td th:text="${user.roleName}"></td>
-						<td><a th:href="@{/admin/updateUserPage/{id}(id = ${user.id})}"
-								class="btn btn-primary">Update</a>&nbsp;&nbsp;<a
-								th:href="@{/admin/deleteUserPage/{id}(id = ${user.id})}" class="btn btn-danger"
-								value="Delete">Delete</a></td>
+						<td>
+							<a th:href="@{/admin/updateUserPage/{id}(id=${user.id})}" class="btn btn-primary">Update</a>
+							<a th:href="@{/admin/deleteUserPage/{id}(id=${user.id})}" class="btn btn-danger">Delete</a>
+						</td>
 					</tr>
 				</tbody>
-
-
-				</thead>
 			</table>
-			<div th:if="${totalPages>1}" align="center" class="justify-content-center" id="pagenumbers">
 
-				<div class="row justify-content-center" align="center">
+			<!-- ✅ Pagination -->
+			<div id="pagenumbers" th:if="${totalPages > 1}" align="center" class="justify-content-center">
+				<ul class="pagination justify-content-center">
 
-					<div class="col-sm-1 pagination">
-						<span th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item"> <a
-								th:if="${currentPage!=i}"
-								th:href="@{'/admin/adminPortal/'+${i}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+'&role='+${role}}"
-								class="page-link">[[${i}]]</a> <span th:unless="${currentPage!=i}"
-								class="page-item active"><a class="page-link">[[${i}]]</a></span>
+					<!-- Previous Button -->
+					<li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+						<a class="page-link"
+							th:href="@{'/admin/adminPortal/' + (${currentPage} - 1) + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&role=' + ${role}}"
+							aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+						</a>
+					</li>
 
-						</span> <span class="page-item"> <a th:if="${currentPage<totalPages}"
-								th:href="@{'/admin/adminPortal/'+${currentPage + 1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+'&role='+${role}}"
-								class="page-link"><b>Next</b></a></span> <span th:unless="${currentPage<totalPages}"
-							class="page-item"><span class="page-link" style="color: black;"><b>Next</b></span></span>
-						<span class="page-item"> <a th:if="${currentPage<totalPages}"
-								th:href="@{'/admin/adminPortal/'+${totalPages}+'?sortField='+${sortField}+'&sortDir='+${sortDir}+'&role='+${role}}"
-								class="page-link"><b>Last</b></a></span> <span th:unless="${currentPage<totalPages}"
-							class="page-item"><span class="page-link" style="color: black;"><b>Last</b></span></span>
-					</div>
+					<!-- Page Numbers -->
+					<li class="page-item" th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+						th:classappend="${pageNum == currentPage} ? 'active'">
+						<a class="page-link"
+							th:href="@{'/admin/adminPortal/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&role=' + ${role}}"
+							th:text="${pageNum}"></a>
+					</li>
 
+					<!-- Next Button -->
+					<li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+						<a class="page-link"
+							th:href="@{'/admin/adminPortal/' + (${currentPage} + 1) + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&role=' + ${role}}"
+							aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
 
-				</div>
+				</ul>
 			</div>
 		</div>
+
 	</main>
-</body>
-<div class="container">
 
-	<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
-		th:insert="@{/fragments/footer.html}">
-</div>
-<script th:inline="javascript">
-	function clicked() {
-		alert(document.getElementById("role_Select").value)
-		$.ajax({
-			url: "/admin/adminPortalAjax/" + 1 + "?sortField=email&sortDir=asc",
-			method: "get",
-			dataType: "json",
-			data: {
-				role: document.getElementById("role_Select").value
-			}
-			, success: function (response) {
-				courseElement = document.getElementById("user_body")
-				console.log(response.length)
-				courseElement.innerHTML = "";
-				response.forEach(element => {
-					var updatelink =/*[[@{/admin/updateUserPage/}]]*/
-						deleteLink =/*[[@{/admin/deleteUserPage/}]]*/
-						i = 0
-					newRow = courseElement.insertRow(i)
-					cell = newRow.insertCell(0)
-					cell.innerHTML = `${element.email}`
-					cell2 = newRow.insertCell(1)
-					cell2.innerHTML = `${element.firstName}`
-					cell3 = newRow.insertCell(2)
-					cell3.innerHTML = `${element.lastName}`
-					cell4 = newRow.insertCell(3)
-					cell4.innerHTML = `${element.roleName}`
-					cell5 = newRow.insertCell(4)
-					cell5.innerHTML = `<a href='${updatelink}${element.id}'
-								class="btn btn-primary">Update</a>&nbsp;&nbsp;<a href="${deleteLink}${element.id}" class="btn btn-danger"
-								value="Delete">Delete</a></td>`
-					console.log(element)
-					i++;
+	<!-- ✅ Footer -->
 
+	<!-- ✅ Bootstrap Bundle JS (includes Popper) -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- ✅ JS Debug and Ajax -->
+	<script th:inline="javascript">
+		console.log("✅ Bootstrap test:", typeof bootstrap);
 
-				});
-				if (response.length > 10) {
-					var innerHtml = '	<div class="row justify-content-center" align="center">'
-					for (i = 0; i < response.length; i++) {
-						innerHtml += `<span class="page-item"> <a
-								
-								"http://127.0.0.1/admin/adminPortal/${i}?sortField=email&sortDir=asc}"
-								class="page-link">[[${i}]]</a></span>`
+		function clicked() {
+			alert(document.getElementById("role_Select").value);
+			$.ajax({
+				url: "/admin/adminPortalAjax/" + 1 + "?sortField=email&sortDir=asc",
+				method: "get",
+				dataType: "json",
+				data: {
+					role: document.getElementById("role_Select").value
+				},
+				success: function (response) {
+					const courseElement = document.getElementById("user_body");
+					courseElement.innerHTML = "";
+					response.forEach((element, i) => {
+						const newRow = courseElement.insertRow(i);
+						newRow.insertCell(0).innerHTML = element.email;
+						newRow.insertCell(1).innerHTML = element.firstName;
+						newRow.insertCell(2).innerHTML = element.lastName;
+						newRow.insertCell(3).innerHTML = element.roleName;
+						newRow.insertCell(4).innerHTML = `
+              <a href='/admin/updateUserPage/${element.id}' class="btn btn-primary">Update</a>
+              <a href='/admin/deleteUserPage/${element.id}' class="btn btn-danger">Delete</a>
+            `;
+					});
+
+					if (response.length > 10) {
+						let innerHtml = '<div class="row justify-content-center" align="center">';
+						for (let i = 0; i < response.length; i++) {
+							innerHtml += `
+                <span class="page-item">
+                  <a href="http://127.0.0.1/admin/adminPortal/${i}?sortField=email&sortDir=asc" class="page-link">${i}</a>
+                </span>`;
+						}
+						innerHtml += "</div>";
+						document.getElementById("pagenumbers").innerHTML = innerHtml;
+					} else {
+						document.getElementById("pagenumbers").innerHTML = "";
 					}
-					innerHtml += "</div>"
-
-					document.getElementById("pagenumbers").innerHTML = innerHtml
+				},
+				error: function (xhr, status, error) {
+					console.log(xhr, status, error);
 				}
-				else {
-					document.getElementById("pagenumbers").innerHTML = ""
-				}
-
-			}
-			, error: function (var1, var2, var3) {
-				console.log(var1, var2, var3)
-			}
-		})
-	}
-</script>
+			});
+		}
+	</script>
+</body>
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
+	th:insert="@{/fragments/footer.html}"></footer>
 
 </html>
