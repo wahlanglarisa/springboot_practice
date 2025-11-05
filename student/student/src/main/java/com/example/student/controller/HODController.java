@@ -149,13 +149,13 @@ public class HODController {
 	@PostMapping("/hod/updateClass")
 	public String updateClass(@ModelAttribute("class") Class_Course class_Course) {
 		classService.savClass_Course(class_Course);
-		return "redirect:/hod/viewClass";
+		return "redirect:/hod/viewClass/1";
 	}
 
 	@GetMapping("/hod/deleteClass/{id}")
 	public String deleteClass(@ModelAttribute("class") Class_Course class_Course, @PathVariable("id") long id) {
 		classService.deleteClassById(id);
-		return "redirect:/hod/viewClass";
+		return "redirect:/hod/viewClass/1";
 	}
 
 	@GetMapping("/hod/viewStudentsPage")
