@@ -16,7 +16,7 @@
 	<link th:href=@{/css/student.css} rel="stylesheet" />
 
 </head>
-<header th:insert="@{/fragments/prof_header.html}"> </header>
+<header th:insert="/fragments/prof_header :: prof_header"> </header>
 
 <body>
 	<br>
@@ -55,6 +55,6 @@
 <div class="container">
 
   <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
-    th:insert="@{/fragments/footer.html}">
+    th:insert="fragments/footer :: footer">
 </div>
 </html>

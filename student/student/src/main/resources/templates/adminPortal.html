@@ -15,7 +15,7 @@
 
 	<!-- ✅ jQuery (optional, for AJAX) -->
 </head>
-<header th:insert="@{/fragments/admin_header.html}"></header>
+<header th:insert="/fragments/admin_header :: admin_header"></header>
 
 <body class="p-5">
 
@@ -196,6 +196,6 @@
 	</script>
 </body>
 <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
-	th:insert="@{/fragments/footer.html}"></footer>
+	th:insert="fragments/footer :: footer"></footer>
 
 </html>

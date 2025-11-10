@@ -23,7 +23,7 @@ public class SecurityConfig {
 		return http.csrf(csrf -> csrf.disable()) // CSRF protection is disabled for simplicity, reconsider enabling it in
                 // production
                 .authorizeHttpRequests(authorize -> authorize
-                                .requestMatchers("/js/**", "/registerStudent/**", "/css/**", "**.js", "/images/**", "/html/**",
+                                .requestMatchers("/login","/js/**", "/registerStudent/**", "/css/**", "**.js", "/images/**", "/html/**",
                                         "/studentData/**")
                                 .permitAll().requestMatchers("/student/studentHomepage/**").hasAnyAuthority("Student")
                                 .requestMatchers("/admin/**").hasAnyAuthority("Admin").requestMatchers("/professor/**")
@@ -34,7 +34,7 @@ public class SecurityConfig {
                 ).formLogin(form -> form.loginPage("/login").successHandler(customSuccessHandler())
                                 .failureHandler((request, response, exception) -> {
                                     exception.printStackTrace(); // Log exact error
-                                    response.sendRedirect("/login?error=true");
+                                    response.sendRedirect(request.getContextPath()+"/login?error=true");
                                 }).permitAll()// Allow anyone to access the login page
                 // Allow logout without restriction
                 ).logout(logout -> logout.permitAll() // Allow logout without restriction

@@ -12,7 +12,7 @@
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
-<header th:insert="@{/fragments/student_header.html}"> </header>
+<header th:insert="/fragments/student_header :: student_header"> </header>
 
 <body>
     <br>
@@ -81,9 +81,11 @@
 		alert(item);
 	}
 	function clicked() {
+                    const contextPath = window.location.pathname.split('/')[1]; // grabs student-0.0.1-SNAPSHOT
+
         alert(document.getElementById("day_Select").value)
 		$.ajax({
-			url: "/student/viewRoutinePage/",
+			url: "/"+contextPath+"/student/viewRoutinePage/",
 			method: "get",
 			dataType:"json",
 			data: {
@@ -111,6 +113,6 @@
 <div class="container">
 
   <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
-    th:insert="@{/fragments/footer.html}">
+    th:insert="fragments/footer :: footer">
 </div>
 </html>

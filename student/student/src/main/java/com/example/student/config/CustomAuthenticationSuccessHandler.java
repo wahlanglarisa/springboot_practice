@@ -16,18 +16,18 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 			Authentication authentication) throws IOException, ServletException {
 		System.out.println("In authentication function");
 		String redirectURL = request.getContextPath();
-
+		String contextPath=redirectURL;
 		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Student"))) {
-			redirectURL = "/student/studentHomepage";
+			redirectURL = contextPath+"/student/studentHomepage";
 		}
 		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Professor"))) {
-			redirectURL = "/professor/professorHomepage";
+			redirectURL = contextPath+"/professor/professorHomepage";
 		}
 		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Admin"))) {
-			redirectURL ="/admin/adminPortal/1?sortField=email&sortDir=asc&role=";
+			redirectURL =contextPath+"/admin/adminPortal/1?sortField=email&sortDir=asc&role=";
 		}
 		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Head Of Department"))) {
-			redirectURL ="/hod/hodPortal";
+			redirectURL =contextPath+"/hod/hodPortal";
 		}
 		;
 		

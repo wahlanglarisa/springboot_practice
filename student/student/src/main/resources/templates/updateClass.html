@@ -17,7 +17,8 @@
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<title>Insert title here</title>
 </head>
-<header th:insert="@{/fragments/hod_header.html}"> </header>
+<header th:insert="fragments/hod_header :: hod_header"
+></header>
 
 <body>
 	<br><br><br><br>
@@ -98,6 +99,6 @@
 <div class="container">
 
   <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
-    th:insert="@{/fragments/footer.html}">
+    th:insert="fragments/footer :: footer">
 </div>
 </html>
