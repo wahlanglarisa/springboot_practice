@@ -127,3 +127,4 @@
 10-Nov-2025 19:43:05.889 INFO [main] org.apache.catalina.core.StandardService.stopInternal Stopping service [Catalina]
 10-Nov-2025 19:43:05.922 INFO [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
 10-Nov-2025 19:43:05.924 INFO [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
+10-Nov-2025 19:43:48.155 INFO [ContainerBackgroundProcessor[StandardEngine[Catalina]]] org.apache.catalina.users.MemoryUserDatabase.backgroundProcess Reloading memory user database [UserDatabase] from updated source [file:/E:/springboot_practice/xampp/tomcat/conf/tomcat-users.xml]
