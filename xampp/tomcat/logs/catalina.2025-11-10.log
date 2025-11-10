@@ -1,0 +1,129 @@
+10-Nov-2025 19:40:46.021 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/8.5.96
+10-Nov-2025 19:40:46.025 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Nov 10 2023 14:56:59 UTC
+10-Nov-2025 19:40:46.025 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 8.5.96.0
+10-Nov-2025 19:40:46.025 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 11
+10-Nov-2025 19:40:46.026 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+10-Nov-2025 19:40:46.026 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+10-Nov-2025 19:40:46.026 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jdk-24
+10-Nov-2025 19:40:46.026 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           24.0.1+9-30
+10-Nov-2025 19:40:46.027 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+10-Nov-2025 19:40:46.027 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         E:\springboot_practice\xampp\tomcat
+10-Nov-2025 19:40:46.027 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         E:\springboot_practice\xampp\tomcat
+10-Nov-2025 19:40:46.028 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
+10-Nov-2025 19:40:46.028 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
+10-Nov-2025 19:40:46.028 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
+10-Nov-2025 19:40:46.030 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+10-Nov-2025 19:40:46.030 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+10-Nov-2025 19:40:46.030 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=e:\springboot_practice\xampp\tomcat\conf\logging.properties
+10-Nov-2025 19:40:46.030 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+10-Nov-2025 19:40:46.031 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+10-Nov-2025 19:40:46.031 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+10-Nov-2025 19:40:46.033 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+10-Nov-2025 19:40:46.033 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=e:\springboot_practice\xampp\tomcat
+10-Nov-2025 19:40:46.033 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=e:\springboot_practice\xampp\tomcat
+10-Nov-2025 19:40:46.033 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=e:\springboot_practice\xampp\tomcat\temp
+10-Nov-2025 19:40:46.033 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The Apache Tomcat Native library which allows using OpenSSL was not found on the java.library.path: [C:\Program Files\Java\jdk-24\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files\PostgreSQL\17\pgAdmin 4\runtime;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\wahla\AppData\Local\Microsoft\WindowsApps;C:\Users\wahla\AppData\Local\Programs\Microsoft VS Code\bin;E:\flutter\bin;C:\Users\wahla\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin;C:\Users\wahla\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\Scripts;C:\Users\wahla\AppData\Roaming\npm;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Users\wahla\IntelliJ IDEA Community Edition 2025.1.4.1\bin;;C:\Program Files\PostgreSQL\17\pgAdmin 4\runtime;;.]
+10-Nov-2025 19:40:46.096 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+10-Nov-2025 19:40:46.136 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 879 ms
+10-Nov-2025 19:40:46.212 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+10-Nov-2025 19:40:46.212 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/8.5.96]
+10-Nov-2025 19:40:46.226 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [E:\springboot_practice\xampp\tomcat\webapps\docs]
+10-Nov-2025 19:40:46.669 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [E:\springboot_practice\xampp\tomcat\webapps\docs] has finished in [440] ms
+10-Nov-2025 19:40:46.669 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [E:\springboot_practice\xampp\tomcat\webapps\examples]
+10-Nov-2025 19:40:47.809 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [E:\springboot_practice\xampp\tomcat\webapps\examples] has finished in [1,140] ms
+10-Nov-2025 19:40:47.809 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [E:\springboot_practice\xampp\tomcat\webapps\host-manager]
+10-Nov-2025 19:40:47.853 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [E:\springboot_practice\xampp\tomcat\webapps\host-manager] has finished in [44] ms
+10-Nov-2025 19:40:47.853 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [E:\springboot_practice\xampp\tomcat\webapps\manager]
+10-Nov-2025 19:40:47.898 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [E:\springboot_practice\xampp\tomcat\webapps\manager] has finished in [43] ms
+10-Nov-2025 19:40:47.898 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [E:\springboot_practice\xampp\tomcat\webapps\ROOT]
+10-Nov-2025 19:40:47.926 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [E:\springboot_practice\xampp\tomcat\webapps\ROOT] has finished in [28] ms
+10-Nov-2025 19:40:47.929 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+10-Nov-2025 19:40:47.967 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 1829 ms
+10-Nov-2025 19:43:04.504 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/8.5.96
+10-Nov-2025 19:43:04.507 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Nov 10 2023 14:56:59 UTC
+10-Nov-2025 19:43:04.507 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 8.5.96.0
+10-Nov-2025 19:43:04.508 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 11
+10-Nov-2025 19:43:04.508 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+10-Nov-2025 19:43:04.508 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+10-Nov-2025 19:43:04.509 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jdk-24
+10-Nov-2025 19:43:04.509 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           24.0.1+9-30
+10-Nov-2025 19:43:04.509 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+10-Nov-2025 19:43:04.509 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         E:\springboot_practice\xampp\tomcat
+10-Nov-2025 19:43:04.509 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         E:\springboot_practice\xampp\tomcat
+10-Nov-2025 19:43:04.510 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
+10-Nov-2025 19:43:04.510 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
+10-Nov-2025 19:43:04.511 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
+10-Nov-2025 19:43:04.511 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+10-Nov-2025 19:43:04.511 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+10-Nov-2025 19:43:04.512 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=e:\springboot_practice\xampp\tomcat\conf\logging.properties
+10-Nov-2025 19:43:04.513 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+10-Nov-2025 19:43:04.513 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+10-Nov-2025 19:43:04.513 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+10-Nov-2025 19:43:04.513 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+10-Nov-2025 19:43:04.513 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=e:\springboot_practice\xampp\tomcat
+10-Nov-2025 19:43:04.514 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=e:\springboot_practice\xampp\tomcat
+10-Nov-2025 19:43:04.514 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=e:\springboot_practice\xampp\tomcat\temp
+10-Nov-2025 19:43:04.514 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The Apache Tomcat Native library which allows using OpenSSL was not found on the java.library.path: [C:\Program Files\Java\jdk-24\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files\PostgreSQL\17\pgAdmin 4\runtime;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\wahla\AppData\Local\Microsoft\WindowsApps;C:\Users\wahla\AppData\Local\Programs\Microsoft VS Code\bin;E:\flutter\bin;C:\Users\wahla\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin;C:\Users\wahla\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\Scripts;C:\Users\wahla\AppData\Roaming\npm;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Users\wahla\IntelliJ IDEA Community Edition 2025.1.4.1\bin;;C:\Program Files\PostgreSQL\17\pgAdmin 4\runtime;;.]
+10-Nov-2025 19:43:04.567 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+10-Nov-2025 19:43:04.594 SEVERE [main] org.apache.catalina.core.StandardService.initInternal Failed to initialize connector [Connector["http-nio-8080"]]
+	org.apache.catalina.LifecycleException: Protocol handler initialization failed
+		at org.apache.catalina.connector.Connector.initInternal(Connector.java:1075)
+		at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:127)
+		at org.apache.catalina.core.StandardService.initInternal(StandardService.java:564)
+		at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:127)
+		at org.apache.catalina.core.StandardServer.initInternal(StandardServer.java:854)
+		at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:127)
+		at org.apache.catalina.startup.Catalina.load(Catalina.java:646)
+		at org.apache.catalina.startup.Catalina.load(Catalina.java:669)
+		at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+		at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+		at org.apache.catalina.startup.Bootstrap.load(Bootstrap.java:307)
+		at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:477)
+	Caused by: java.net.BindException: Address already in use: bind
+		at java.base/sun.nio.ch.Net.bind0(Native Method)
+		at java.base/sun.nio.ch.Net.bind(Net.java:511)
+		at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:335)
+		at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:297)
+		at java.base/sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:80)
+		at org.apache.tomcat.util.net.NioEndpoint.initServerSocket(NioEndpoint.java:226)
+		at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:202)
+		at org.apache.tomcat.util.net.AbstractEndpoint.bindWithCleanup(AbstractEndpoint.java:1326)
+		at org.apache.tomcat.util.net.AbstractEndpoint.init(AbstractEndpoint.java:1339)
+		at org.apache.tomcat.util.net.AbstractJsseEndpoint.init(AbstractJsseEndpoint.java:231)
+		at org.apache.coyote.AbstractProtocol.init(AbstractProtocol.java:695)
+		at org.apache.coyote.http11.AbstractHttp11Protocol.init(AbstractHttp11Protocol.java:76)
+		at org.apache.catalina.connector.Connector.initInternal(Connector.java:1073)
+		... 11 more
+10-Nov-2025 19:43:04.597 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 931 ms
+10-Nov-2025 19:43:04.661 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+10-Nov-2025 19:43:04.662 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/8.5.96]
+10-Nov-2025 19:43:04.679 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [E:\springboot_practice\xampp\tomcat\webapps\docs]
+10-Nov-2025 19:43:05.085 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [E:\springboot_practice\xampp\tomcat\webapps\docs] has finished in [405] ms
+10-Nov-2025 19:43:05.085 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [E:\springboot_practice\xampp\tomcat\webapps\examples]
+10-Nov-2025 19:43:05.724 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [E:\springboot_practice\xampp\tomcat\webapps\examples] has finished in [639] ms
+10-Nov-2025 19:43:05.725 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [E:\springboot_practice\xampp\tomcat\webapps\host-manager]
+10-Nov-2025 19:43:05.782 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [E:\springboot_practice\xampp\tomcat\webapps\host-manager] has finished in [58] ms
+10-Nov-2025 19:43:05.782 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [E:\springboot_practice\xampp\tomcat\webapps\manager]
+10-Nov-2025 19:43:05.832 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [E:\springboot_practice\xampp\tomcat\webapps\manager] has finished in [50] ms
+10-Nov-2025 19:43:05.833 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [E:\springboot_practice\xampp\tomcat\webapps\ROOT]
+10-Nov-2025 19:43:05.867 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [E:\springboot_practice\xampp\tomcat\webapps\ROOT] has finished in [33] ms
+10-Nov-2025 19:43:05.870 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 1270 ms
+10-Nov-2025 19:43:05.888 SEVERE [main] org.apache.catalina.core.StandardServer.await Failed to create server shutdown socket on address [localhost] and port [8005] (base port [8005] and offset [0])
+	java.net.BindException: Address already in use: bind
+		at java.base/sun.nio.ch.Net.bind0(Native Method)
+		at java.base/sun.nio.ch.Net.bind(Net.java:511)
+		at java.base/sun.nio.ch.Net.bind(Net.java:500)
+		at java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:630)
+		at java.base/java.net.ServerSocket.bind(ServerSocket.java:326)
+		at java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
+		at org.apache.catalina.core.StandardServer.await(StandardServer.java:444)
+		at org.apache.catalina.startup.Catalina.await(Catalina.java:783)
+		at org.apache.catalina.startup.Catalina.start(Catalina.java:729)
+		at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+		at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+		at org.apache.catalina.startup.Bootstrap.start(Bootstrap.java:347)
+		at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:478)
+10-Nov-2025 19:43:05.889 INFO [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+10-Nov-2025 19:43:05.889 INFO [main] org.apache.catalina.core.StandardService.stopInternal Stopping service [Catalina]
+10-Nov-2025 19:43:05.922 INFO [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+10-Nov-2025 19:43:05.924 INFO [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
