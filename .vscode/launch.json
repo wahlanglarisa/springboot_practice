@@ -2,6 +2,12 @@
     "configurations": [
         {
             "type": "java",
+            "name": "WarFilePracticeApplication",
+            "request": "launch",
+            "mainClass": "com.example.war_file_practice.war_file_practice.WarFilePracticeApplication"
+        },
+        {
+            "type": "java",
             "name": "HotelRoomManagementApplication",
             "request": "launch",
             "mainClass": "com.example.hotel_room_management.hotel_room_management.HotelRoomManagementApplication",
@@ -24,6 +30,16 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.example.hotel_room_management.hotel_room_management.HotelRoomManagementApplication",
             "projectName": "hotel_room_management",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-WarFilePracticeApplication<war_file_practice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.war_file_practice.war_file_practice.WarFilePracticeApplication",
+            "projectName": "war_file_practice",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
