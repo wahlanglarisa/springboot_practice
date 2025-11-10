@@ -35,10 +35,10 @@
   application, do not forget to remove the <!.. ..> that surrounds them. You
   will also need to set the passwords to something appropriate.
 -->
-<!--
-  <user username="admin" password="<must-be-changed>" roles="manager-gui"/>
-  <user username="robot" password="<must-be-changed>" roles="manager-script"/>
--->
+ <user username="root" password="root" roles="manager-gui,manager-script"/>
+  <!-- <user username="admin" password="1234" roles="manager-gui"/>
+  <user username="robot" password="<must-be-changed>" roles="manager-script"/> -->
+
 <!--
   The sample user and role entries below are intended for use with the
   examples web application. They are wrapped in a comment and thus are ignored
@@ -46,11 +46,9 @@
   examples web application, do not forget to remove the <!.. ..> that surrounds
   them. You will also need to set the passwords to something appropriate.
 -->
-<!--
-  <role rolename="tomcat"/>
+  <!-- <role rolename="tomcat"/>
   <role rolename="role1"/>
-  <user username="tomcat" password="<must-be-changed>" roles="tomcat"/>
+  <user username="tomcat" password="1234" roles="tomcat"/>
   <user username="both" password="<must-be-changed>" roles="tomcat,role1"/>
-  <user username="role1" password="<must-be-changed>" roles="role1"/>
--->
+  <user username="role1" password="<must-be-changed>" roles="role1"/> -->
 </tomcat-users>
