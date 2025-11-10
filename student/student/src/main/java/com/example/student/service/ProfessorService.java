@@ -34,7 +34,7 @@ public interface ProfessorService {
 
 	public List<Professor> findByDepartmentID(long id);
 
-	public List<ProfListClasses> getProfClass_Courses(String email);
+	public Page<ProfListClasses> getProfClass_Courses(String email,Pageable pageable);
 
 	public List<ProfListClasses> getProfClass_Courses_By_Day(String email, String day);
 

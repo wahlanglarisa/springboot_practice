@@ -26,6 +26,7 @@
 	
 	<br>
 	<br>
+	<main>
 	<div class='container-md '>
 		<div th:if="${param.success}">
 			<div class="alert alert-info">You have successfully registered
@@ -46,7 +47,7 @@
 				<div class="alert alert-info">You have been logged out.</div>
 			</div>
 			<h1>
-				<strong>Create Test for </strong>
+				<strong>Create Test for [[${courseName}]]</strong>
 			</h1>
 			<br>
 			<div class="mb-3 row">
@@ -70,6 +71,7 @@
 			
 		</form>
 	</div>
+	</main>
 </body>
 <div class="container">
 
