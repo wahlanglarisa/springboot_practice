@@ -81,9 +81,9 @@ public class ProfessorServiceImpl implements ProfessorService {
 	}
 
 	@Override
-	public Page<ProfListClasses> getProfClass_Courses(String email,Pageable pageable) {
+	public List<ProfListClasses> getProfClass_Courses(String email) {
 		// TODO Auto-generated method stub
-		return professorRepository.getProfClass_Courses(email,pageable);
+		return professorRepository.getProfClass_Courses(email);
 	}
 
 	@Override

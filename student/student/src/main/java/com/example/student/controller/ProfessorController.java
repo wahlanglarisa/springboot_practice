@@ -9,9 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -109,8 +106,7 @@ public class ProfessorController {
 		model.addAttribute("test", new Test());
 		Professor professor = professorService.getProfByEmail(principal.getName());
 		model.addAttribute("professor", professor);
-		model.addAttribute("courseName",courseService.findById(courseID).getCourseName());
-		return "createTestPagewithCourse"; 
+		return "createTestPagewithCourse";
 	}
 
 	@GetMapping("/professor/createTestPage/{profID}")
@@ -143,18 +139,13 @@ public class ProfessorController {
 		return "redirect:/professor/professorHomepage";
 	}
 
-	@GetMapping("/professor/viewAllClasses/{pageNo}")
-	public String viewProfClasses(Model model, HttpServletRequest httpServletRequest,@PathVariable("pageNo") int  pageNo) {
+	@GetMapping("/professor/viewAllClasses")
+	public String viewProfClasses(Model model, HttpServletRequest httpServletRequest) {
 		Principal principal = httpServletRequest.getUserPrincipal();
 		String email = principal.getName();
-		int pageSize=5;
-
-		org.springframework.data.domain.Pageable pageable=PageRequest.of(pageNo-1, pageSize);
-		Page<ProfListClasses> profListClasses = professorService.getProfClass_Courses(email,pageable);
+		List<ProfListClasses> profListClasses = professorService.getProfClass_Courses(email);
 		Professor professor = professorService.getProfByEmail(principal.getName());
-		model.addAttribute("totalPages", profListClasses.getTotalPages());
-		model.addAttribute("totalItems", profListClasses.getTotalElements());
-		model.addAttribute("currentPage", pageNo);
+
 		model.addAttribute("routines", profListClasses);
 		model.addAttribute("professor", professor);
 		return "viewClassesProf";

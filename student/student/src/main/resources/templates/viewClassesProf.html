@@ -56,26 +56,6 @@
 					</tbody>
 
 				</table>
-								<div th:if="${totalPages>1}">
-					<div class="row justify-content-center" >
-
-						<div class="col-sm-1 pagination"><span th:each=" i: ${#numbers.sequence(1,totalPages)}"
-								class="page-item"><a th:if="${currentPage!=i}" th:href="@{'/professor/viewAllClasses/'+${i}}"
-									class="page-link">[[${i}]]</a><a th:unless="${currentPage!=i}"
-									class="page-link active" aria-disabled="true">[[${i}]]</a></span>
-							<span class="page-item"><a th:if="${currentPage<totalPages}"
-									th:href="@{'/professor/viewAllClasses/'+${currentPage+1}}" class="page-link">Next</a><a
-									th:unless="${currentPage<totalPages}" style="color:black;background-color: grey;"
-									class="page-link">Next</a></span>
-							<span class="page-item"><a th:if="${currentPage<totalPages}"
-									th:href="@{'/professor/viewAllClasses/'+${totalPages}}" class="page-link">Last</a><a
-									th:unless="${currentPage<totalPages}" style="color:black;background-color: grey;"
-									class="page-link active">Last</a></span>
-						</div>
-
-					</div>
-
-				</div>
 			</div>
 		</div>
 	</main>

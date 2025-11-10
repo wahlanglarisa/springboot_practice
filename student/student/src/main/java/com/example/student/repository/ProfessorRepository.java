@@ -51,7 +51,7 @@ public interface ProfessorRepository extends JpaRepository<Professor, Long>{
 			+ "join prof.class_Course class "
 			+ " join class.course course "
 			+ "where prof.email=:email")
-	public Page<ProfListClasses> getProfClass_Courses(@Param("email") String email,Pageable pageable);
+	public List<ProfListClasses> getProfClass_Courses(@Param("email") String email);
 		@Query("select new com.example.student.model.wrapper.ProfListClasses(class.id,course.courseName,class.time,class.day,course.id,concat(prof.firstName,' ',prof.lastName)) "
 			+ "from Professor prof "
 			+ "join prof.class_Course class "
