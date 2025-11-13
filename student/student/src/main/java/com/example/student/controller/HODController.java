@@ -66,6 +66,7 @@ public class HODController {
 		model.addAttribute("classCount", professorClasses);
 		model.addAttribute("routines", profListClasses);
 		model.addAttribute("date", LocalDateTime.now());
+		model.addAttribute("professor", professor);
 
 		return "hodPortal";
 
@@ -202,5 +203,27 @@ public class HODController {
 		System.out.println(course.getCourseName() + "\t" + course.getDepartment().getDName());
 		return "redirect:/hod/hodPortal";
 	}
+
+	@GetMapping("/hod/viewProfessorsPage")
+	public String viewProfessorPage(HttpServletRequest httpServletRequest,Model model) {
+		Principal principal=httpServletRequest.getUserPrincipal();
+		Professor professor = professorService.getProfByEmail(principal.getName());
+
+		List<Professor> professors = professorService.findByDepartmentID(professor.getDepartment().getId());
+		model.addAttribute("professors", professors);
+
+		return "viewProfessorsPage";
+	}
+		@GetMapping("/hod/viewRoutine/{day}")
+	public String viewRoutinePage(Model model, @PathVariable("day") String day, HttpServletRequest httpServletRequest) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+		String email = principal.getName();
+		List<ProfListClasses> profListClasses = professorService.getProfClass_Courses_By_Day(email, day);
+		System.out.println(profListClasses);
+		model.addAttribute("routine", profListClasses);
+		model.addAttribute("day", day);
+		return "viewRoutinehod";
+	}
+
 
 }
