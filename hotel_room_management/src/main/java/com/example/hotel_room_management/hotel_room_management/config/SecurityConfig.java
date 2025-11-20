@@ -30,13 +30,12 @@ public class SecurityConfig {
 				// requests
 				// require
 				// authentication
-				).formLogin(form -> form.loginPage("/login").usernameParameter("username")
-						.passwordParameter("password")
+				).formLogin(form -> form.loginPage("/login")
 						.failureHandler((request, response, exception) -> {
 							exception.printStackTrace(); // Log exact error
 							System.out.println(request.getHeaderNames());
 							response.sendRedirect("/login?error=true");
-						}).permitAll()// Allow anyone to access the login page
+						}).successHandler(customSuccessHandler()).permitAll()// Allow anyone to access the login page
 				// Allow logout without restriction
 				).logout(logout -> logout.permitAll() // Allow logout without restriction
 				).build();
@@ -66,8 +65,8 @@ public class SecurityConfig {
 
 	// 	return new org.springframework.security.provisioning.InMemoryUserDetailsManager(user);
 	// }
-	// @Bean
-	// public AuthenticationSuccessHandler customSuccessHandler() {
-	// return new CustomAuth enticationSuccessHandler();
-	// }
+	@Bean
+	public AuthenticationSuccessHandler customSuccessHandler() {
+	return new CustomAuthenticationSuccessHandler();
+	}
 }
