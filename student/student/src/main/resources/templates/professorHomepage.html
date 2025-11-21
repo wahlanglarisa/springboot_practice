@@ -22,7 +22,7 @@
 
 		<div class="container">
 
-			<div class=" row parentRow justify-content-center">
+			<div class=" row justify-content-center">
 				<div class="col-md-3 mx-2 p-3 text-center  routineBlock shadow-lg">
 					<strong>You have total [[${routines.size()}]] class(es)
 						today</strong> <br> <br> <a
@@ -34,7 +34,7 @@
 
 				<div class="col-md-7 routineBlock shadow-lg">
 					<strong>Your Classes</strong>
-					<table class='table'>
+					<table >
 						<thead>
 							<tr>
 								<th>Course Name</th>
@@ -50,11 +50,11 @@
 				</div>
 			</div>
 			<br> <br>
-			<div class=" row parentRow justify-content-center">
+			<div class=" row justify-content-center">
 
 				<div class="col-md-6 routineBlock shadow-lg">
 					<strong> Your Upcoming Classes</strong> <br> <br>
-					<table class='table' style="background-color: #D1E7E8; border-radius: 50px;">
+					<table class='table-striped' >
 
 
 						<thead>
@@ -71,22 +71,26 @@
 								</td>
 								<td th:text="${routine.time}" th:classappend="${iter.index>=3}?'hidden-row':''"></td>
 								<td th:text="${routine.day}" th:classappend="${iter.index>=3}?'hidden-row':''"></td>
-								<td><a th:href="@{/professor/attendancePage/{id}(id=${routine.id})}"
-										class="btn btn-primary">Take Attendance</a>&nbsp;&nbsp;<a th:href="@{/professor/createTestPage/{courseID}/{profID}/{classID}(courseID=
-									${routine.courseID},profID=${professor.ID},classID=${routine.id})}" class="btn btn-primary">Create Test</a>
+								<td th:classappend="${iter.index>=3}?'hidden-row':''"><a th:href="@{/professor/attendancePage/{id}(id=${routine.id})}"
+										class="btn btn-primary">Take
+										Attendance</a>&nbsp;&nbsp;<a th:href="@{/professor/createTestPage/{courseID}/{profID}/{classID}(courseID=
+									${routine.courseID},profID=${professor.ID},classID=${routine.id})}" class="btn btn-primary"
+										>Create Test</a>
 								</td>
 							</tr>
 
 						</tbody>
 
 					</table>
+					<br>
+					<br>
 					<span th:if="${routines.size()>3}"><a th:href="@{/professor/viewAllClasses}"
 							class="btn btn-primary form-submit">View Classes</a></span>
 				</div>
 				<br>
 				<div class="col-md-6 routineBlock shadow-lg">
 					<strong> Your Tests</strong> <br> <br>
-					<table class='table' style="background-color: #D1E7E8; border-radius: 50px;">
+					<table>
 
 
 						<thead>
@@ -109,10 +113,14 @@
 						</tbody>
 
 					</table>
+					<br>
+					<br>
 					<div class="row">
-						<span class="col-md-3"><a th:href="@{/professor/viewAllClasses}" class="btn btn-primary form-submit">Create
+						<span class="col-md-3"><a th:href="@{/professor/viewAllClasses}"
+								class="btn btn-primary form-submit">Create
 								Tests</a></span>
-						<span class="col-md-3"><a th:href="@{/professor/viewTests}" class="btn btn-primary form-submit">View
+						<span class="col-md-3"><a th:href="@{/professor/viewTests}"
+								class="btn btn-primary form-submit">View
 								Tests</a></span>
 					</div>
 				</div>

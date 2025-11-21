@@ -15,7 +15,10 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
 		integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<link th:href="@{/css/main.css}" rel="stylesheet"/>
+
 </head>
+<header th:insert="/fragments/admin_header :: admin_header"></header>
 
 <body>
 	<main id="main-content" class="routineBlock">
@@ -37,7 +40,7 @@
 					<div class="alert alert-info">You have been logged out.</div>
 				</div>
 				<h1>
-					<strong>Register Professor Details</strong>
+					<strong>Register Employee Details</strong>
 				</h1>
 				<br>
 				<div class="mb-3 row">

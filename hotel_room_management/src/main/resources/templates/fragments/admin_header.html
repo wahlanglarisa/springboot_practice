@@ -8,75 +8,88 @@
 
 </head>
 <!-- Sidebar -->
- <th:block th:fragment="admin_header">
+<th:block th:fragment="admin_header">
 
-<script>
-	$(document).ready(function () {
-		// Restore active state
-		let activeLink = localStorage.getItem("activeLink");
-		if (activeLink) {
-			$("#sidebarMenu a").removeClass("active");
-			$("#sidebarMenu a[href='" + activeLink + "']").addClass("active");
-		}
+	<script>
+		$(document).ready(function () {
+			// Restore active state
+			let activeLink = localStorage.getItem("activeLink");
+			alert(activeLink)
+			if (activeLink) {
+				$("#sidebarMenu a").removeClass("active");
+				$("#sidebarMenu a[href='" + activeLink + "']").addClass("active");
+			}
 
-		// On click, set active and save
-		$("#sidebarMenu a").click(function () {
-			$("#sidebarMenu a").removeClass("active");
-			$(this).addClass("active");
-			localStorage.setItem("activeLink", $(this).attr("href"));
+			// On click, set active and save
+			$("#sidebarMenu a").click(function () {
+				$("#sidebarMenu a").removeClass("active");
+				$(this).addClass("active");
+				localStorage.setItem("activeLink", $(this).attr("href"));
 
+			});
 		});
-	});
-</script>
-<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
-	<div class="position-sticky">
-		<div class="list-group list-group-flush mx-3 mt-4">
-			<a th:href="@{/registerStudent}" class="list-group-item list-group-item-action py-2 ripple"
-				aria-current="true"> <i class="fas fa-tachometer-alt fa-fw me-3"></i><img
-					th:src="@{/c8e87a4e-49ac-40ac-aa78-53ad749e91a0.svg}" height="25" alt=""
-					loading="lazy" />&nbsp;&nbsp;<span>
-					Add New Student</span>
-			</a>
-			<a th:href="@{/registerProfessor}" class="list-group-item list-group-item-action py-2 ripple"> <i
-					class="fas fa-tachometer-alt fa-fw me-3"></i><img
-					th:src="@{/c8e87a4e-49ac-40ac-aa78-53ad749e91a0.svg}" height="25" alt=""
-					loading="lazy" />&nbsp;&nbsp;<span>
-					Add New Professor</span>
-			</a>
+	</script>
+	<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse">
+		<div class="position-sticky listMenu">
+			<div class="list-group list-group-flush mx-3 mt-4">
+				<a th:href="@{'/admin/adminPortal/1?sortField=email&sortDir='+${reverseSortDir}+'&role='}"
+					class="list-group-item list-group-item-action py-2 ripple"> <i
+						class="fas fa-tachometer-alt fa-fw me-3"></i><img th:src="@{home.png}" height="25" alt=""
+						loading="lazy" />&nbsp;&nbsp;<span>
+						Dashboard</span>
+				</a>
+				<hr style="background-color: aliceblue;">
 
+				<a th:href="@{/registerEmployee}" class="list-group-item list-group-item-action py-2 ripple"> <i
+						class="fas fa-tachometer-alt fa-fw me-3"></i><img
+						th:src="@{/c8e87a4e-49ac-40ac-aa78-53ad749e91a0.svg}" height="25" alt=""
+						loading="lazy" />&nbsp;&nbsp;<span>
+						Add New Front Desk Employee</span>
+				</a>
+				<hr style="background-color: aliceblue;">
+
+				<a th:href="@{/registerGuest}" class="list-group-item list-group-item-action py-2 ripple"> <i
+						class="fas fa-tachometer-alt fa-fw me-3"></i><img
+						th:src="@{/c8e87a4e-49ac-40ac-aa78-53ad749e91a0.svg}" height="25" alt=""
+						loading="lazy" />&nbsp;&nbsp;<span>
+						Add New Guest</span>
+				</a>
+
+
+			</div>
+		</div>
+	</nav>
+	<!-- Sidebar -->
+
+	<!-- Navbar -->
+	<nav id="main-navbar" class="navbar navbar-expand-lg navbar-light fixed-top">
+		<!-- Container wrapper -->
+		<div class="container-fluid">
+			<!-- Toggle button -->
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
+				aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+
+			</button>
+
+			<!-- Brand -->
+			<a class="navbar-brand"
+				th:href="@{'/admin/adminPortal/1?sortField=email&sortDir='+${reverseSortDir}+'&role='}">
+				<img th:src="@{/ChatGPT Image Sep 3, 2025, 01_04_50 PM.png}" height="25" alt="" loading="lazy" /> <span>
+					Room Booking System
+				</span>
+			</a>
+			<a class="navbar-brand d-flex" th:href="@{/logout}"> Logout
+			</a>
+			<!-- Search form -->
+
+
+			<!-- Right links -->
 
 		</div>
-	</div>
-</nav>
-<!-- Sidebar -->
-
-<!-- Navbar -->
-<nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
-	<!-- Container wrapper -->
-	<div class="container-fluid">
-		<!-- Toggle button -->
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
-			aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-
-		</button>
-
-		<!-- Brand -->
-		<a class="navbar-brand" th:href="@{'/admin/adminPortal/1?sortField=email&sortDir='+${reverseSortDir}+'&role='}">
-			<img th:src="@{/ChatGPT Image Sep 3, 2025, 01_04_50 PM.png}" height="25" alt="" loading="lazy" /> <span>
-				University Management System
-			</span>
-		</a>
-		<a class="navbar-brand d-flex" th:href="@{/logout}"> Logout
-		</a>
-		<!-- Search form -->
-
-
-		<!-- Right links -->
-
-	</div>
-	<!-- Container wrapper -->
-</nav>
-<!-- Navbar -->
+		<!-- Container wrapper -->
+	</nav>
+	<!-- Navbar -->
 </th:block>
+
 </html>

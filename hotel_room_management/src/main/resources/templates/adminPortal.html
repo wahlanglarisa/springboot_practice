@@ -26,8 +26,8 @@
 
 			<!-- Action buttons -->
 			<div class="d-flex mb-3">
-				<a th:href="@{/registerStudent}" class="btn btn-primary me-2">Add New Student</a>
-				<a th:href="@{/registerProfessor}" class="btn btn-primary">Add New Professor</a>
+				<a th:href="@{/admin/registerEmployee}" class="btn btn-primary me-2">Add New Employee</a>
+				<a th:href="@{/registerProfessor}" class="btn btn-primary">Add New Guest</a>
 			</div>
 
 			<!-- ✅ Dropdown (outside table, position static) -->
@@ -184,7 +184,7 @@
 		}
 	</script>
 </body>
-<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top footer"
 	th:insert="fragments/footer :: footer"></footer>
 
 </html>

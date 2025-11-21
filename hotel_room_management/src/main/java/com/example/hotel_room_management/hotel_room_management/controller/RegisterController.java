@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class RegisterController {
     @Autowired
     private UserService userService;
-    @GetMapping("/register")
+    @GetMapping("/admin/registerEmployee")
     public String registerUser(Model model) {
         model.addAttribute("user",new User());
-        return "registerProfessor";
+        return "registerEmployee";
     }
     @PostMapping("/save")
     public String saveUser(User user) {
