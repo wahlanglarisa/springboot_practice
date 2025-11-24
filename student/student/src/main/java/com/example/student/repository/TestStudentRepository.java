@@ -13,6 +13,6 @@ import com.example.student.model.TestStudentID;
 import com.example.student.model.wrapper.StudentsTestData;
 @Repository
 public interface TestStudentRepository extends JpaRepository<TestStudent,String> {
-	@Query("select new com.example.student.model.wrapper.StudentsTestData(teststudent.testStudentID,test.id,student.ID,test.course.courseName,concat(student.firstName,' ',student.lastName )) from TestStudent teststudent join teststudent.student student join teststudent.test test join test.course where test.id=:id")
+	@Query("select new com.example.student.model.wrapper.StudentsTestData(teststudent.testStudentID,test.id,student.ID,test.course.courseName,concat(student.firstName,' ',student.lastName )) from TestStudent teststudent join teststudent.student student join teststudent.test test join test.course where test.id=:id and teststudent.marks is null")
 	public List<StudentsTestData> getStudentByTestID(@Param("id") long id);
 }

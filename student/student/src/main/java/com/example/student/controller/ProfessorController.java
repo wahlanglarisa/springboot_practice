@@ -64,11 +64,27 @@ public class ProfessorController {
 
 	}
 
+	@GetMapping("/professor/viewTests")
+	public String proViewTests(Model model, HttpServletRequest httpServletRequest) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+		List<FindProfessorClasses> professorClasses = professorService.findProfessorClasses(principal.getName());
+		List<ProfListClasses> profListClasses = professorService.getClass_Courses(principal.getName());
+		Professor professor = professorService.getProfByEmail(principal.getName());
+
+		List<Test> tests = testService.findByProfessor(professor);
+		model.addAttribute("user", principal.getName());
+		model.addAttribute("classCount", professorClasses);
+		model.addAttribute("tests", tests);
+				model.addAttribute("routines", profListClasses);
+
+		return "viewTests";
+	}
+
 	@GetMapping("/professor/attendancePage/{id}")
 	private String attendancePage(Model model, HttpServletRequest httpServletRequest, @PathVariable("id") long id) {
 		Principal principal = httpServletRequest.getUserPrincipal();
 		String email = principal.getName();
-		Course course=courseService.findById(id);
+		Course course = courseService.findById(id);
 		List<AttendancePage> attendancePages = professorService.getAttendancePages(email, id);
 		model.addAttribute("course", courseService.findById(attendancePages.getFirst().getCourseID()));
 		System.out.println(attendancePages.getFirst().getClass_id());
@@ -105,6 +121,7 @@ public class ProfessorController {
 		model.addAttribute("classID", classID);
 		model.addAttribute("test", new Test());
 		Professor professor = professorService.getProfByEmail(principal.getName());
+		model.addAttribute("courseName", courseService.findById(courseID).getCourseName());
 		model.addAttribute("professor", professor);
 		return "createTestPagewithCourse";
 	}

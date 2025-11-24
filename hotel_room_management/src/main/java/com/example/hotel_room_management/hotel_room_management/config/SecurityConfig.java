@@ -16,8 +16,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-	// @Autowired
-	// private UserDetailsService userDetailsService;
+	@Autowired
+	private UserDetailsService userDetailsService;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -30,13 +30,12 @@ public class SecurityConfig {
 				// requests
 				// require
 				// authentication
-				).formLogin(form -> form.loginPage("/login").usernameParameter("username")
-						.passwordParameter("password")
+				).formLogin(form -> form.loginPage("/login")
 						.failureHandler((request, response, exception) -> {
 							exception.printStackTrace(); // Log exact error
 							System.out.println(request.getHeaderNames());
 							response.sendRedirect("/login?error=true");
-						}).permitAll()// Allow anyone to access the login page
+						}).successHandler(customSuccessHandler()).permitAll()// Allow anyone to access the login page
 				// Allow logout without restriction
 				).logout(logout -> logout.permitAll() // Allow logout without restriction
 				).build();
@@ -48,26 +47,26 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
-	// @Bean
-	// public AuthenticationProvider authenticationProvider() {
-	// DaoAuthenticationProvider provider =new
-	// DaoAuthenticationProvider(userDetailsService);
-	// provider.setPasswordEncoder(bCryptPasswordEncoder());
-	// System.out.println("Inside AuthenticationProvider Function");
-	// return provider;
-	// }
 	@Bean
-	public UserDetailsService userDetailsService() {
-		UserDetails user = org.springframework.security.core.userdetails.User
-				.withUsername("larisa")
-				.password(bCryptPasswordEncoder().encode("password"))
-				.roles("USER")
-				.build();
-
-		return new org.springframework.security.provisioning.InMemoryUserDetailsManager(user);
+	public AuthenticationProvider authenticationProvider() {
+	DaoAuthenticationProvider provider =new
+	DaoAuthenticationProvider(userDetailsService);
+	provider.setPasswordEncoder(bCryptPasswordEncoder());
+	System.out.println("Inside AuthenticationProvider Function");
+	return provider;
 	}
 	// @Bean
-	// public AuthenticationSuccessHandler customSuccessHandler() {
-	// return new CustomAuth enticationSuccessHandler();
+	// public UserDetailsService userDetailsService() {
+	// 	UserDetails user = org.springframework.security.core.userdetails.User
+	// 			.withUsername("larisa")
+	// 			.password(bCryptPasswordEncoder().encode("password"))
+	// 			.roles("USER")
+	// 			.build();
+
+	// 	return new org.springframework.security.provisioning.InMemoryUserDetailsManager(user);
 	// }
+	@Bean
+	public AuthenticationSuccessHandler customSuccessHandler() {
+	return new CustomAuthenticationSuccessHandler();
+	}
 }

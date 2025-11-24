@@ -21,6 +21,7 @@ import com.example.student.model.Class_Course;
 import com.example.student.model.Course;
 import com.example.student.model.Professor;
 import com.example.student.model.Student;
+import com.example.student.model.Test;
 import com.example.student.model.wrapper.AddStudentClass;
 import com.example.student.model.wrapper.FindProfessorClasses;
 import com.example.student.model.wrapper.ProfListClasses;
@@ -66,6 +67,7 @@ public class HODController {
 		model.addAttribute("classCount", professorClasses);
 		model.addAttribute("routines", profListClasses);
 		model.addAttribute("date", LocalDateTime.now());
+		model.addAttribute("professor", professor);
 
 		return "hodPortal";
 
@@ -201,6 +203,53 @@ public class HODController {
 
 		System.out.println(course.getCourseName() + "\t" + course.getDepartment().getDName());
 		return "redirect:/hod/hodPortal";
+	}
+
+	@GetMapping("/hod/viewProfessorsPage")
+	public String viewProfessorPage(HttpServletRequest httpServletRequest, Model model) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+		Professor professor = professorService.getProfByEmail(principal.getName());
+
+		List<Professor> professors = professorService.findByDepartmentID(professor.getDepartment().getId());
+		model.addAttribute("professors", professors);
+
+		return "viewProfessorsPage";
+	}
+
+	@GetMapping("/hod/viewRoutine/{day}")
+	public String viewRoutinePage(Model model, @PathVariable("day") String day, HttpServletRequest httpServletRequest) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+		String email = principal.getName();
+		List<ProfListClasses> profListClasses = professorService.getProfClass_Courses_By_Day(email, day);
+		System.out.println(profListClasses);
+		model.addAttribute("routine", profListClasses);
+		model.addAttribute("day", day);
+		return "viewRoutinehod";
+	}
+
+	@GetMapping("/hod/viewAllClasses")
+	public String viewProfClasses(Model model, HttpServletRequest httpServletRequest) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+		String email = principal.getName();
+		List<ProfListClasses> profListClasses = professorService.getProfClass_Courses(email);
+		Professor professor = professorService.getProfByEmail(principal.getName());
+
+		model.addAttribute("routines", profListClasses);
+		model.addAttribute("professor", professor);
+		return "viewClassesHOD";
+	}
+
+	@GetMapping("/hod/createTestPage/{courseID}/{profID}/{classID}")
+	private String createTestPage(Principal principal, Model model, @PathVariable("courseID") long courseID,
+			@PathVariable("profID") long profID, @PathVariable("classID") long classID) {
+		model.addAttribute("profID", profID);
+		model.addAttribute("courseID", courseID);
+		model.addAttribute("classID", classID);
+		model.addAttribute("courseName",courseService.findById(courseID).getCourseName());
+		model.addAttribute("test", new Test());
+		Professor professor = professorService.getProfByEmail(principal.getName());
+		model.addAttribute("professor", professor);
+		return "createTestPagewithCourseHOD";
 	}
 
 }
