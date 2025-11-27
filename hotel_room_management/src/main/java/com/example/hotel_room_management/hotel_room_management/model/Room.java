@@ -1,10 +1,13 @@
 package com.example.hotel_room_management.hotel_room_management.model;
 
+import java.util.List;
+
 import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,9 +23,12 @@ import lombok.Setter;
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
-    public Long roomNo;
-    public Double ratePerNight;
-    public String status;
+    private Long id;
+    private Long roomNo;
+    private Double ratePerNight;
+    private String status;
+    @OneToMany(mappedBy = "room")
+    private List<Booking> rooms;
+    private String room_type;
 
 }
