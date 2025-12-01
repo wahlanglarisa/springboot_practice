@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService,UserDetailsService{
     @Override
     public User saveUser(User user) {
         // TODO Auto-generated method stub
-        user.setRole(roleRepository.findByName("Guest"));
+        user.setRole(roleRepository.findByName("Front Desk"));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }

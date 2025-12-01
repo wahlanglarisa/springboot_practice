@@ -26,7 +26,7 @@ public class SecurityConfig {
 				// production
 				.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers("/js/**", "/css/**", "/js/**", "/images/**", "/html/**", "/")
-						.permitAll().requestMatchers("/**").permitAll().anyRequest().authenticated() // All other
+						.permitAll().requestMatchers("/frontdesk/**").hasAuthority("Front Desk").anyRequest().authenticated() // All other
 				// requests
 				// require
 				// authentication

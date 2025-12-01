@@ -22,15 +22,15 @@ public class RegisterController {
         model.addAttribute("user",new User());
         return "registerEmployee";
     }
-    @PostMapping("/save")
+    @PostMapping("/saveEmployee")
     public String saveUser(User user) {
         //TODO: process POST request
         try{
             System.out.println(user);
       userService.saveUser(user);
-        return "redirect:/register?sucess";
+        return "redirect:/admin/registerEmployee?sucess";
         }catch(Exception e){
-            return "redirect:/register?error";
+            return "redirect:/admin/registerEmployee?error";
         }
   
     }

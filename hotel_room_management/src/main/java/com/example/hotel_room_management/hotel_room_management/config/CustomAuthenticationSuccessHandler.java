@@ -25,7 +25,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 			redirectURL ="/admin/adminPortal/1?sortField=email&sortDir=asc&role=";
 		}
 		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Front Desk"))) {
-			redirectURL ="/frontDesk";
+			redirectURL ="/frontDesk/dashboard/Available";
 		}
 		;
 		
