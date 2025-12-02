@@ -4,8 +4,7 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link th:href="@{/css/admin.css}" rel="stylesheet">
-    <link th:href=@{/css/student.css} rel="stylesheet" />
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
@@ -26,21 +25,75 @@
     <br>
     <br>
     <main id="main-content">
-        <div class="row  ">
-            <div class="col-3 routineBlock text-center">
+        <div class="row  text-center">
+            <div class="col-3 routineBlock  justify-content-center">
 
                 <span>No. of [[${occRooms.status}]] Rooms<br>[[${occRooms.count}]]</span>
 
             </div>
             &nbsp;
             &nbsp;
-            <div class="col-3 routineBlock text-center">
+            <div class="col-3 routineBlock ">
 
                 <span>No. of [[${avRooms.status}]] Rooms<br>[[${avRooms.count}]]</span>
 
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-5  routineBlock ">
+                <div class="text-end" id="filterButtons"><a th:href="@{/frontDesk/dashboard/Available}" class="btn"
+                        id="avButton" th:style="${requestURI=='/frontDesk/dashboard/Available'}?
+                    'background-color:#2c5aab;
+                    color:#f4f7f9;
+                    font-weight: bold':
+                    'background-color:lightblue; font-weight: bold'">Available</a>&nbsp;<a
+                        th:href="@{/frontDesk/dashboard/Occupied}" class="btn" id="occButton" th:style="${requestURI=='/frontDesk/dashboard/Occupied'}?
+                    'background-color:rgb(190, 39, 39);
+                    color:#f4f7f9;
+                    font-weight: bold':
+                    'background-color:lightcoral;font-weight: bold'">Occupied</a>
+                </div>
+                <table class=" justify-content-center">
+                   
+                    <thead>
+                        <tr><th colspan="3">List of [[${roomStatus}]] Rooms</th></tr>
+                    <tr>
+                        <th>Room Number </th>
+                        <th>Room Type</th>
+                        <th>Rate</th>
+                    </tr>
+                </thead>
+                    <tr th:each=" room: ${rooms}">
+                        <td th:text="${room.roomNo}"></td>
+                        <td th:text="${room.room_type}"></td>
+                        <td th:text="${room.ratePerNight}"></td>
+                    </tr>
+
+                </table>
+            </div>
+             <div class="col-md-5  routineBlock ">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Guest Name</th>
+                            <th>Room Number</th>
+                            <th>Number of Occupants</th>
+                            <th>Rate</th>
+                        </tr>
+                    </thead>
+                </table>
+             </div>
+        </div>
     </main>
 </body>
+<script>
+    $(document).ready(function () {
+        $("avButton").click(function () {
+            console.log("clicked")
+            alert($(this).attr("href"))
+        })
+    })
+</script>
 
 </html>
