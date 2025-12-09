@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
+    <title>Add Guest</title>
+</head>
+<header th:insert="~{fragments/hod_header :: hod_header}"></header>
+<br>
+<br>
+<br>
+
+<body>
+    <main id="main-content">
+        <h1>Assign Room to Guest</h1>
+        <form method="post" th:object="${guestBooking}">
+            <div class="routineBlock">
+                <input class="form-control" placeholder="Enter Guest Name" th:field="*{guestName}">
+<br>
+                <div class="row"><label for="checkin" class="col">Enter the Check In Date</label><input
+                        class="form-control col" id="checkin" type="date"
+                        th:field="*{checkInDate}"></div>
+                        <br>
+                         <div class="row"><label for="checkin" class="col">Enter the Check Out Date</label><input
+                        class="form-control col" id="checkin" type="date"
+                        th:field="*{checkOutDate}"></div>
+            </div>
+        </form>
+    </main>
+</body>
+
+</html>

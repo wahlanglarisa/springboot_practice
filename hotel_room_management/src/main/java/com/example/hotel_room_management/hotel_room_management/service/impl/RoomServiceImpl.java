@@ -23,5 +23,10 @@ public class RoomServiceImpl implements RoomService{
         // TODO Auto-generated method stub
         return roomRepository.getCountByRoomStatus(status);
     }
+    @Override
+    public List<Room> findByRoomtypeAndStatus(String room_type, String status) {
+        // TODO Auto-generated method stub
+        return roomRepository.findByRoomtypeAndStatus(room_type, status);
+    }
 
 }

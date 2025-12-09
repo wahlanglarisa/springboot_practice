@@ -7,5 +7,9 @@ import com.example.hotel_room_management.hotel_room_management.model.wrapper.Get
 
 public interface RoomService {
     public List<Room> findByStatus(String status);
+
     public GetCountByRoomStatus getCountByRoomStatus(String status);
+
+    public List<Room> findByRoomtypeAndStatus(String room_type, String status);
+
 }

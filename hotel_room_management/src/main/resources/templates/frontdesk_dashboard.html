@@ -18,7 +18,7 @@
     </title>
 
 </head>
-<header th:insert="fragments/hod_header :: hod_header"></header>
+<header th:insert="~{fragments/hod_header :: hod_header}"></header>
 
 <body>
     <br>
@@ -66,7 +66,7 @@
                 </thead>
                     <tr th:each=" room: ${rooms}">
                         <td th:text="${room.roomNo}"></td>
-                        <td th:text="${room.room_type}"></td>
+                        <td th:text="${room.roomtype}"></td>
                         <td th:text="${room.ratePerNight}"></td>
                     </tr>
 

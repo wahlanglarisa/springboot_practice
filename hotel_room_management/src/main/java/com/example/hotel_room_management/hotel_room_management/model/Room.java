@@ -29,6 +29,6 @@ public class Room {
     private String status;
     @OneToMany(mappedBy = "room")
     private List<Booking> rooms;
-    private String room_type;
+    private String roomtype;
 
 }

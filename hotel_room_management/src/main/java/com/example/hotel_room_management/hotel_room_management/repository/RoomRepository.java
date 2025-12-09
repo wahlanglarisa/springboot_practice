@@ -17,4 +17,5 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("select new com.example.hotel_room_management.hotel_room_management.model.wrapper.GetCountByRoomStatus(count(*),room.status)"
     +" from Room room where room.status=:status group by room.status")
     public GetCountByRoomStatus getCountByRoomStatus(@Param("status") String status);
+    public List<Room> findByRoomtypeAndStatus(String room_type,String status);
 }

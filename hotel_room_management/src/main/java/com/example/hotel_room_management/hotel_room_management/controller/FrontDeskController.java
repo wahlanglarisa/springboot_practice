@@ -8,20 +8,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.hotel_room_management.hotel_room_management.model.Room;
 import com.example.hotel_room_management.hotel_room_management.model.wrapper.GetCountByRoomStatus;
+import com.example.hotel_room_management.hotel_room_management.model.wrapper.SaveGuestDetails;
 import com.example.hotel_room_management.hotel_room_management.service.RoomService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 
 @Controller
+@RequestMapping("/frontDesk")
 public class FrontDeskController {
     @Autowired
     private RoomService roomService;
-    @GetMapping("/frontDesk/dashboard/{roomStatus}")
+    @GetMapping("/dashboard/{roomStatus}")
     public String frontdeskDashboardPage(Model model,@PathVariable("roomStatus") String roomStatus,HttpServletRequest httpServletRequest ) {
         List<Room> rooms=roomService.findByStatus(roomStatus);
         model.addAttribute("requestURI", httpServletRequest.getRequestURI());
@@ -32,6 +35,11 @@ public class FrontDeskController {
         model.addAttribute("avRooms", availableRoomStatus);
         model.addAttribute("roomStatus", roomStatus);
         return "frontdesk_dashboard";
+    }
+    @GetMapping("/addGuestPage")
+    public String addGuestPage(Model model) {
+        model.addAttribute("guestBooking",new SaveGuestDetails());
+        return "addguestRoom";
     }
     
 }
