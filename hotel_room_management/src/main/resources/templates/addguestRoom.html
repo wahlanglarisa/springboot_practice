@@ -18,18 +18,23 @@
 <body>
     <main id="main-content">
         <h1>Assign Room to Guest</h1>
-        <form method="post" th:object="${guestBooking}">
-            <div class="routineBlock">
+        <form method="post" th:object="${guestBooking}" th:action="@{/frontDesk/saveGuest}">
+            <div class="">
                 <input class="form-control" placeholder="Enter Guest Name" th:field="*{guestName}">
-<br>
-                <div class="row"><label for="checkin" class="col">Enter the Check In Date</label><input
-                        class="form-control col" id="checkin" type="date"
-                        th:field="*{checkInDate}"></div>
-                        <br>
-                         <div class="row"><label for="checkin" class="col">Enter the Check Out Date</label><input
-                        class="form-control col" id="checkin" type="date"
-                        th:field="*{checkOutDate}"></div>
+                <br> <input class="form-control" placeholder="Enter Email" th:field="*{email}">
+                <br>
+                <input class="form-control" placeholder="Enter Phone Number" th:field="*{phoneNo}">
+                <br>
+                <input class="form-control" placeholder="Enter the Number of Occupants" th:field="*{numberOfOccupants}">
+                <br>
+                <div class="row"><label for="checkin" class="col-lg-3">Enter the Check In Date</label><input
+                        class="form-control col" id="checkin" type="date" th:field="*{checkInDate}"></div>
+                <br>
+                <div class="row"><label for="checkin" class="col-lg-3">Enter the Check Out Date</label><input
+                        class="form-control col" id="checkin" type="date" th:field="*{checkOutDate}"></div>
             </div>
+            <br>
+            <input type="submit" class="form-control btn btn-primary">
         </form>
     </main>
 </body>

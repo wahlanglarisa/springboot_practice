@@ -1,6 +1,9 @@
 package com.example.hotel_room_management.hotel_room_management.model;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
@@ -25,8 +28,10 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date checkInDate;
-    private Date checkOutDate;
+      @DateTimeFormat(pattern = "dd-mm-yyyy")
+    private LocalDateTime checkInDate;
+     @DateTimeFormat(pattern = "dd-mm-yyyy")
+    private LocalDateTime checkOutDate;
     @ManyToOne
     @JoinColumn(name="guest_id")
     private Guest guest;
