@@ -1,6 +1,7 @@
 package com.example.student.controller;
 
 import java.security.Principal;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class StudentController {
+	
 	@Autowired
 	private StudentService studentService;
 	@Autowired
@@ -48,6 +50,7 @@ public class StudentController {
 		List<TestResults> results = studentService.testResults(principal.getName());
 		StudentDepartmentBranch departmentBranch=studentService.getDepartmentBranch(principal.getName());
 		findNoOfAttendance totalAttendance = studentService.noOfAttendance(principal.getName());
+		long noAttendance=studentService.countByStudentAndDate(studentService.findStudentByEmailId(principal.getName()), Date.valueOf(LocalDate.now()));
 		model.addAttribute("user", principal.getName());
 		model.addAttribute("routines", studentRoutines);
 		model.addAttribute("tests", tests);
@@ -55,7 +58,7 @@ public class StudentController {
 		model.addAttribute("results", results);
 		model.addAttribute("stdeptBranch",departmentBranch);
 		model.addAttribute("date",LocalDate.now());
-		
+		model.addAttribute("noAttendance",noAttendance);
 		return "studentHomepage";
 	}
 	@GetMapping("/student/viewRoutinePage/{day}")

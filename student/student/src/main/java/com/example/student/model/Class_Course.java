@@ -58,5 +58,5 @@ public class Class_Course {
 	@ManyToOne()
 	@JoinColumn(name="branch_id")
 	private Branch branch;
-
+	private String remarks;
 }
