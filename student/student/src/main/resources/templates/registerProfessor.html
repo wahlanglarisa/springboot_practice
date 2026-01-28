@@ -52,7 +52,7 @@
 				<div class="mb-3 row">
 					<label for="exampleFormControlTextarea1" class="form-label col-sm-1">Enter
 						your Email ID</label> <input type="text" class="form-control col" id="emailid"
-						placeholder="Enter your Email ID" th:field="*{emailID}">
+						placeholder="Enter your Email ID" th:field="*{emailID}"><div class="col-sm-1 alert alert-danger" id="email_error"></div>
 				</div>
 
 				<div class="mb-3 row">
@@ -60,8 +60,8 @@
 						your password</label> <input type="password" class="form-control col" id="emailid"
 						placeholder="Enter your Password" th:field="*{password}">
 				</div>
-				<select class="form-select" id="deptSelect"  th:field="*{dept_id}" onchange="clicked()">
-					<option th:each="dept:${department}" th:value="${dept.id}" >[[${dept.dName}]]</option>
+				<select class="form-select" id="deptSelect" th:field="*{dept_id}" onchange="clicked()">
+					<option th:each="dept:${department}" th:value="${dept.id}">[[${dept.dName}]]</option>
 				</select>
 				<br>
 				<br>
@@ -92,11 +92,28 @@
 	</main>
 </body>
 <script type="text/javascript">
-	
+	$(document).ready(function () {
+		const contextPath = window.location.pathname.split('/')[1];
+		$("#emailid").on("focusout", () => {
+			$.ajax({
+				url: "/" + contextPath + "/admin/checkExistingEmail/",
+				success: (data) => {
+					if(data){
+						$("#email_error").text("Email already exists in system")
+						$("#submit_button").attr("disabled","true")
+						// $("#submit_button").text("Submit")
+
+					}
+				},
+				data: { email: $("#emailid").val() }
+			})
+		})
+	})
 </script>
 <div class="container">
 
-  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
-    th:insert="fragments/footer :: footer">
+	<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
+		th:insert="fragments/footer :: footer">
 </div>
+
 </html>

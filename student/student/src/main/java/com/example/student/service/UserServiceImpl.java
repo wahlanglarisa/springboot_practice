@@ -178,4 +178,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		// TODO Auto-generated method stub
 		return userRepository.userListsRoleFiltered(pageable, role);
 	}
+
+	@Override
+	public Boolean checkExsistingEmail(String email) {
+		// TODO Auto-generated method stub
+		System.out.println(userRepository.findByEmail(email));
+		return userRepository.findByEmail(email)==null?false:true;
+	}
 }

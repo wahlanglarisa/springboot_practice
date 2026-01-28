@@ -70,6 +70,16 @@ public class AJAXController {
 		return studentRoutines;
 
 	}
+	@RequestMapping("/admin/checkExistingEmail/")
+	public Boolean checkEmail(Model model, HttpServletRequest httpServletRequest,@RequestParam("email") String email)  {
+		Principal principal = httpServletRequest.getUserPrincipal();
+		// Student student = studentService.findStudentByEmailId(email);
+		// List<StudentRoutine> studentRoutines = studentService.getStudentRoutines(email, day, student.getSemester(),
+		// 		student.getBranch().getId());
+		// model.addAttribute("routine", studentRoutines);
+		return userService.checkExsistingEmail(email);
+
+	}
 
 	// @RequestMapping("/admin/adminPortalAjax/{pageNo}")
 	// public List<UserList> AdminPortal(HttpServletRequest httpRequest, Model model,
