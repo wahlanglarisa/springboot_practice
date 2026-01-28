@@ -1,5 +1,6 @@
 package com.example.student.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.repository.query.Param;
@@ -31,6 +32,8 @@ public interface StudentService {
 
 	public Student findStudentByEmailId(String email);
 
-	public List<StudentRoutine> getStudentRoutines(String email,String day,Long semester,Long branchid);
+	public List<StudentRoutine> getStudentRoutines(String email, String day, Long semester, Long branchid);
+
+	public long countByStudentAndDate(Student student, Date date);
 
 }

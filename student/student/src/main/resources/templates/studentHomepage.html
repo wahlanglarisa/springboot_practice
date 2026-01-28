@@ -36,8 +36,8 @@
 					<strong>You have attended total of [[${totalAttendance.Count}]]
 						class(es) today</strong>
 					<div class="progress" role="progressbar" aria-label="Basic example"
-						th:aria-valuenow=${routines.size()} aria-valuemin="0" th:aria-valuemax=${routines.size()}>
-						<div class="progress-bar" th:style="'width: '+(${routines.size()})+'%'"></div>
+						th:aria-valuenow=${noAttendance} aria-valuemin="0" th:aria-valuemax=${routines.size()}>
+						<div class="progress-bar" th:style="'width: '+(${noAttendance})+'%'"></div>
 					</div>
 				</div>
 				<br> <br>

@@ -1,5 +1,6 @@
 package com.example.student.service;
 
+import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,16 +20,12 @@ import com.example.student.model.wrapper.TestResults;
 import com.example.student.model.wrapper.UpComingTests;
 import com.example.student.model.wrapper.UserDto;
 import com.example.student.model.wrapper.findNoOfAttendance;
-import com.example.student.repository.BranchRepository;
-import com.example.student.repository.ClassRepository;
-import com.example.student.repository.CourseRepository;
-import com.example.student.repository.RoleRepository;
-import com.example.student.repository.StudentClassRepository;
-import com.example.student.repository.StudentRepository;
-import com.example.student.repository.UserRepository;
+import com.example.student.repository.*;
 
 @Service
 public class StudentServiceImpl implements StudentService {
+
+    private final AttendanceRepository attendanceRepository;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
@@ -45,6 +42,10 @@ public class StudentServiceImpl implements StudentService {
 	private ClassRepository classRepository;
 	@Autowired
 	private StudentClassRepository studentClassRepository;
+
+    StudentServiceImpl(AttendanceRepository attendanceRepository) {
+        this.attendanceRepository = attendanceRepository;
+    }
 
 	@Override
 	public Student saveStudent(UserDto st) {
@@ -127,6 +128,12 @@ public class StudentServiceImpl implements StudentService {
 	public List<StudentRoutine> getStudentRoutines(String email, String day, Long semester, Long branchid) {
 		// TODO Auto-generated method stub
 		return studentRepository.getStudentRoutines(email, day, semester, branchid);
+	}
+
+	@Override
+	public long countByStudentAndDate(Student student, Date date) {
+		// TODO Auto-generated method stub
+		return attendanceRepository.countByStudentAndDate(student, date);
 	}
 
 }
