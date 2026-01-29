@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.student.exception.EmptyUserException;
 import com.example.student.model.Attendance;
 import com.example.student.model.Course;
 import com.example.student.model.Department;
@@ -50,8 +51,12 @@ public class ProfessorServiceImpl implements ProfessorService {
 	private DepartmentRepository departmentRepository;
 
 	@Override
-	public Professor saveProfessor(UserDto userDto) {
+	public Professor saveProfessor(UserDto userDto) throws EmptyUserException{
 		// TODO Auto-generated method stu
+		System.out.println("User Details "+userDto.getFirstName()!="");
+		if(userDto.getFirstName()=="" || userDto.getLastName()=="" || userDto.getEmailID()=="" || userDto.getPassword()=="" || userDto.getDept_id()==0){
+			throw new EmptyUserException("User Details should not be empty");
+		}
 		System.out.println(roleRepository.findByName(userDto.isHod() ? "Head Of Department" : "Professor"));
 		User user = new User(userDto.getFirstName(), userDto.getLastName(), userDto.getEmailID(),
 				bCryptPasswordEncoder.encode(userDto.getPassword()),

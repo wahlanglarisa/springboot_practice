@@ -29,6 +29,13 @@
 
 			</div>
 			<form th:action="@{/professorData}" method="post" th:object="${user}">
+				<div th:if="${param.dIntegrityViolationException}">
+					<div class="alert alert-danger">Email already exists.</div>
+				</div>
+				<div th:if="${param.emptyDetailsException}">
+					<div class="alert alert-danger">Please fill up all User Details.</div>
+				</div>
+				
 				<div th:if="${param.error}">
 					<div class="alert alert-danger">Invalid username or password.</div>
 				</div>
@@ -52,7 +59,8 @@
 				<div class="mb-3 row">
 					<label for="exampleFormControlTextarea1" class="form-label col-sm-1">Enter
 						your Email ID</label> <input type="text" class="form-control col" id="emailid"
-						placeholder="Enter your Email ID" th:field="*{emailID}"><div class="col-sm-1 alert alert-danger" id="email_error"></div>
+						placeholder="Enter your Email ID" th:field="*{emailID}">
+					<div class="col-sm-1 alert alert-danger hidden-row" id="email_error"></div>
 				</div>
 
 				<div class="mb-3 row">
@@ -61,6 +69,7 @@
 						placeholder="Enter your Password" th:field="*{password}">
 				</div>
 				<select class="form-select" id="deptSelect" th:field="*{dept_id}" onchange="clicked()">
+					<option value="0">Select Department</option>
 					<option th:each="dept:${department}" th:value="${dept.id}">[[${dept.dName}]]</option>
 				</select>
 				<br>
@@ -98,11 +107,16 @@
 			$.ajax({
 				url: "/" + contextPath + "/admin/checkExistingEmail/",
 				success: (data) => {
-					if(data){
+					if (data) {
 						$("#email_error").text("Email already exists in system")
-						$("#submit_button").attr("disabled","true")
+						$("#email_error").removeClass("hidden-row")
+
+						$("#submit_button").attr("disabled", "true")
 						// $("#submit_button").text("Submit")
 
+					}
+					else{
+						$("#email_error").addClass("hidden-row")
 					}
 				},
 				data: { email: $("#emailid").val() }

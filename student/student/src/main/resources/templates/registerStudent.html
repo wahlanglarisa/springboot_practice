@@ -47,31 +47,31 @@
 				<label for="exampleFormControlInput1"
 					class="form-label col col-sm-1">Enter your First Name</label> <input
 					type="text" class="form-control col" id="st_name"
-					th:field="*{firstName}">
+					th:field="*{firstName}" required>
 			</div>
 			<div class="mb-3 row">
 				<label for="exampleFormControlInput1"
 					class="form-label col col-sm-1">Enter your Last Name</label> <input
 					type="text" class="form-control col" id="st_name"
-					th:field="*{lastName}">
+					th:field="*{lastName}" required>
 			</div>
 			<div class="mb-3 row">
 				<label for="exampleFormControlTextarea1" class="form-label col-sm-1">Enter
 					your Email ID</label> <input type="text" class="form-control col"
 					id="emailid" placeholder="Enter your Email ID"
-					th:field="*{emailID}">
+					th:field="*{emailID}" required>
 			</div>
 			<div class="mb-3 row">
 				<label for="exampleFormControlTextarea1" class="form-label col-sm-1">Enter
 					your Semester</label> <input type="text" class="form-control col"
 					id="emailid" placeholder="Enter your Email ID"
-					th:field="*{semester}">
+					th:field="*{semester}" required>
 			</div>
 			<div class="mb-3 row">
 				<label for="exampleFormControlTextarea1" class="form-label col-sm-1">Enter
 					your password</label> <input type="text" class="form-control col"
 					id="emailid" placeholder="Enter your Email ID"
-					th:field="*{password}">
+					th:field="*{password}" required>
 			</div>
 			<table class="table">
 				<thead>
@@ -81,8 +81,8 @@
 				</thead>
 				<tr th:each="branch:${branches}">
 					<td><input type="radio" class="form-check-input"
-						th:value="${branch.id}" th:field="*{branch_id}">&nbsp;&nbsp;<label
-						th:text="${branch.branchName}" class="form-check-label"></label></td>
+						th:value="${branch.id}" th:field="*{branch_id}" required>&nbsp;&nbsp;<label
+						th:text="${branch.branchName}" class="form-check-label" ></label></td>
 				</tr>
 			</table>
 			

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 
+import com.example.student.exception.EmptyUserException;
 import com.example.student.model.Department;
 import com.example.student.model.Professor;
 import com.example.student.model.StudentClass;
@@ -16,7 +17,7 @@ import com.example.student.model.wrapper.UserDto;
 import com.example.student.model.wrapper.saveAttendance;
 
 public interface ProfessorService {
-	public Professor saveProfessor(UserDto userDto);
+	public Professor saveProfessor(UserDto userDto) throws EmptyUserException;
 
 	public List<FindProfessorClasses> findProfessorClasses(String email);
 
