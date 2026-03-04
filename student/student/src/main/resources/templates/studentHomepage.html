@@ -54,7 +54,7 @@
 							<tr th:each="routine,iter :${routines}">
 								<td th:text="${routine.courseName}" th:classappend="${iter.index>=3}?'hidden-row':''">
 								</td>
-								<td th:text="${routine.time}" th:classappend="${iter.index>=3}?'hidden-row':''"></td>
+								<td th:text="${routine.starttime}" th:classappend="${iter.index>=3}?'hidden-row':''"></td>
 							</tr>
 						</thead>
 					</table>

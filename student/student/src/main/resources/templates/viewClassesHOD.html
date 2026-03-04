@@ -41,7 +41,7 @@
 					<tbody>
 						<tr th:each="routine : ${routines}">
 							<td th:text="${routine.courseName}"></td>
-							<td th:text="${routine.time}"></td>
+							<td th:text="${routine.starttime}"></td>
 							<td th:text="${routine.day}"></td>
 							<td><a
 								th:href="@{/hod/createTestPage/{courseID}/{profID}/{classID}(courseID=

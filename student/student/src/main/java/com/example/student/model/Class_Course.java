@@ -35,9 +35,10 @@ public class Class_Course {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@DateTimeFormat(pattern = "HH:mm") // 24-hour format
-    private LocalTime time;
 	
+	@ManyToOne
+	@JoinColumn(name="time_id")
+	private ClassTime classTime;
 	private long semester;
 	@ManyToOne
 	@JoinColumn(name="class_course_id",referencedColumnName = "id")

@@ -16,7 +16,10 @@ import lombok.Setter;
 public class StudentRoutine {
 	private Long semester;
 	@DateTimeFormat(pattern = "HH:mm") // 24-hour format
-    private LocalTime time;
+    private LocalTime starttime;
+	@DateTimeFormat(pattern = "HH:mm") // 24-hour format
+    private LocalTime endtime;
 	private String courseName;
 	private String day;
+
 }

@@ -20,7 +20,7 @@ public interface ClassRepository extends JpaRepository<Class_Course, Long>{
     " and class.id not in "+
     "(select cc.id from StudentClass"+
     " st_class join st_class.class_Course cc "+
-    "join st_class.student st where st.ID=:st_id)")
+    "join st_class.student st   where st.ID=:st_id)")
     public List<Class_Course>  findByBranchIDAndSemester(@Param("id") long id,@Param("semester") Long semester,@Param("st_id") Long st_id);
     public List<Class_Course> findByCourseAndSemesterAndBranch(Course course,Long Semester,Branch Branch);
 }

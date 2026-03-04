@@ -25,13 +25,14 @@
 						New Class</a>&nbsp;&nbsp;
 				</div>
 				<strong>Department Classes</strong> <br> <br>
-				<table >
+				<table>
 
 
 					<thead>
 						<tr>
 							<th>Course Name</th>
-							<th>Time</th>
+							<th>Start Time</th>
+							<th>End Time</th>
 							<th>Day</th>
 							<th>Professor</th>
 							<Th>Actions</Th>
@@ -40,7 +41,9 @@
 					<tbody>
 						<tr th:each="routine : ${routines}">
 							<td th:text="${routine.courseName}"></td>
-							<td th:text="${routine.time}"></td>
+							<td th:text="${routine.starttime}"></td>
+							<td th:text="${routine.endtime}"></td>
+
 							<td th:text="${routine.day}"></td>
 							<td th:text="${routine.professor}"></td>
 							<td><a th:href="@{/hod/updateClassPage/{id}(id=${routine.id})}"

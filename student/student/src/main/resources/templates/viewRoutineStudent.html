@@ -65,7 +65,7 @@
                         <tr th:each="class,item :${routine}">
                             <td th:text="${class.courseName}"></td>
                             <td th:text="${class.day}"></td>
-                            <td th:text="${class.time}"></td>
+                            <td th:text="${class.starttime}"></td>
                             
                         </tr>
 
@@ -101,7 +101,7 @@
                         cell2 = newRow.insertCell(1)
 						cell2.innerHTML = `${element.day}`
                               cell3 = newRow.insertCell(2)
-						cell3.innerHTML = `${element.time}`
+						cell3.innerHTML = `${element.starttime}`
 						console.log(element)
 						i++;
 					});

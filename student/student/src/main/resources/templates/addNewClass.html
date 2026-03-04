@@ -12,8 +12,7 @@
 		integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
-<header th:insert="fragments/hod_header :: hod_header"
-></header>
+<header th:insert="fragments/hod_header :: hod_header"></header>
 
 <body>
 	<br>
@@ -38,12 +37,20 @@
 					<div class="alert alert-info">You have been logged out.</div>
 				</div>
 				<div class="mb-3 row">
-					<select th:field="*{course}" class='form-select'>
+					<select class='form-select' th:field="*{branch}" required aria-required="true">
+						<option selected="selected" value=0>Select the Branch</option>
+						<option th:each="branch: ${branches}" th:text="${branch.branchName}" th:value="${branch.id}">
+						</option>
+					</select>
+
+				</div>
+				<div class="mb-3 row">
+					<select th:field="*{course}" class='form-select' aria-required="true" required>
 						<option selected value=0>Select a course</option>
 						<option th:each="course,itemStat:${courses}" th:text="${course.courseName}"
 							th:value="${course.id}"></option>
 
-					</select> <select th:field="*{professor}" class='form-select'>
+					</select> <select th:field="*{professor}" class='form-select' required aria-required="true">
 						<option selected value=0>Select a Professor</option>
 						<option th:each="professor:${professors}"
 							th:text="${professor.firstName}+' '+${professor.lastName}" th:value="${professor.ID}">
@@ -51,10 +58,13 @@
 
 					</select>
 				</div>
-				<div class='mb-3 row'> <label for="time" class='col-3'>Select the Time </label><input type="time"
-						class="form-control col-3" id='time' th:field="*{time}"></div>
 				<div class="mb-3 row">
-					<select class='form-select' th:field="*{day}">
+					<label for="semester">Enter the Semester</label><input type="text" th:field="*{semester}"
+						class="form-control" id="semester" required>
+
+				</div>
+				<div class="mb-3 row">
+					<select class='form-select' th:field="*{day}" id="daySelect" required aria-required="true">
 						<option selected="selected" value=0>Select Day</option>
 						<option value="Monday">Monday</option>
 						<option value="Tuesday">Tuesday</option>
@@ -64,23 +74,14 @@
 					</select>
 				</div>
 				<div class="mb-3 row">
-					<label for="semester">Enter the Semester</label><input type="text" th:field="*{semester}"
-						class="form-control" id="semester">
+					<select class="form-select" th:field="*{classTime}" id="timeSelect" required>
 
-				</div>
-
-				<div class="mb-3 row">
-					<select class='form-select' th:field="*{branch}">
-						<option selected="selected" value=0>Select the Branch</option>
-						<option th:each="branch: ${branches}" th:text="${branch.branchName}" th:value="${branch.id}"></option>
 					</select>
-
 				</div>
-				<div class="mb-3 row">
-					<input type="text" placeholder="Enter some Remarks" th:field="*{remarks}" class="form-control">
-					</select>
 
-				</div>
+
+
+
 				<div class="mb-3">
 					<!-- <table>
 					
@@ -96,9 +97,63 @@
 		</div>
 	</main>
 </body>
+<script>
+	$(document).ready(function () {
+		const contextPath = window.location.pathname.split('/')[1]; // grabs student-0.0.1-SNAPSHOT
+		const func = function () {
+			$("#timeSelect").empty()
+			$.ajax({
+				url: "/" + contextPath + "/hod/getClassTime/",
+				data: {
+					day: $("#daySelect").val(),
+					br_id: $("#branch").val(),
+					semester: $("#semester").val()
+				},
+				success: (res) => {
+					res.forEach(element => {
+						$("#timeSelect").append(`<option value='${element.id}'>${element.startTime}</option>`)
+					});
+					console.log(res)
+				},
+				error: (jqXHR, textStatus, errorThrown) => {
+					console.log('Status:', jqXHR.status);
+					console.log('Text Status:', textStatus);
+					console.log('Error Thrown:', errorThrown);
+					console.log('Response Text:', jqXHR.responseText);
+				}
+			})
+		}
+		$("#branch").on("change", function () {
+			if ($("#daySelect").val() == 0 || $("#semester").val() == 0) {
+				alert("Please select a day and semester")
+			}
+			else {
+				func()
+			}
+		})
+				$("#semester").on("change", function () {
+			if ($("#daySelect").val() == 0 || $("#branch").val() == 0) {
+				alert("Please select a day and branch")
+			}
+			else {
+				func()
+			}
+		})
+	$("#daySelect").on("change", function () {
+			if ($("#branch").val() == 0 || $("#semester").val() == 0) {
+				alert("Please select a branch and semester")
+			}
+			else {
+				func()
+			}
+		})
+	})
+
+</script>
 <div class="container">
 
-  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
-    th:insert="fragments/footer :: footer">
+	<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
+		th:insert="fragments/footer :: footer">
 </div>
+
 </html>

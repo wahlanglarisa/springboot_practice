@@ -18,13 +18,13 @@ import com.example.student.model.wrapper.findNoOfAttendance;
 public interface StudentRepository extends JpaRepository<Student, Long> {
 	public Student findByEmailID(String userName);
 
-	@Query("SELECT distinct  new com.example.student.model.wrapper.StudentRoutine(cc.semester,cc.time,COURSE.courseName,cc.day) "
-			+ "FROM\r\n" + " Class_Course cc join	cc.course COURSE\r\n"
+	@Query("SELECT distinct  new com.example.student.model.wrapper.StudentRoutine(cc.semester,ct.startTime,ct.endTime,COURSE.courseName,cc.day) "
+			+ "FROM\r\n" + " Class_Course cc join	cc.course COURSE join cc.classTime ct\r\n"
 			+ "	 where trim(to_char(current_date, 'Day'))=cc.day")
 	public List<StudentRoutine> findStudentDetails(@Param("email") String email);
 
-	@Query("SELECT new com.example.student.model.wrapper.StudentRoutine(cc.semester,cc.time,COURSE.courseName,cc.day) "
-			+ "FROM\r\n" + " Class_Course cc join cc.course COURSE\r\n"
+	@Query("SELECT new com.example.student.model.wrapper.StudentRoutine(cc.semester,ct.startTime,ct.endTime,COURSE.courseName,cc.day) "
+			+ "FROM\r\n" + " Class_Course cc join cc.course COURSE\r\n join cc.classTime ct"
 			+ "	 where  (cc.day=:day) and cc.semester=:semester and cc.branch.id=:branch_id and COURSE.branch.id=:branch_id")
 	public List<StudentRoutine> getStudentRoutines(@Param("email") String email, @Param("day") String day,
 			@Param("semester") Long semester, @Param("branch_id") Long branchid);

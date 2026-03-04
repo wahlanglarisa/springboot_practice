@@ -1,5 +1,7 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
     "java.configuration.updateBuildConfiguration": "interactive",
-    "maven.view": "flat"
+    "maven.view": "flat",
+    "faah.customSoundPath": "C:\\Users\\wahla\\Downloads\\banana-cat-crying.mp3",
+    "faah.cooldownMs": 600
 }

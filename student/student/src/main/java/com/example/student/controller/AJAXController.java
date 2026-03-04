@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.student.model.ClassTime;
 import com.example.student.model.Course;
 import com.example.student.model.Student;
+import com.example.student.model.wrapper.GetAvailClassTime;
 import com.example.student.model.wrapper.ProfListClasses;
 import com.example.student.model.wrapper.StudentRoutine;
 import com.example.student.model.wrapper.UserList;
+import com.example.student.service.ClassTimeService;
 import com.example.student.service.CourseService;
 import com.example.student.service.ProfessorService;
 import com.example.student.service.StudentService;
@@ -35,6 +38,8 @@ public class AJAXController {
 	private ProfessorService professorService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ClassTimeService classTimeService;
 
 	@RequestMapping(value = "/admin/"
 			+ "getDepartmentAJAX/", method = RequestMethod.GET)
@@ -58,7 +63,7 @@ public class AJAXController {
 		return profListClasses;
 	}
 
-	@RequestMapping("/student/viewRoutinePage/")
+	@RequestMapping(value="/student/viewRoutinePage/",method = RequestMethod.GET)
 	public List<StudentRoutine> viewRoutinePage(Model model, HttpServletRequest httpServletRequest,
 			@RequestParam("day") String day) {
 		Principal principal = httpServletRequest.getUserPrincipal();
@@ -70,7 +75,13 @@ public class AJAXController {
 		return studentRoutines;
 
 	}
+	@RequestMapping(value = "/hod/getClassTime/", method = RequestMethod.GET)
+	public List<GetAvailClassTime> getClassTime(Model model, HttpServletRequest httpServletRequest,
+			@RequestParam("day") String day,@RequestParam("br_id") long br_id,@RequestParam("semester") long semester) {
+		
+		return classTimeService.getAvailClassTimes(day,br_id,semester);
 
+	}
 	// @RequestMapping("/admin/adminPortalAjax/{pageNo}")
 	// public List<UserList> AdminPortal(HttpServletRequest httpRequest, Model model,
 	// 		@PathVariable(value = "pageNo") int pageNo, @RequestParam("sortField") String sortField,

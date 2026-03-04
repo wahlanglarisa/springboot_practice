@@ -31,7 +31,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class StudentController {
-	
+
 	@Autowired
 	private StudentService studentService;
 	@Autowired
@@ -48,29 +48,33 @@ public class StudentController {
 		List<StudentRoutine> studentRoutines = studentService.findStudentClasses(principal.getName());
 		List<UpComingTests> tests = studentService.upComingTests(principal.getName());
 		List<TestResults> results = studentService.testResults(principal.getName());
-		StudentDepartmentBranch departmentBranch=studentService.getDepartmentBranch(principal.getName());
+		StudentDepartmentBranch departmentBranch = studentService.getDepartmentBranch(principal.getName());
 		findNoOfAttendance totalAttendance = studentService.noOfAttendance(principal.getName());
-		long noAttendance=studentService.countByStudentAndDate(studentService.findStudentByEmailId(principal.getName()), Date.valueOf(LocalDate.now()));
+		long noAttendance = studentService.countByStudentAndDate(
+				studentService.findStudentByEmailId(principal.getName()), Date.valueOf(LocalDate.now()));
 		model.addAttribute("user", principal.getName());
 		model.addAttribute("routines", studentRoutines);
 		model.addAttribute("tests", tests);
 		model.addAttribute("totalAttendance", totalAttendance);
 		model.addAttribute("results", results);
-		model.addAttribute("stdeptBranch",departmentBranch);
-		model.addAttribute("date",LocalDate.now());
-		model.addAttribute("noAttendance",noAttendance);
+		model.addAttribute("stdeptBranch", departmentBranch);
+		model.addAttribute("date", LocalDate.now());
+		model.addAttribute("noAttendance", noAttendance);
 		return "studentHomepage";
 	}
+
 	@GetMapping("/student/viewRoutinePage/{day}")
-	public String viewRoutinePage(Model model, HttpServletRequest httpServletRequest,@PathVariable("day") String day) {
-		Principal principal=httpServletRequest.getUserPrincipal();
-		String email=principal.getName();
-		Student student=studentService.findStudentByEmailId(email);
-		List<StudentRoutine> studentRoutines=studentService.getStudentRoutines(email,day,student.getSemester(),student.getBranch().getId());
+	public String viewRoutinePage(Model model, HttpServletRequest httpServletRequest, @PathVariable("day") String day) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+		String email = principal.getName();
+		Student student = studentService.findStudentByEmailId(email);
+		List<StudentRoutine> studentRoutines = studentService.getStudentRoutines(email, day, student.getSemester(),
+				student.getBranch().getId());
 		model.addAttribute("routine", studentRoutines);
-		return "viewRoutineStudent";	
-	
+		model.addAttribute("date", LocalDate.now());
+
+		return "viewRoutineStudent";
+
 	}
-	
 
 }
