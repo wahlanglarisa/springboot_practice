@@ -20,4 +20,5 @@ public interface UserService {
 	public User updateUser(User user);
 
 	public void deleteUser(long id);
+	public Boolean checkExsistingEmail(String email);
 }
