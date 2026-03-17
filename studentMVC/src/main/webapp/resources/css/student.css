@@ -1,0 +1,82 @@
+@charset "UTF-8";
+
+
+error{
+	border-color:red;
+}
+.errorForm:focus{
+	border-color: red;
+}
+.ui.container{
+	display: inline;
+}
+.sidebar {
+  position: fixed;
+  top: 58px;
+  left: 0;
+  width: 240px;
+  height: calc(100% - 58px);
+  background-color: #241d4f;
+  box-shadow: 0 2px 5px rgba(0,0,0,.05), 0 2px 10px rgba(0,0,0,.05);
+  z-index: 1050;
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+}
+.list-group-item{
+    background-color: #4b08ad;
+    color: aliceblue;
+    font-weight: bold;
+    border-radius: 10px;
+
+}
+main {
+  margin-left: 240px;
+  padding: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.show {
+    transform: translateX(0);
+  }
+
+  main {
+    margin-left: 0;
+  }
+  .routineBlock {
+    padding: 1.25rem;
+    min-height: auto;
+  }
+
+  .parentRow {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .routineBlock {
+    padding: 0.75rem;
+  }
+  .parentRow {
+    padding: 0.75rem;
+  }
+}
+
+table, thead, tbody, tr, th, td {
+  overflow: visible !important;
+}
+
+/*for card in studentForm*/
+.img-account-profile {
+    height: 10rem;
+}
+.list{
+	list-style: none;
+}
+.list:before {
+  content: '✓';
+}

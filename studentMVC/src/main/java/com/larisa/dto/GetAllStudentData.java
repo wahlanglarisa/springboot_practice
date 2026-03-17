@@ -1,0 +1,17 @@
+package com.larisa.dto;
+
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class GetAllStudentData {
+	private Long phone_no,id;
+	private String email,district_code,state_code,country_code,last_name,first_name,user_id,address;
+	private byte[] profile_picture;
+}
