@@ -1,14 +1,24 @@
 package com.larisa.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.larisa.dao.UserDao;
-import com.larisa.dao.UserRole;
 import com.larisa.dto.UpdatePassword;
 import com.larisa.dto.User;
+import com.larisa.dto.UserLogin;
+import com.larisa.dto.UserRole;
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService,UserDetailsService{
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		// TODO Auto-generated method stub
+		return new UserLogin(userDao.getUserRoleByEmail(username));
+	}
+
 	@Override
 	public String deleteUser(String userId) {
 		// TODO Auto-generated method stub

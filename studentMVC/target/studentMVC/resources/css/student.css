@@ -70,3 +70,13 @@ table, thead, tbody, tr, th, td {
   overflow: visible !important;
 }
 
+/*for card in studentForm*/
+.img-account-profile {
+    height: 10rem;
+}
+.list{
+	list-style: none;
+}
+.list:before {
+  content: '✓';
+}

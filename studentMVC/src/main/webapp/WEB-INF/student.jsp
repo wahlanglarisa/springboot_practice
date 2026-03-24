@@ -22,7 +22,6 @@
 	test="${requestScope['jakarta.servlet.forward.request_uri'] == ('/studentMVC/listStudent/'+=currentPage) }"><jsp:include
 		page="adminHeader.jsp"></jsp:include></c:if>
 <body>
-	${requestScope['jakarta.servlet.forward.request_uri']}
 	<br></br>
 	<main id="main-content">
 		<div class="mx-auto p-5">

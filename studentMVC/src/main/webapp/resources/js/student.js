@@ -1,6 +1,39 @@
 /**
  * 
  */
+function addState(stateElement,countryElement) {
+    stateElement.empty();
+    stateElement.removeAttr('disabled');
+
+    stateElement.append(`<option value="0">
+			Select a State</option>`);
+    $.ajax({
+        "url": contextPath + "/getState_codes",
+        dataType: "json",
+        "data": {
+            "countryCode": countryElement.val()
+        },
+        "success": function(response) {
+            response.forEach((element) => {
+                stateElement.append(`<option value="${element.stateCode}">${element.stateName}</option>`);
+            });
+            console.log(response);
+        },
+        "method": "get"
+    });
+}
+
+function invalidateElement(elementMarkInvalid) {
+	elementMarkInvalid.removeClass("is-valid");
+	elementMarkInvalid.addClass("is-invalid");
+}
+
+function validateElement(elementMarkValid) {
+	elementMarkValid.removeClass("is-invalid");
+
+	elementMarkValid.addClass("is-valid");
+}
+
 $(document).ready(function() {
 	const NumPattern = /[A-Za-z\s!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 	const EmailPattern = /(?:((?:[\w-]+(?:\.[\w-]+)*)@(?:(?:[\w-]+\.)*\w[\w-]{0,66})\.(?:[a-z]{2,6}(?:\.[a-z]{2})?));*)/
@@ -23,7 +56,7 @@ $(document).ready(function() {
 	var dupEmail = false;
 	var dupPhoneNo = false;
 	var validPhoto = false;
-
+	var EmailOTPvalid=false;
 	const checkValidity = function() {
 		if (emailValid &&
 			phoneNoValid &&
@@ -33,16 +66,13 @@ $(document).ready(function() {
 			!dupEmail &&
 			!dupPhoneNo &&
 			validPhoto && PassHaveUcase &&
-			 passHaveLcase && Passhavenumber &&
-			 passHaveSpchar && PassValidLen &&
-			$("#country_code").val() != 0 &&
-			$("#district_code").val() != 0 &&
-			$("#state_code").val() != 0 &&
+			passHaveLcase && Passhavenumber &&
+			passHaveSpchar && PassValidLen &&
+
 			$("#email").val().length != 0 &&
 			$("#first_name").val().length != 0 &&
 			$("#last_name").val().length != 0 &&
 			$("#phone_no").val().length != 0 &&
-			$("#address").val().length != 0 &&
 			$("#password").val().length != 0) {
 			return true;
 		}
@@ -59,6 +89,29 @@ $(document).ready(function() {
 			return false;
 		}
 	}
+	$("#OTP-email").on("change", (e) => {
+		$.ajax({
+			url: contextPath + "/verifyOTP",
+			data: {
+				otp: $("#OTP-email").val()
+			},
+			success: function(response) {
+				if (response) {
+					validateElement($("#OTP-email"))
+					$("#otpInvalid").attr("hidden",true)
+					EmailOTPvalid=true;
+
+				}
+				else{
+					invalidateElement($("#OTP-email"))
+					$("#otpInvalid").removeAttr("hidden")
+					EmailOTPvalid=false
+				}
+			},
+			method: "get"
+
+		})
+	})
 	$("#password").on("input", (e) => {
 		PassHaveUcase = newFunction(upperCasePass, $("#password"), $("#ucaseErr"));
 		passHaveLcase = newFunction(lowerCasePass, $("#password"), $("#lcaseErr"));
@@ -94,27 +147,8 @@ $(document).ready(function() {
 			}
 		}
 	})
-	$("#country_code").on("change", (e) => {
-		$("#state_code").empty();
-		$("#state_code").removeAttr('disabled');
-
-		$("#state_code").append(`<option value="0">
-			Select a State</option>`);
-		$.ajax({
-			"url": contextPath + "/getState_codes",
-			dataType: "json",
-			"data": {
-				"countryCode": $("#country_code").val()
-			},
-			"success": function(response) {
-				response.forEach((element) => {
-					$("#state_code").append(`<option value="${element.stateCode}">${element.stateName}</option>`);
-				})
-				console.log(response)
-			},
-			"method": "get"
-
-		})
+	$("#permCountryCode").on("change", (e) => {
+		addState($("#state_code"),$("#country_code"));
 	})
 	$("#state_code").on("change", (e) => {
 
@@ -256,31 +290,27 @@ $(document).ready(function() {
 			}
 		});
 	});
-	/*	$("#email").on("focusout", function() {
-			let emailValue = $("#email").val();
-	
-			$.ajax({
-				url: contextPath + "/sendMail",
-				method: "get",
-				data: { email: emailValue },
-				success: function(response) {
-	
-					if (!$.isEmptyObject(response)) {
-						dupEmail = true;
-						$("#dupEmail").removeAttr("hidden");
-						invalidateElement($("#email"));
-						$("#OTP-email").removeAttr("hidden")
-					} else {
-						dupEmail = false;
-						$("#dupEmail").attr("hidden", "hidden");
-						validateElement($("#email"));
-					}
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					console.log(jqXHR.responseText + " " + textStatus + " " + errorThrown);
+	$("#email").one("change", function() {
+		let emailValue = $("#email").val();
+		$.ajax({
+			url: contextPath + "/sendMail",
+			method: "get",
+			data: { email: emailValue },
+			success: function(response) {
+
+				if (response) {
+					$("#OTP-email").removeAttr("hidden")
+
+					$("#OTP-email").attr("placeholder", `Enter OTP sent to ${emailValue}`)
+				} else {
+
 				}
-			});
-		})*/
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				console.log(jqXHR.responseText + " " + textStatus + " " + errorThrown);
+			}
+		});
+	})
 	$("#first_name").on("input focusout", (e) => {
 		var isFNameValid = FLNamePattern.test($("#first_name").val());
 
@@ -356,13 +386,3 @@ $(document).ready(function() {
 })
 
 
-function invalidateElement(elementMarkInvalid) {
-	elementMarkInvalid.removeClass("is-valid");
-	elementMarkInvalid.addClass("is-invalid");
-}
-
-function validateElement(elementMarkValid) {
-	elementMarkValid.removeClass("is-invalid");
-
-	elementMarkValid.addClass("is-valid");
-}

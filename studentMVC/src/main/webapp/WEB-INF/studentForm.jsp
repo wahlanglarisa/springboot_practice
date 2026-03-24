@@ -108,15 +108,16 @@
 							<!-- Profile picture help block-->
 							<div class="small font-italic text-muted mb-4">JPG or PNG
 								no larger than 5 MB</div>
-									<input type="file" id="file" name="file"
+							<input type="file" id="file" name="file"
 								accept="image/jpeg,image/jpg,image/png" style="display: none">
-									<span class="invalid-feedback" hidden="true" id="invalidFile">Please upload only image files of JPG, PNG and JPEG</span>
+							<span class="invalid-feedback" hidden="true" id="invalidFile">Please
+								upload only image files of JPG, PNG and JPEG</span>
 							<!-- Profile picture upload button-->
 							<button class="btn btn-primary" type="button"
 								id="newProfileButton"
 								onclick="document.getElementById('file').click();">Upload
 								new image</button>
-								
+
 						</div>
 					</div>
 				</div>
@@ -170,12 +171,11 @@
 							</div>
 							<br>
 							<div class="row">
-								<div class="col-12">
+								<div class="col-6">
 
 									<form:input path="email" placeholder="Email Here"
 										class="form-control" required="true" autocomplete="off" />
-									<input type="password" id="OTP-email" class="form-control"
-										hidden="true">
+
 									<c:if test="${param.emailAlreadyExists }">
 										<span class="text-danger invalid-feedback">This email
 											already exists</span>
@@ -187,78 +187,17 @@
 										user@email.com</span>
 								</div>
 
-							</div>
-							<br>
-							<div class="row">
-								<div class="col-6">
+								<div class="col-6" id="OTPDiv">
 
-									<form:input path="address" placeholder="Address Here"
-										class="col-8 form-control" required="true" />
-								</div>
-
-								<div class="col-6">
-
-									<form:select path="country_code"
-										class="form-select input-small " data-size="5">
-										<option value="0">Select a Country</option>
-										<form:options items="${countries}" itemLabel="countryName"
-											itemValue="countryCode" />
-									</form:select>
-									<span class="text-danger invalid-feedback" id="countryEmpty"
-										hidden="true">Please select a country</span>
-
+									<input placeholder="Enter OTP sent to email"
+										class="form-control" id="OTP-email" autocomplete="off"
+										name="OTP-email" hidden="hidden" /> <span
+										class="text-danger invalid-feedback" id="otpInvalid"
+										hidden="true">OTP is invalid</span>
 								</div>
 							</div>
 							<br>
-							<div class="row">
 
-								<div class="col-6">
-
-									<form:select path="state_code" class="form-select input-small "
-										data-width="5" disabled="true">
-										<option value="0">State : Please select a country
-											first</option>
-										<c:if
-											test="${requestScope['jakarta.servlet.forward.request_uri'] == '/studentMVC/updatestudent/'+=(student.st_id)}">
-											<form:options items="${states}" itemLabel="stateName"
-												itemValue="stateCode" />
-										</c:if>
-									</form:select>
-
-									<span class="text-danger invalid-feedback" id="stateEmpty"
-										hidden="true">Please select a state</span>
-								</div>
-
-								<div class="col-6">
-
-									<form:select path="district_code"
-										class="form-select input-small minimize-height" data-width="5"
-										disabled="true">
-										<option value="0">District : Please select a state
-											first</option>
-										<c:if
-											test="${requestScope['jakarta.servlet.forward.request_uri'] == '/studentMVC/updatestudent/'+=(student.st_id)}">
-											<form:options items="${districts}" itemLabel="districtName"
-												itemValue="districtCode" />
-										</c:if>
-									</form:select>
-									<span class="text-danger col-7" id="districtEmpty"
-										hidden="true">Please select a district</span>
-								</div>
-
-							</div>
-							<br>
-
-							<div class="row">
-
-								<div class="col-12">
-
-									<span class="text-danger invalid-feedback" id="invalidFile"
-										hidden="true">Please upload only image files .jpg,
-										.jpeg, .png</span>
-
-								</div>
-							</div>
 							<c:if
 								test="${requestScope['jakarta.servlet.forward.request_uri'] == '/studentMVC/addstudent'}">
 								<div class="row">
@@ -285,18 +224,23 @@
 									</div>
 								</div>
 							</c:if>
-						
 
-							<div class="row p-2" id="buttonDiv">
 
-								<form:button type="submit" class="btn btn-primary"
-									id="submitButton"> Submit</form:button>
-							</div>
+
 						</div>
 					</div>
 				</div>
 			</div>
+			<c:if
+				test="${requestScope['jakarta.servlet.forward.request_uri'] != '/studentMVC/addstudent'}">
+				<jsp:include page="updateProfile.jsp"></jsp:include>
+			</c:if>
+			<div class="row p-2" id="buttonDiv">
+
+				<form:button type="submit" class="btn btn-primary" id="submitButton"> Submit</form:button>
+			</div>
 		</form:form>
+
 	</div>
 	<c:if
 		test="${requestScope['jakarta.servlet.forward.request_uri'] != '/studentMVC/addstudent'}">
@@ -311,7 +255,7 @@
 console.log(${student.st_id})
 	var contextPath = "${pageContext.request.contextPath}";
 
-	var requestURI = "${requestScope['jakarta.servlet.forward.request_uri']}";
+	/*var requestURI = "${requestScope['jakarta.servlet.forward.request_uri']}";
 	stateElement=document.getElementById("state_code")
 	district_element=document.getElementById("district_code")
 	if(requestURI=='/studentMVC/updatestudent/${student.st_id}'){
@@ -333,7 +277,7 @@ console.log(${student.st_id})
 
 		    reader.readAsDataURL(file);
 		
-	}
+	}*/
 </script>
 <c:choose>
 	<c:when

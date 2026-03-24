@@ -5,15 +5,25 @@ $(document).ready(function() {
 	const NumPattern = /[A-Za-z\s!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 	const EmailPattern = /(?:((?:[\w-]+(?:\.[\w-]+)*)@(?:(?:[\w-]+\.)*\w[\w-]{0,66})\.(?:[a-z]{2,6}(?:\.[a-z]{2})?));*)/
 	const FLNamePattern = /[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-
+	const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
+	const upperCasePass = /^(?=.*[A-Z])/
+	const lowerCasePass = /^(?=.*[a-z])/
+	const numberPass = /^(?=.*[0-9])/
+	const specialCharPass = /^(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]/
 	var emailValid = false;
 	var phoneNoValid = false;
 	var phoneNoValidLen = false;
-
+	var PassHaveUcase = false;
+	var passHaveLcase = false;
+	var Passhavenumber = false;
+	var passHaveSpchar = false;
+	var PassValidLen = false;
 	var fNameValid = false;
 	var LNameValid = false;
 	var dupEmail = false;
 	var dupPhoneNo = false;
+	var validPhoto = false;
+
 	const checkValidity = function() {
 		if (emailValid &&
 			phoneNoValid &&
@@ -22,6 +32,9 @@ $(document).ready(function() {
 			phoneNoValidLen &&
 			!dupEmail &&
 			!dupPhoneNo &&
+			validPhoto && PassHaveUcase &&
+			 passHaveLcase && Passhavenumber &&
+			 passHaveSpchar && PassValidLen &&
 			$("#country_code").val() != 0 &&
 			$("#district_code").val() != 0 &&
 			$("#state_code").val() != 0 &&
@@ -46,7 +59,41 @@ $(document).ready(function() {
 			return false;
 		}
 	}
+	$("#password").on("input", (e) => {
+		PassHaveUcase = newFunction(upperCasePass, $("#password"), $("#ucaseErr"));
+		passHaveLcase = newFunction(lowerCasePass, $("#password"), $("#lcaseErr"));
+		Passhavenumber = newFunction(numberPass, $("#password"), $("#numberErr"));
+		passHaveSpchar = newFunction(specialCharPass, $("#password"), $("#scharErr"));
+		if ($("#password").val().length >= 8) {
+			elementErr = $("#lenErr")
+			elementErr.removeClass("text-danger");
+			elementErr.addClass("text-success");
+			elementErr.addClass("list");
+			PassValidLen = true;
+		}
+		else {
+			elementErr = $("#lenErr")
 
+			elementErr.addClass("text-danger");
+			elementErr.removeClass("list");
+			PassValidLen = false;
+		}
+		function newFunction(regEx, element, elementErr) {
+			if (regEx.test(element.val())) {
+
+				elementErr.removeClass("text-danger");
+				elementErr.addClass("text-success");
+				elementErr.addClass("list");
+				return true;
+
+			}
+			else {
+				elementErr.addClass("text-danger");
+				elementErr.removeClass("list");
+				return false;
+			}
+		}
+	})
 	$("#country_code").on("change", (e) => {
 		$("#state_code").empty();
 		$("#state_code").removeAttr('disabled');
@@ -92,9 +139,7 @@ $(document).ready(function() {
 
 		})
 	})
-	$("#email").on("input", (e) => {
 
-	})
 	$("#phone_no").on("input", (e) => {
 
 
@@ -131,7 +176,7 @@ $(document).ready(function() {
 			//$("#phone_no").focus();
 			//document.getElementById("phone_no").focus();
 			phoneNoValidLen = false;
-			console.log("why not focus")
+			console.log("Invalid phone number length")
 			invalidateElement($("#phone_no"))
 			$("#phoneLength").removeAttr("hidden");
 			return;
@@ -139,7 +184,7 @@ $(document).ready(function() {
 		}
 		else {
 			phoneNoValidLen = true;
-			console.log("in else block")
+			console.log("Valid Phone number length")
 			$("#phoneLength").attr("hidden", "true");
 			$("#submitButton").removeAttr("disabled");
 
@@ -155,12 +200,12 @@ $(document).ready(function() {
 					$("#dupPhoneNo").removeAttr("hidden")
 					dupPhoneNo = true;
 					invalidateElement($("#phone_no"))
-
+					return;
 				}
 				else {
+					console.log("not duplicate phone number")
 					$("#dupPhoneNo").attr("hidden", "true")
-					if (phoneNoValid && phoneNoValidLen)
-						validateElement($("#phone_no"));
+					validateElement($("#phone_no"));
 					dupPhoneNo = false;
 				}
 			},
@@ -211,30 +256,31 @@ $(document).ready(function() {
 			}
 		});
 	});
-	$("#email").on("focusout", function() {
-		let emailValue = $("#email").val();
-
-		$.ajax({
-					url: contextPath + "/sendMail",
-					method: "get",
-					data: { email: emailValue },
-					success: function(response) {
-
-						if (!$.isEmptyObject(response)) {
-							dupEmail = true;
-							$("#dupEmail").removeAttr("hidden");
-							invalidateElement($("#email"));
-						} else {
-							dupEmail = false;
-							$("#dupEmail").attr("hidden", "hidden");
-							validateElement($("#email"));
-						}
-					},
-					error: function(jqXHR, textStatus, errorThrown) {
-						console.log(jqXHR.responseText + " " + textStatus + " " + errorThrown);
+	/*	$("#email").on("focusout", function() {
+			let emailValue = $("#email").val();
+	
+			$.ajax({
+				url: contextPath + "/sendMail",
+				method: "get",
+				data: { email: emailValue },
+				success: function(response) {
+	
+					if (!$.isEmptyObject(response)) {
+						dupEmail = true;
+						$("#dupEmail").removeAttr("hidden");
+						invalidateElement($("#email"));
+						$("#OTP-email").removeAttr("hidden")
+					} else {
+						dupEmail = false;
+						$("#dupEmail").attr("hidden", "hidden");
+						validateElement($("#email"));
 					}
-				});
-	})
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log(jqXHR.responseText + " " + textStatus + " " + errorThrown);
+				}
+			});
+		})*/
 	$("#first_name").on("input focusout", (e) => {
 		var isFNameValid = FLNamePattern.test($("#first_name").val());
 
@@ -290,8 +336,25 @@ $(document).ready(function() {
 			return;
 		}
 	})
+	$("#file").on("change", (e) => {
+		fileExt = $("#file").val().split(".")[1]
+		var Extensions = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+
+		if ($.inArray($("#file").val().split(".")[1], Extensions) == -1) {
+			invalidateElement($("#file"))
+			$("#invalidFile").removeAttr("hidden")
+			validPhoto = false
+		}
+		else {
+			validateElement($("#file"))
+			$("#invalidFile").attr("hidden", true)
+			validPhoto = true;
+
+		}
+	})
 
 })
+
 
 function invalidateElement(elementMarkInvalid) {
 	elementMarkInvalid.removeClass("is-valid");

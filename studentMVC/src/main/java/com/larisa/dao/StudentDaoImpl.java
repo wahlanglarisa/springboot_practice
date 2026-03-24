@@ -87,23 +87,22 @@ public class StudentDaoImpl implements StudentDao {
 
 	@Override
 	public void addStudent(Student st) throws DuplicateKeyException {
-		String queryString = "insert into student(phone_no," + "email,district_code," + "state_code,country_code"
-				+ ",last_name,first_name,user_id,address,profile_picture)" + " values(?,?,?,?,?,?,?,?,?,?)";
+		String queryString = "insert into student(phone_no," + "email"
+				+ ",last_name,first_name,user_id,profile_picture)" + " values(?,?,?,?,?,?)";
 		jdbcTemplate.update(queryString, new PreparedStatementSetter() {
 			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
 				ps.setLong(1, st.getPhone_no());
 				ps.setString(2, st.getEmail());
-				ps.setString(3, st.getDistrict_code());
-				ps.setString(4, st.getState_code());
-				ps.setString(5, st.getCountry_code());
-				ps.setString(6, st.getLast_name());
-				ps.setString(7, st.getFirst_name());
-				ps.setString(8, st.getUser_id());
-				ps.setString(9, st.getAddress());
-				ps.setBytes(10, st.getProfile_picture());
+				ps.setString(3, st.getLast_name());
+				ps.setString(4, st.getFirst_name());
+				ps.setString(5, st.getUser_id());
+				ps.setBytes(6, st.getProfile_picture());
 
 			}
 		});
+		Student student=findStudentByEmail(st.getEmail());
+		String addStaddressString="insert into student_address(st_id) values(?)";
+		jdbcTemplate.update(addStaddressString,(ps)->{ps.setLong(1, student.getId());});
 		// TODO Auto-generated method stub
 
 	}
@@ -115,30 +114,23 @@ public class StudentDaoImpl implements StudentDao {
 			ps.setLong(1, st.getId());
 		}, new StudentMapper());
 		Student student = students.getFirst();
-		String queryString = "update student set phone_no=?,email=?," + "district_code=?,state_code=?,country_code=?"
-				+ ",last_name=?,first_name=?,address=?,profile_picture=? where id=?";
+		String queryString = "update student set phone_no=?,email=?"
+				+ ",last_name=?,first_name=?,profile_picture=? where id=?";
 		System.out.println("Profile Picture" + st.getProfile_picture());
 		System.out.println("Profile Picture existing student "+student.getProfile_picture());
 		jdbcTemplate.update(queryString, new PreparedStatementSetter() {
 			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
 				ps.setLong(1, st.getPhone_no() == null ? student.getPhone_no() : st.getPhone_no());
 				ps.setString(2, (st.getEmail() == "" || st.getEmail() == null) ? student.getEmail() : st.getEmail());
-				ps.setString(3,
-						(st.getDistrict_code() == "" || st.getDistrict_code() == null) ? student.getDistrict_code()
-								: st.getDistrict_code());
-				ps.setString(4, (st.getState_code() == "" || st.getState_code() == null) ? student.getState_code()
-						: st.getState_code());
-				ps.setString(5, (st.getCountry_code() == "" || st.getCountry_code() == null) ? student.getCountry_code()
-						: st.getCountry_code());
-				ps.setString(6, (st.getLast_name() == "" || st.getLast_name() == null) ? student.getLast_name()
+				
+				ps.setString(3, (st.getLast_name() == "" || st.getLast_name() == null) ? student.getLast_name()
 						: st.getLast_name());
-				ps.setString(7, (st.getFirst_name() == null || st.getFirst_name() == null) ? student.getFirst_name()
+				ps.setString(4, (st.getFirst_name() == null || st.getFirst_name() == null) ? student.getFirst_name()
 						: st.getFirst_name());
-				ps.setString(8,
-						(st.getAddress() == null || st.getAddress() == "") ? student.getAddress() : st.getAddress());
-				ps.setBytes(9, (st.getProfile_picture()==null)?student.getProfile_picture():st.getProfile_picture());
+				
+				ps.setBytes(5, (st.getProfile_picture()==null)?student.getProfile_picture():st.getProfile_picture());
 
-				ps.setLong(10, st.getId());
+				ps.setLong(6, st.getId());
 			}
 		});
 		// TODO Auto-generated method stub
@@ -163,13 +155,11 @@ public class StudentDaoImpl implements StudentDao {
 			Student student = new Student();
 			// TODO Auto-generated method stub
 			student.setId(rs.getLong("id"));
-			student.setCountry_code(rs.getString("country_code"));
-			student.setDistrict_code(rs.getString("district_code"));
+		
 			student.setEmail(rs.getString("email"));
 			student.setPhone_no(rs.getLong("phone_no"));
 			student.setLast_name(rs.getString("last_name"));
 			student.setFirst_name(rs.getString("first_name"));
-			student.setState_code(rs.getString("state_code"));
 			student.setUser_id(rs.getString("user_id"));
 			student.setProfile_picture(rs.getBytes("profile_picture"));
 			return student;
@@ -203,13 +193,9 @@ public class StudentDaoImpl implements StudentDao {
 	                rs.getLong("phone_no"),
 	                rs.getLong("id"),
 	                rs.getString("email"),
-	                rs.getString("district_code"),
-	                rs.getString("state_code"),
-	                rs.getString("country_code"),
 	                rs.getString("last_name"),
 	                rs.getString("first_name"),
 	                rs.getString("user_id"),
-	                rs.getString("address"),
 	                rs.getBytes("profile_picture")
 	        );
 	    }

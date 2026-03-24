@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.larisa.dao.CourseStudentDao;
+import com.larisa.dao.StudentAddressDao;
 import com.larisa.dao.StudentDao;
 import com.larisa.dao.UserDao;
 import com.larisa.dto.GetAllStudentData;
@@ -29,6 +30,8 @@ public class StudentServiceImpl implements StudentService {
 	private UserDao userDao;
 	@Autowired
 	private CourseStudentDao courseStudentDao;
+	@Autowired
+	private StudentAddressDao studentAddressDao;
 	@Override
 	public Page<Student> getListOfStudents(Pageable pageable) {
 
@@ -41,8 +44,7 @@ public class StudentServiceImpl implements StudentService {
 		System.out.println(st.getPassword()+"\t"+st.getEmail());
 		User user = userDao.saveUser(new User(st.getPassword(), st.getEmail()));
 		System.out.println(user.getUserid());
-		Student student = new Student(st.getPhone_no(), st.getEmail(), st.getDistrict_code(), st.getState_code(),
-				st.getCountry_code(), st.getLast_name(), st.getFirst_name(), user.getUserid(),st.getAddress());
+		Student student = new Student(st.getPhone_no(), st.getEmail(), st.getLast_name(), st.getFirst_name(), user.getUserid());
 		student.setUser_id(user.getUserid());
 		student.setProfile_picture(st.getProfile_picture());
 		studentDao.addStudent(student);
@@ -52,8 +54,7 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public void updateStudent(UserStudent st) {
-		Student student = new Student(st.getPhone_no(), st.getEmail(), st.getDistrict_code(), st.getState_code(),
-				st.getCountry_code(), st.getLast_name(), st.getFirst_name(), st.getUser_id(),st.getAddress());
+		Student student = new Student(st.getPhone_no(), st.getEmail(), st.getLast_name(), st.getFirst_name(), st.getUser_id());
 		student.setId(st.getSt_id());
 		System.out.println("Update student "+st.getProfile_picture());
 		student.setProfile_picture(st.getProfile_picture());
@@ -61,6 +62,7 @@ public class StudentServiceImpl implements StudentService {
 		User user=new User(st.getPassword(),st.getEmail());
 		user.setUserid(st.getUser_id());
 		userDao.updateUser(user);
+		studentAddressDao.updateAddress(st);
 		// TODO Auto-generated method stub
 
 	}

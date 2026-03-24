@@ -16,18 +16,25 @@
 <link href="<c:url value="/resources/css/student.css" />"
 	rel="stylesheet">
 <title>Insert title here</title>
-<link href="<c:url value="/resources/css/student.css" />"
-	rel="stylesheet">
+
 </head>
-<jsp:include page="studentHeader.jsp" />
+<c:choose>
+	<c:when test="${user.email=='admin@gmail.com'}">	<jsp:include
+			page="adminHeader.jsp"></jsp:include></c:when>
+	<c:otherwise><jsp:include page="studentHeader.jsp" /></c:otherwise>
+</c:choose>
+
 <br>
 <br>
 <br>
 <body>
 	<main id="main-content">
-		<div class="justify-content-center d-flex ">
+		<div class="container">
 			<form:form modelAttribute="user" method="post"
 				action="/studentMVC/updatePassword" autocomplete="off">
+				<c:if test="${param.passwordUpdated}">
+					<div class="alert alert-success">Password Update Successful</div>
+				</c:if>
 				<form:input type="hidden" path="email" />
 
 				<div class="row">
@@ -68,7 +75,7 @@
 				</div>
 				<br>
 				<form:button type="submit" value="Submit"
-					class="btn btn-primary form-control">Submit</form:button>
+					class="btn btn-primary form-control" id="submit">Submit</form:button>
 			</form:form>
 
 		</div>

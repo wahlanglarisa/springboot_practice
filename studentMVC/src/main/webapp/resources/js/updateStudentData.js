@@ -1,5 +1,50 @@
+function addState(stateElement,countryElement) {
+    stateElement.empty();
+    stateElement.removeAttr('disabled');
 
+    stateElement.append(`<option value="0">
+			Select a State</option>`);
+    $.ajax({
+        "url": contextPath + "/getState_codes",
+        dataType: "json",
+        "data": {
+            "countryCode": countryElement.val()
+        },
+        "success": function(response) {
+            response.forEach((element) => {
+                stateElement.append(`<option value="${element.stateCode}">${element.stateName}</option>`);
+            });
+            console.log(response);
+        },
+        "method": "get"
+    });
+}
+function addDistrict(districtElement,stateElement) {
+    districtElement.empty();
+    districtElement.removeAttr('disabled');
+
+    districtElement.append(`<option value="0">Select a District</option>`);
+
+    $.ajax({
+        "url": contextPath + "/getDistrict_codes",
+        dataType: "json",
+        "data": {
+            "stateCode": stateElement.val()
+        },
+        "success": function(response) {
+            response.forEach((element) => {
+                districtElement.append(`<option value="${element.districtCode}">${element.districtName}</option>`);
+            });
+            console.log(response);
+        },
+        "method": "get"
+    });
+}
 $(document).ready(() => {
+	var oldPreAddr1=""
+	var oldPreAddr2=""
+	var oldPreAddr3=""
+	
 	var phoneNoValid = true;
 	var fNameValid = true;
 	var LNameValid = true;
@@ -23,6 +68,27 @@ $(document).ready(() => {
 			return false;
 		}
 	}
+	$("#presentAddrCheck").change(()=>{
+		console.log($("#presentAddrCheck").is(":checked"))
+		if($("#presentAddrCheck").is(":checked")){
+			oldPreAddr1=$("#preaddressline1").val()
+			oldPreAddr2=$("#preaddressline2").val()
+			oldPreAddr3=$("#preaddressline3").val()
+
+			console.log($("#presentAddrCheck").is(":checked"))
+
+			$("#preaddressline1").val($("#permaddressline1").val())
+			$("#preaddressline2").val($("#permaddressline2").val())
+			$("#preaddressline3").val($("#permaddressline3").val())
+			$("#preCountryCode").val($("#permCountryCode").val())
+			$("#preStateCode").val($("#permStateCode").val())
+			$("#preDistrictCode").val($("#permDistrictCode").val())
+
+		}
+		else{
+			$("#preaddressline1").val(oldPreAddr1)
+		}
+	})
 	$("#phone_no").on("input", (e) => {
 		var PhoneNoValidity = NumPattern.test($("#phone_no").val());
 
@@ -151,51 +217,20 @@ $(document).ready(() => {
 			return;
 		}
 	})
-	$("#country_code").on("change", (e) => {
-		$("#state_code").empty();
-		$("#state_code").removeAttr('disabled');
-
-		$("#state_code").append(`<option value="0">
-				Select a State</option>`);
-		$.ajax({
-			"url": contextPath + "/getState_codes",
-			dataType: "json",
-			"data": {
-				"countryCode": $("#country_code").val()
-			},
-			"success": function(response) {
-				response.forEach((element) => {
-					$("#state_code").append(`<option value="${element.stateCode}">${element.stateName}</option>`);
-				})
-				console.log(response)
-			},
-			"method": "get"
-
-		})
+	$("#permCountryCode").on("change", (e) => {
+		addState($("#permStateCode"),$("#permCountryCode"))
 	})
-	$("#state_code").on("change", (e) => {
+	$("#permStateCode").on("change", (e) => {
 
-		$("#district_code").empty();
-		$("#district_code").removeAttr('disabled');
-
-		$("#district_code").append(`<option value="0">Select a District</option>`);
-
-		$.ajax({
-			"url": contextPath + "/getDistrict_codes",
-			dataType: "json",
-			"data": {
-				"stateCode": $("#state_code").val()
-			},
-			"success": function(response) {
-				response.forEach((element) => {
-					$("#district_code").append(`<option value="${element.districtCode}">${element.districtName}</option>`);
-				})
-				console.log(response)
-			},
-			"method": "get"
-
-		})
+		addDistrict($("#permDistrictCode"),$("#permStateCode"));
 	})
+	$("#preCountryCode").on("change", (e) => {
+			addState($("#preStateCode"),$("#preCountryCode"))
+		})
+		$("#preStateCode").on("change", (e) => {
+
+			addDistrict($("#preDistrictCode"),$("#preStateCode"));
+		})
 	$("#file").on("change", (e) => {
 		fileExt = $("#file").val().split(".")[1]
 		var Extensions = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
@@ -223,3 +258,5 @@ $(document).ready(() => {
 		elementMarkValid.addClass("is-valid");
 	}
 })
+
+

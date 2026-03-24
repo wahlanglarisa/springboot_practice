@@ -51,61 +51,80 @@ public class StudentRestController {
 	private MailSender mailSender;
 	@Autowired
 	private CourseService courseService;
-	@RequestMapping(value="/getState_codes",method = RequestMethod.GET)
+
+	@RequestMapping(value = "/getState_codes", method = RequestMethod.GET)
 
 	public @ResponseBody List<State> getStates(@RequestParam("countryCode") String countryCode) {
 		return stateService.getStatesByCountry_code(countryCode);
 	}
-	@RequestMapping(value="/getDistrict_codes",method = RequestMethod.GET)
+
+	@RequestMapping(value = "/getDistrict_codes", method = RequestMethod.GET)
 
 	public @ResponseBody List<District> getDistricts(@RequestParam("stateCode") String stateCode) {
 		return districtService.getDistrictsByState(stateCode);
 	}
-	@RequestMapping(value="/getUser",method = RequestMethod.GET)
+
+	@RequestMapping(value = "/getUser", method = RequestMethod.GET)
 
 	public @ResponseBody User getUser(@RequestParam("email") String email) {
 		System.out.println("Get User Called");
 		return userService.getUserByEmail(email);
 	}
-	@RequestMapping(value="/sendMail",method = RequestMethod.GET)
 
-	public void sendMail(@RequestParam("email") String email) {
-		Random random=new Random();
-		System.out.println("send mail Called"); 
-		SimpleMailMessage mailMessage=new SimpleMailMessage();
-		OTP=(10000+random.nextInt(90000));
+	@RequestMapping(value = "/sendMail", method = RequestMethod.GET)
+
+	public boolean sendMail(@RequestParam("email") String email) {
+		Random random = new Random();
+		System.out.println("send mail Called");
+		SimpleMailMessage mailMessage = new SimpleMailMessage();
+		OTP = (10000 + random.nextInt(90000));
+		System.out.println(OTP);
 		mailMessage.setTo(email);
 		mailMessage.setSubject("OTP Verification");
-		mailMessage.setText("Your otp is "+OTP);
+		mailMessage.setText("Your otp is " + OTP);
 		mailSender.send(mailMessage);
-	
-		
+		return true;
+
 	}
-	@RequestMapping(value="/getStudent",method = RequestMethod.GET)
+
+	@RequestMapping(value = "/getStudent", method = RequestMethod.GET)
 
 	public @ResponseBody Student getStudent(@RequestParam("phone_no") Long phone_no) {
 		System.out.println("Get User Called");
 		return studentService.findStudentByPhoneNo(phone_no);
 	}
-	@RequestMapping(value="/validatePassword",method = RequestMethod.GET)
 
-	public @ResponseBody boolean validatePassword(@RequestParam("email") String email,@RequestParam("oldPassword") String oldPassword) {
+	@RequestMapping(value = "/validatePassword", method = RequestMethod.GET)
+
+	public @ResponseBody boolean validatePassword(@RequestParam("email") String email,
+			@RequestParam("oldPassword") String oldPassword) {
 		System.out.println("Get User Called");
 		return userService.validatePassword(email, oldPassword);
 	}
-    @RequestMapping(value = "/image/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> getImage(@PathVariable("id") Long id) {
-        // Retrieve image data from database or file system
-        byte[] image = studentService.getStudent(id).getProfile_picture();
-        System.out.println(image);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_JPEG);
-        return new ResponseEntity<>(image, headers, HttpStatus.OK);
-    }
-    @RequestMapping("/getCourseByStudent/")
-    public Page<Course> getCourseByStudent(@RequestParam("id") long id,@RequestParam("page") int page){
-    	Student student=studentService.getStudent(id);
-    	Pageable pageable=PageRequest.of(page-1, 3);
-    	return courseService.getCoursesByStudent(student, pageable);
-    }
+
+	@RequestMapping(value = "/image/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+	public ResponseEntity<byte[]> getImage(@PathVariable("id") Long id) {
+		// Retrieve image data from database or file system
+		byte[] image = studentService.getStudent(id).getProfile_picture();
+		System.out.println(image);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.IMAGE_JPEG);
+		return new ResponseEntity<>(image, headers, HttpStatus.OK);
+	}
+
+	@RequestMapping("/getCourseByStudent/")
+	public Page<Course> getCourseByStudent(@RequestParam("id") long id, @RequestParam("page") int page) {
+		Student student = studentService.getStudent(id);
+		Pageable pageable = PageRequest.of(page - 1, 3);
+		return courseService.getCoursesByStudent(student, pageable);
+	}
+
+	@RequestMapping(value="/verifyOTP",method = RequestMethod.GET)
+	public  boolean verifyOTP(@RequestParam("otp") int OTP) {
+		if (StudentRestController.OTP == OTP) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.larisa.dao.UserRole;
 import com.larisa.dto.Country;
 import com.larisa.dto.Course;
 import com.larisa.dto.CourseStudent;
@@ -42,6 +41,7 @@ import com.larisa.dto.State;
 import com.larisa.dto.Student;
 import com.larisa.dto.UpdatePassword;
 import com.larisa.dto.User;
+import com.larisa.dto.UserRole;
 import com.larisa.dto.UserStudent;
 import com.larisa.service.CountryService;
 import com.larisa.service.CourseService;
@@ -78,17 +78,11 @@ public class StudentController {
 		System.out.println("in list student function");
 		ModelAndView modelAndView = new ModelAndView();
 		User user = new User();
-		modelAndView.addObject("user", user);
 		modelAndView.setViewName("login");
 		return modelAndView;
 	}
 
-	@GetMapping(value = "/logout")
-	public ModelAndView logout(HttpServletRequest httpServletRequest) {
-		HttpSession session = httpServletRequest.getSession();
-		session.invalidate();
-		return new ModelAndView("redirect:/?loggedOut=true");
-	}
+
 
 	@GetMapping(value = "/addCourseForm/{stId}")
 	public ModelAndView courseForm(@PathVariable("stId") Long stID) {
@@ -246,15 +240,23 @@ public class StudentController {
 		System.out.println("in list student function");
 		ModelAndView modelAndView = new ModelAndView();
 		Student student = studentService.getStudent(id);
-		System.out.println(student.getState_code());
+		UserStudent userStudent= userStudentService.getUserStudentbyEmail(student.getEmail());
+		System.out.println(userStudent.getPermCountryCode()+" "+userStudent.getPermStateCode());
 		List<Country> countries = countryService.getCountries();
-		List<State> states=stateService.getStatesByCountry_code(student.getCountry_code());
-		List<District> districts=districtService.getDistrictsByState(student.getState_code());
+		List<State> permStates=stateService.getStatesByCountry_code(userStudent.getPermCountryCode());
+		List<State> preStates=stateService.getStatesByCountry_code(userStudent.getPreCountryCode());
+
+		List<District> permDistricts=districtService.getDistrictsByState(userStudent.getPermStateCode());
+		List<District> preDistricts=districtService.getDistrictsByState(userStudent.getPreStateCode());
+
 		modelAndView.addObject("countries", countries);
-		modelAndView.addObject("districts", districts);
-		modelAndView.addObject("states",states);
 		modelAndView.setViewName("studentForm");
-		modelAndView.addObject("student", userStudentService.getUserStudentbyEmail(student.getEmail()));
+		modelAndView.addObject("permStates", permStates);
+		modelAndView.addObject("preStates", preStates);
+		modelAndView.addObject("preDistricts", preDistricts);
+
+		modelAndView.addObject("permDistricts", permDistricts);
+		modelAndView.addObject("student", userStudent);
 		return modelAndView;
 	}
 
@@ -264,16 +266,11 @@ public class StudentController {
 		ModelAndView modelAndView = new ModelAndView();
 		System.out.println(student.getPassword());
 		modelAndView.addObject("student", student);
-		System.out.println("state code " + student.getState_code() + " country code " + student.getCountry_code()
-				+ " district code " + student.getDistrict_code());
+		
 		if (student.getSt_id() <= 0 || student == null || student.getUser_id() == "") {
-			student.getState_code();
 			try {
 				if (student.getFirst_name() == "" || student.getLast_name() == "" || student.getPhone_no() == null
-						|| student.getEmail() == "" || student.getAddress() == ""
-						|| (student.getCountry_code() == "0" || student.getCountry_code() == null)
-						|| (student.getState_code() == "0" || student.getState_code() == null)
-						|| (student.getDistrict_code() == "0" || student.getDistrict_code() == null)) {
+						|| student.getEmail() == "") {
 					modelAndView.setViewName("redirect:/addstudent?emptyFields=true");
 				} else {
 					System.out.println("adding student " + file);
@@ -307,6 +304,8 @@ public class StudentController {
 				User user = userService.getUserByEmail(student.getEmail());
 				Student student2 = studentService.findStudentByEmail(student.getEmail());
 				if (user != null) {
+					studentService.deleteStudent(student2);
+
 					userService.deleteUserByEmail(student.getEmail());
 				}
 				if (student2 != null) {
@@ -356,8 +355,12 @@ public class StudentController {
 		User user = userService.getUserByEmail(email);
 		UpdatePassword password = new UpdatePassword();
 		password.setEmail(email);
+		UserStudent userStudent=userStudentService.getUserStudentbyEmail(email);
+		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("user", password);
+		modelAndView.addObject("userPassword", password);
+		modelAndView.addObject("user", userStudent);
+
 		modelAndView.setViewName("changePassword");
 
 		return modelAndView;

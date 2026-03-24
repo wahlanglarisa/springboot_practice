@@ -59,12 +59,13 @@
 			<div class="alert alert-success col-8">User logged out
 				Successfully</div>
 		</c:if>
-		<form:form method="post" modelAttribute="user"
-			action="/studentMVC/loginValidate" class=" justify-content-center ">
+		<form:form method="post" 
+			action="${pageContext.request.contextPath}/login" class=" justify-content-center ">
+			
 			<div class="row">
 				<label class="col-3 form-label">Enter the email</label>
 				<div class="col-5">
-					<form:input path="email" placeholder="Enter your email ID"
+					<input name="username" id="email" placeholder="Enter your email ID"
 						class="form-control shadow" />
 				</div>
 				<span class="col-2 text-danger" id="EmailCharErr" hidden="true">Email
@@ -76,8 +77,8 @@
 				<label class="col-3 form-label">Enter the password</label>
 				<div class="col-5 ">
 
-					<form:input path="password" placeholder="Enter your password"
-						class="form-control shadow" type="password" />
+					<input name="password" placeholder="Enter your password"
+						class="form-control shadow" type="password" id="password" />
 				</div>
 			</div>
 			<br>

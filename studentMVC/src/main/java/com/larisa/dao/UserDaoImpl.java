@@ -15,9 +15,33 @@ import org.springframework.stereotype.Repository;
 
 import com.larisa.dto.UpdatePassword;
 import com.larisa.dto.User;
+import com.larisa.dto.UserCreationStatus;
+import com.larisa.dto.UserRole;
 
 @Repository
 public class UserDaoImpl implements UserDao {
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
+	private RoleDao roleDao;
+	@Autowired
+	private UserCreationStatusDao userCreationStatusDao;
+
+	@Override
+	public UserRole getUserRoleByEmail(String email) {
+		// TODO Auto-generated method stub
+		String queryString = "select * from \"user\" join \"role\" on \"user\".role_id=\"role\".id where \"user\".email=?";
+		// TODO Auto-generated method stub
+		@SuppressWarnings("unchecked")
+		List<UserRole> users = (List<UserRole>) (jdbcTemplate.query(queryString, new PreparedStatementSetter() {
+			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
+				ps.setString(1, email);
+			}
+		}, new UserRoleMapper()));
+		return (users.size() != 0 ? users.getFirst() : null);
+	}
 
 	@Override
 	public boolean validatePassword(String email, String oldPassword) {
@@ -34,18 +58,12 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	@Autowired
-	private RoleDao roleDao;
 	@Override
 	public User updateUser(User user) {
 		String queryString = "update \"user\" set email=?" + " where user_id=?";
 
 		// TODO Auto-generated method stub
-		System.out.println("User update "+user.getEmail()+" "+user.getUserid());
+		System.out.println("User update " + user.getEmail() + " " + user.getUserid());
 		jdbcTemplate.update(queryString, new PreparedStatementSetter() {
 			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
 				ps.setString(1, user.getEmail());
@@ -67,14 +85,17 @@ public class UserDaoImpl implements UserDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public User saveUser(User user) throws DuplicateKeyException {
-		String queryString = "insert into \"user\"(email,password,role_id) values(?,?,?)";
+		String queryString = "insert into \"user\"(email,password,role_id,creation_status_id) values(?,?,?,?)";
 		// TODO Auto-generated method stub
-System.out.println("User Dao "+user.getPassword());
+		UserCreationStatus creationStatus=userCreationStatusDao.getByStatusName("Newly Registered");
+		System.out.println("User Dao " + user.getPassword());
 		jdbcTemplate.update(queryString, new PreparedStatementSetter() {
 			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
 				ps.setString(1, user.getEmail());
 				ps.setString(2, bCryptPasswordEncoder.encode(user.getPassword()));
 				ps.setObject(3, roleDao.getRoleByName("Student").getRoleId());
+				ps.setObject(4, creationStatus.getId());
+
 			};
 		});
 		String getString = "select * from \"user\" where email=?";
@@ -182,7 +203,7 @@ System.out.println("User Dao "+user.getPassword());
 			// TODO Auto-generated method stub
 			UserRole userRole = new UserRole(rs.getString("email"), rs.getString("password"), rs.getString("user_id"),
 					rs.getString("name"), rs.getString("role_id"));
-			
+
 			return userRole;
 		}
 

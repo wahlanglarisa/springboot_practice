@@ -6,7 +6,7 @@ $(document).ready(() => {
 	var phoneNoValidLen = true;
 	var emailValid = true;
 	const EmailPattern = /(?:((?:[\w-]+(?:\.[\w-]+)*)@(?:(?:[\w-]+\.)*\w[\w-]{0,66})\.(?:[a-z]{2,6}(?:\.[a-z]{2})?));*)/
-
+	var validPhoto=true;
 	const NumPattern = /[A-Za-z\s!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 	const FLNamePattern = /[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 
@@ -15,7 +15,7 @@ $(document).ready(() => {
 			phoneNoValid &&
 			fNameValid &&
 			LNameValid &&
-			phoneNoValidLen) {
+			phoneNoValidLen && validPhoto) {
 			return true;
 		}
 		else {
@@ -196,4 +196,30 @@ $(document).ready(() => {
 
 		})
 	})
+	$("#file").on("change", (e) => {
+		fileExt = $("#file").val().split(".")[1]
+		var Extensions = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+
+		if ($.inArray($("#file").val().split(".")[1], Extensions) == -1) {
+			invalidateElement($("#file"))
+			$("#invalidFile").removeAttr("hidden")
+			validPhoto = false
+		}
+		else {
+			validateElement($("#file"))
+			$("#invalidFile").attr("hidden", true)
+			validPhoto = true;
+
+		}
+	})
+	function invalidateElement(elementMarkInvalid) {
+		elementMarkInvalid.removeClass("is-valid");
+		elementMarkInvalid.addClass("is-invalid");
+	}
+
+	function validateElement(elementMarkValid) {
+		elementMarkValid.removeClass("is-invalid");
+
+		elementMarkValid.addClass("is-valid");
+	}
 })

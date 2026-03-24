@@ -49,21 +49,18 @@
 	<br>
 	<br>
 
-	<div class="container justify-content-center shadow p-5">
+	<div class="container shadow p-5">
 		<c:if test="${param.loginerror}">
 			<div class="alert alert-danger col-8">Login Failed. Please
 				enter correct credentials</div>
 		</c:if>
-		<c:if test="${param.userDeleteSuccess}">
-			<div class="alert alert-success col-8">User Deleted
-				Successfully</div>
-		</c:if>
+		
 		<c:if test="${param.loggedOut}">
 			<div class="alert alert-success col-8">User logged out
 				Successfully</div>
 		</c:if>
 		<form:form method="post" modelAttribute="user"
-			action="/studentMVC/loginValidate">
+			action="/studentMVC/loginValidate" class=" justify-content-center ">
 			<div class="row">
 				<label class="col-3 form-label">Enter the email</label>
 				<div class="col-5">

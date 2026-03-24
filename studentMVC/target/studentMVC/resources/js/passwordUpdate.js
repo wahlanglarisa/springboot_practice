@@ -1,4 +1,14 @@
 $(document).ready(function() {
+	var oldPassValid = false;
+	var confirmPassValid=false;
+	var checkValid=function(){
+		if(oldPassValid && confirmPassValid){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 	$("#oldPassword").on("focusout", (e) => {
 		let emailValue = $("#email").val();
 
@@ -12,11 +22,11 @@ $(document).ready(function() {
 			success: function(response) {
 
 				if (!response) {
-					dupEmail = true;
+					oldPassValid = false
 					$("#password_err").removeAttr("hidden");
 					invalidateElement($("#oldPassword"));
 				} else {
-					dupEmail = false;
+					oldPassValid = true
 					$("#password_err").attr("hidden", "hidden");
 					validateElement($("#oldPassword"));
 				}
@@ -24,19 +34,29 @@ $(document).ready(function() {
 		})
 	})
 	$("#confirmPass").on("focusout", (e) => {
-			let emailValue = $("#email").val();
-			if($("#confirmPass").val()==$("#newPassword").val()){
-				$("confirmNewPassErr").attr("hidden", "hidden");
-
-				validateElement($("#confirmPass"));
-			}
-			else{
-				$("#confirmNewPassErr").removeAttr("hidden");
-				invalidateElement($("#confirmPass"));
-
-			}
 		
-		})
+		if ($("#confirmPass").val() == $("#newPassword").val()) {
+			confirmPassValid=true;
+			$("confirmNewPassErr").attr("hidden", "hidden");
+
+			validateElement($("#confirmPass"));
+		}
+		else {
+			confirmPassValid=false;
+			$("#confirmNewPassErr").removeAttr("hidden");
+			invalidateElement($("#confirmPass"));
+
+		}
+
+	})
+	$("#submit").on("click",(e)=>{
+		if(checkValid()){
+			return;
+		}
+		else{
+			e.preventDefault();
+		}
+	})
 })
 function invalidateElement(elementMarkInvalid) {
 	elementMarkInvalid.removeClass("is-valid");

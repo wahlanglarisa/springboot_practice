@@ -7,6 +7,7 @@ com\larisa\dto\CourseStudentSave.class
 com\larisa\service\CourseServiceImpl.class
 com\larisa\controller\StudentRestController.class
 com\larisa\dao\StudentDaoImpl$StudentMapper.class
+com\larisa\dao\RoleDaoImpl$1.class
 com\larisa\dao\StateDao.class
 com\larisa\dao\UserDaoImpl$1.class
 com\larisa\dao\UserDaoImpl$7.class
