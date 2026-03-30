@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="jakarta.tags.core"%>
-	
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,10 +36,28 @@
 
 			<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
 				<li class="nav-item  text-light"><a
-					href="/studentMVC/listStudent/1" class="nav-item  text-light p-2">
+					href="/studentMVC/adminHomepage/" class="nav-item  text-light p-2">
 						<span> Home</span>
 				</a></li>
-				<li><hr class="dropdown-divider"></li>
+				<hr class="text-light">
+
+				<li class="nav-item  text-light"><a
+					href="/studentMVC/listStudent/1" class="nav-item  text-light p-2">
+						<span> View Students</span>
+				</a></li>
+				<hr class="text-light">
+
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle text-light" href="#" role="button"
+					data-bs-toggle="dropdown" aria-expanded="false"> Account </a>
+					<ul class="dropdown-menu">
+						
+						<li><a class="dropdown-item"
+							href="/studentMVC/changePassword/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email}">Change
+								Password</a></li>
+
+						<li><a class="dropdown-item" href="/studentMVC/logout">Logout</a></li>
+					</ul></li>
 
 
 			</ul>
@@ -77,10 +95,10 @@
 					src="<c:url value="/resources/user_pic.png" />" width="30px"
 					height="30px" /></a>
 				<ul class="dropdown-menu dropdown-menu-end">
-					
+
 
 					<li><a class="dropdown-item "
-						href="/studentMVC/changePassword/${sessionScope.user.email }">Change
+						href="/studentMVC/changePassword/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email}">Change
 							Password</a></li>
 					<li><a class="dropdown-item " href="/studentMVC/logout">
 							Logout </a></li>

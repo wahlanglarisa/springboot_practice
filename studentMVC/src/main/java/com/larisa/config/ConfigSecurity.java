@@ -20,32 +20,25 @@ public class ConfigSecurity {
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf->csrf.disable()) .authorizeHttpRequests(auth -> auth
+		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth
 
-	            // ✅ ALLOW login page & authentication
-	            .requestMatchers("/**", "/login", "/?error", "/?logout").permitAll()
+				// ✅ ALLOW login page & authentication
+				.requestMatchers("/**", "/login", "/?error", "/?logout").permitAll()
 
-	            // ✅ Static resources
-	            .requestMatchers("/resources/**", "/css/**", "/js/**", "/images/**","/**.js/").permitAll()
+				// ✅ Static resources
+				.requestMatchers("/resources/**", "/css/**", "/js/**", "/images/**", "/**.js/").permitAll()
 
-	            // ✅ Role-based access
-	            .requestMatchers("/liststudent**").hasRole("Admin")
-	            .requestMatchers("/student/**").hasRole("Student")
+				// ✅ Role-based access
+				.requestMatchers("/liststudent**").hasRole("Admin").requestMatchers("/student/**").hasRole("Student")
 
-	            // ✅ Everything else must be logged in
-	            .anyRequest().authenticated()
-	        )  .formLogin(form -> form
-	                .loginPage("/")                     // your login JSP
-	                .loginProcessingUrl("/login")       // VERY IMPORTANT
-	               .successHandler(authenticationSuccessHandler())
-	                .failureUrl("/?loginerror=true")
-	                .permitAll()
-	            )
+				// ✅ Everything else must be logged in
+				.anyRequest().authenticated()).formLogin(form -> form.loginPage("/") // your login JSP
+						.loginProcessingUrl("/login") // VERY IMPORTANT
+						.successHandler(authenticationSuccessHandler()).failureUrl("/?loginerror=true").permitAll())
 
-	            .logout(logout -> logout
-	                .logoutUrl("/logout")
-	                .logoutSuccessUrl("/?loggedOut=true")
-	            );
+				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/?loggedOut=true")
+						.invalidateHttpSession(true).deleteCookies("JSESSIONID")).sessionManagement(session -> session
+					            .invalidSessionUrl("/?sessionExpired=true"));
 		return http.build();
 	}
 
@@ -62,6 +55,7 @@ public class ConfigSecurity {
 		System.out.println("Inside AuthenticationProvider Function");
 		return provider;
 	}
+
 	@Bean
 	public AuthenticationSuccessHandler authenticationSuccessHandler() {
 		System.out.println("Authentication success handler");

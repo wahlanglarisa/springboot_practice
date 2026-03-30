@@ -35,13 +35,13 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
 			UserCreationStatus creationStatus=creationStatusDao.getByStatusByID(userStudent.getCreationStatusID());
 
-			redirectURL = contextPath+"/studentPage/" + authentication.getName() + "/1";
+			redirectURL = contextPath+"/studentHomepage/" + authentication.getName();
 		}
 //		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Professor"))) {
 //			redirectURL = contextPath+"/professor/professorHomepage";
 //		}
 		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Admin"))) {
-			redirectURL =contextPath+"/listStudent/1";
+			redirectURL =contextPath+"/adminHomepage/";
 		}
 //		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Head Of Department"))) {
 //			redirectURL =contextPath+"/hod/hodPortal";

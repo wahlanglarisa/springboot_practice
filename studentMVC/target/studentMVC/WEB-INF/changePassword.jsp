@@ -17,10 +17,16 @@
 	rel="stylesheet">
 <title>Insert title here</title>
 
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js">
+	
+</script>
 </head>
 <c:choose>
-	<c:when test="${user.email=='admin@gmail.com'}">	<jsp:include
-			page="adminHeader.jsp"></jsp:include></c:when>
+	<c:when test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email eq 'admin@gmail.com'}">
+		<jsp:include page="adminHeader.jsp"></jsp:include></c:when>
 	<c:otherwise><jsp:include page="studentHeader.jsp" /></c:otherwise>
 </c:choose>
 
@@ -30,7 +36,7 @@
 <body>
 	<main id="main-content">
 		<div class="container">
-			<form:form modelAttribute="user" method="post"
+			<form:form modelAttribute="userPassword" method="post"
 				action="/studentMVC/updatePassword" autocomplete="off">
 				<c:if test="${param.passwordUpdated}">
 					<div class="alert alert-success">Password Update Successful</div>
@@ -54,7 +60,20 @@
 						<form:input path="newPassword" placeholder="Enter New Password"
 							class=" form-control" required="true" autocomplete="off"
 							type="password" />
-
+						<div>
+							<ul>
+								<li class="text-danger" id="lenErr">Password should have at
+									least 8 characters</li>
+								<li class="text-danger" id="ucaseErr">Password should have
+									at least one uppercase letter</li>
+								<li class="text-danger" id="lcaseErr">Password should have
+									at least one lowercase letter</li>
+								<li class="text-danger" id="numberErr">Password should have
+									at least one number</li>
+								<li class="text-danger" id="scharErr">Password should have
+									at least one special character</li>
+							</ul>
+						</div>
 						<span class="text-danger invalid-feedback" hidden="true"
 							id="newPassErr">Letters, special characters and spaces are
 							not allowed.</span>

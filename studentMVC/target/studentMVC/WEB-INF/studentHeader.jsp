@@ -70,21 +70,39 @@
 </script>
 
 <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse">
-	<div class="position-sticky">
+
+	<div class="position-sticky container-fluid">
 		<div class="list-group list-group-flush mx-3 mt-4">
 			<br>
 
 			<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
 				<li class="nav-item  text-light"><a
-					href="/studentMVC/studentPage/${sessionScope.user.email }/1"
-					class="nav-item  text-light p-2"> <span>
-							Home</span>
+					href="/studentMVC/studentHomepage/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email }"
+					class="nav-item text-light p-2"> <span> Home</span>
 				</a></li>
-				<li><hr class="dropdown-divider"></li>
-
+							<hr class="text-light">
+				<li class="nav-item  text-light"><a
+					href="/studentMVC/studentPage/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email }/1"
+					class="nav-item text-light p-2"> <span> View Courses</span>
+				</a></li>
+							<hr class=" text-light">
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle text-light" href="#" role="button"
+					data-bs-toggle="dropdown" aria-expanded="false"> Account </a>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item"
+							href="/studentMVC/updatestudent/${user.st_id }">Update
+								Profile</a></li>
+						<li><a class="dropdown-item"
+							href="/studentMVC/changePassword/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email}">Change
+								Password</a></li>
+					
+						<li><a class="dropdown-item" href="/studentMVC/logout">Logout</a></li>
+					</ul></li>
 
 
 			</ul>
+
 
 
 
@@ -106,38 +124,40 @@
 			<span class="navbar-toggler-icon"></span>
 
 		</button>
-		
+
 
 		<!-- Brand -->
-		<a class="navbar-brand" href="/studentMVC/studentPage/${sessionScope.user.email}/1"> <img
-			th:src="@{/ChatGPT Image Sep 3, 2025, 01_04_50 PM.png}" height="25"
-			alt="" loading="lazy" /> <span>Student Course Management </span>
+		<a class="navbar-brand"
+			href="/studentMVC/studentHomepage/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email }">
+			<img th:src="@{/ChatGPT Image Sep 3, 2025, 01_04_50 PM.png}"
+			height="25" alt="" loading="lazy" /> <span>Student Course
+				Management </span>
 		</a>
-			<ul class="navbar-nav">
-				<li class="nav-item dropdown "><a
-					class="nav-link dropdown-toggle" href="#" role="button"
-					data-bs-toggle="dropdown" aria-expanded="false"> <img
-						src="<c:url value="/resources/user_pic.png" />" width="30px"
-						height="30px" /></a>
-					<ul class="dropdown-menu dropdown-menu-end">
-						<li><a
-							href="/studentMVC/updatestudent/${sessionScope.user.st_id }"
-							class="dropdown-item" aria-current="true"><span>Update
-									Profile</span>
-						</a></li>
+		<ul class="navbar-nav">
+			<li class="nav-item dropdown "><a
+				class="nav-link dropdown-toggle" href="#" role="button"
+				data-bs-toggle="dropdown" aria-expanded="false">
+					${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email}
+					&nbsp;<img src="<c:url value="/resources/user_pic.png" />"
+					width="30px" height="30px" />
+			</a>
+				<ul class="dropdown-menu dropdown-menu-end">
+					<li><a href="/studentMVC/updatestudent/${user.st_id }"
+						class="dropdown-item" aria-current="true"><span>Update
+								Profile</span> </a></li>
 
-						<li><a class="dropdown-item "
-							href="/studentMVC/changePassword/${sessionScope.user.email }">Change
-								Password</a></li>
-						<li><a class="dropdown-item " href="/studentMVC/logout">
-								Logout </a></li>
+					<li><a class="dropdown-item "
+						href="/studentMVC/changePassword/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email}">Change
+							Password</a></li>
+					<li><a class="dropdown-item " href="/studentMVC/logout">
+							Logout </a></li>
 
-					</ul></li>
-			</ul>
-			<!-- Search form -->
-		</div>
+				</ul></li>
+		</ul>
+		<!-- Search form -->
+	</div>
 
-		<!-- Right links -->
+	<!-- Right links -->
 
 	<!-- Container wrapper -->
 </nav>

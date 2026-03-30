@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
+ 
 @NoArgsConstructor
 public class Student {
 	private Long phone_no,id;

@@ -17,9 +17,15 @@
 	rel="stylesheet">
 <title>Insert title here</title>
 
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js">
+	
+</script>
 </head>
 <c:choose>
-	<c:when test="${user.email=='admin@gmail.com'}">
+	<c:when test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email eq 'admin@gmail.com'}">
 		<jsp:include page="adminHeader.jsp"></jsp:include></c:when>
 	<c:otherwise><jsp:include page="studentHeader.jsp" /></c:otherwise>
 </c:choose>

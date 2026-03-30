@@ -50,6 +50,10 @@
 	<br>
 
 	<div class="container shadow p-5">
+	<c:if test="${param.sessionExpired}">
+			<div class="alert alert-danger col-8">Session expired. Please login again</div>
+		</c:if>
+		
 		<c:if test="${param.loginerror}">
 			<div class="alert alert-danger col-8">Login Failed. Please
 				enter correct credentials</div>
@@ -91,6 +95,8 @@
 		</form:form>
 	</div>
 </body>
+		<jsp:include page="footer.jsp" />
+
 <script>
 	var contextPath = "${pageContext.request.contextPath}";
 </script>

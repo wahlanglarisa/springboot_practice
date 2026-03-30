@@ -19,4 +19,8 @@ public interface StudentDao {
 	public Student findStudentByEmail(String email);
 	public Student findStudentByPhoneNo(Long phone_no);
 	public GetAllStudentData getAllStudentData(long id);
+	 public long getCountCourses(long stID);
+	 public long getCountofStudents();
+
+
 }

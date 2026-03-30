@@ -28,7 +28,8 @@ public class UserDaoImpl implements UserDao {
 	private RoleDao roleDao;
 	@Autowired
 	private UserCreationStatusDao userCreationStatusDao;
-
+@Autowired 
+private UserCreationStatusDao creationStatusDao;
 	@Override
 	public UserRole getUserRoleByEmail(String email) {
 		// TODO Auto-generated method stub
@@ -60,14 +61,15 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User updateUser(User user) {
-		String queryString = "update \"user\" set email=?" + " where user_id=?";
+		String queryString = "update \"user\" set email=?,creation_status_id=?" + " where user_id=?";
 
 		// TODO Auto-generated method stub
 		System.out.println("User update " + user.getEmail() + " " + user.getUserid());
 		jdbcTemplate.update(queryString, new PreparedStatementSetter() {
 			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
 				ps.setString(1, user.getEmail());
-				ps.setString(2, user.getUserid());
+				ps.setObject(2, creationStatusDao.getByStatusName("Profile Loaded").getId());
+				ps.setString(3, user.getUserid());
 
 			};
 		});

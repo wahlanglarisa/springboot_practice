@@ -22,7 +22,11 @@ $(document).ready(() => {
 	})
 	$(document).on("submit", (e) => {
 		if (emailValid) {
+			
+
 			return;
+			
+
 		}
 		else {
 			e.preventDefault();

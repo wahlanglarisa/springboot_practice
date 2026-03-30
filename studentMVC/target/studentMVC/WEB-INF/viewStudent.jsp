@@ -25,11 +25,11 @@
 	<main id="main-content">
 
 		<section style="background-color: #eee;">
-			<div class="container py-5">
+			<div class="container py-5 mx-auto">
 
 				<input type="hidden" id="st_id" value="${student.id}" />
 				<div class="row">
-					<div class="col-lg-12">
+					<div class="col-lg-4">
 						<div class="card mb-4">
 							<div class="card-body text-center">
 								<img src="/studentMVC/image/${student.id }" alt="avatar"
@@ -41,74 +41,84 @@
 						</div>
 
 					</div>
-					<div class="row">
 
-						<div class="col-md-6">
-							<div class="card mb-4">
-								<div class="card-body">
-									<div class="card-title justify-content-center d-flex">
-										<h3>Student Biodata</h3>
-									</div>
 
-									<div class="row">
-										<div class="col-sm-3">
-											<p class="mb-0">Full Name</p>
-										</div>
-										<div class="col-sm-9">
-											<p class="text-muted mb-0">${student.first_name }&nbsp;${student.last_name }</p>
-										</div>
-									</div>
-									<hr>
-									<div class="row">
-										<div class="col-sm-3">
-											<p class="mb-0">Email</p>
-										</div>
-										<div class="col-sm-9">
-											<p class="text-muted mb-0">${student.email }</p>
-										</div>
-									</div>
-									<hr>
-									<div class="row">
-										<div class="col-sm-3">
-											<p class="mb-0">Mobile</p>
-										</div>
-										<div class="col-sm-9">
-											<p class="text-muted mb-0">${student.phone_no }</p>
-										</div>
-									</div>
-									<hr>
+					<div class="col-lg-8">
+						<div class="card mb-4">
+							<div class="card-header justify-content-center d-flex">
+								<h3>Student Biodata</h3>
+							</div>
+							<div class="card-body">
 
-									<div class="row">
-										<div class="col-sm-3">
-											<p class="mb-0">Address</p>
-										</div>
-										<div class="col-sm-9">
-											<p class="text-muted mb-0">${student.address }</p>
-										</div>
+
+								<div class="row">
+									<div class="col-sm-3">
+										<p class="mb-0">Full Name</p>
+									</div>
+									<div class="col-sm-9">
+										<p class="text-muted mb-0">${student.first_name }&nbsp;${student.last_name }</p>
 									</div>
 								</div>
+								<hr>
+								<div class="row">
+									<div class="col-sm-3">
+										<p class="mb-0">Email</p>
+									</div>
+									<div class="col-sm-9">
+										<p class="text-muted mb-0">${student.email }</p>
+									</div>
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col-sm-3">
+										<p class="mb-0">Mobile</p>
+									</div>
+									<div class="col-sm-9">
+										<p class="text-muted mb-0">${student.phone_no }</p>
+									</div>
+								</div>
+								<hr>
 							</div>
 						</div>
+					</div>
 
+					<div class="row" id="addressRow">
 						<div class="col-md-6">
-							<div class="card mb-4 mb-md-0 " >
-								<div class="card-body " id="card-body">
-									<p class="mb-4 card-title">
-										<span class="text-primary font-italic me-1 ">Subjects
-											taken</span>
-									</p>
-
+							<div class="card mb-4">
+								<div class="card-header justify-content-center d-flex">
+									<h3>Permanent Address Details</h3>
 								</div>
+								<div class="card-body" id="permAddrCard"></div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="card mb-4">
+								<div class="card-header justify-content-center d-flex">
+									<h3> Present Address Details</h3>
+								</div>
+								<div class="card-body" id="preAddrCard"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row justify-content-center d-flex">
+						<div class="col-xl-15">
+							<div class="card mb-4 mb-md-0  justify-content-center d-flex">
+								<div class="mb-4 card-header">
+									<h3>Subjects taken</h3>
+								</div>
+								<div class="card-body " id="card-body"></div>
 								<div id="pagination" class="pagination-container"></div>
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>
 		</section>
 	</main>
 </body>
+		<jsp:include page="footer.jsp" />
+
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
 	crossorigin="anonymous"></script>

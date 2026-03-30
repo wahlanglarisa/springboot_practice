@@ -1,57 +1,57 @@
-function addState(stateElement,countryElement) {
-    stateElement.empty();
-    stateElement.removeAttr('disabled');
+async function addState(stateElement, countryElement) {
+	stateElement.empty();
+	stateElement.removeAttr('disabled');
 
-    stateElement.append(`<option value="0">
+	stateElement.append(`<option value="0">
 			Select a State</option>`);
-    $.ajax({
-        "url": contextPath + "/getState_codes",
-        dataType: "json",
-        "data": {
-            "countryCode": countryElement.val()
-        },
-        "success": function(response) {
-            response.forEach((element) => {
-                stateElement.append(`<option value="${element.stateCode}">${element.stateName}</option>`);
-            });
-            console.log(response);
-        },
-        "method": "get"
-    });
+	await $.ajax({
+		"url": contextPath + "/getState_codes",
+		dataType: "json",
+		"data": {
+			"countryCode": countryElement.val()
+		},
+		"success": function(response) {
+			response.forEach((element) => {
+				stateElement.append(`<option value="${element.stateCode}">${element.stateName}</option>`);
+			});
+			console.log(response);
+		},
+		"method": "get"
+	});
 }
-function addDistrict(districtElement,stateElement) {
-    districtElement.empty();
-    districtElement.removeAttr('disabled');
+async function addDistrict(districtElement, stateElement) {
+	districtElement.empty();
+	districtElement.removeAttr('disabled');
 
-    districtElement.append(`<option value="0">Select a District</option>`);
+	districtElement.append(`<option value="0">Select a District</option>`);
 
-    $.ajax({
-        "url": contextPath + "/getDistrict_codes",
-        dataType: "json",
-        "data": {
-            "stateCode": stateElement.val()
-        },
-        "success": function(response) {
-            response.forEach((element) => {
-                districtElement.append(`<option value="${element.districtCode}">${element.districtName}</option>`);
-            });
-            console.log(response);
-        },
-        "method": "get"
-    });
+	await $.ajax({
+		"url": contextPath + "/getDistrict_codes",
+		dataType: "json",
+		"data": {
+			"stateCode": stateElement.val()
+		},
+		"success": function(response) {
+			response.forEach((element) => {
+				districtElement.append(`<option value="${element.districtCode}">${element.districtName}</option>`);
+			});
+			console.log(response);
+		},
+		"method": "get"
+	});
 }
 $(document).ready(() => {
-	var oldPreAddr1=""
-	var oldPreAddr2=""
-	var oldPreAddr3=""
-	
+	var oldPreAddr1 = ""
+	var oldPreAddr2 = ""
+	var oldPreAddr3 = ""
+
 	var phoneNoValid = true;
 	var fNameValid = true;
 	var LNameValid = true;
 	var phoneNoValidLen = true;
 	var emailValid = true;
 	const EmailPattern = /(?:((?:[\w-]+(?:\.[\w-]+)*)@(?:(?:[\w-]+\.)*\w[\w-]{0,66})\.(?:[a-z]{2,6}(?:\.[a-z]{2})?));*)/
-	var validPhoto=true;
+	var validPhoto = true;
 	const NumPattern = /[A-Za-z\s!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 	const FLNamePattern = /[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 
@@ -68,12 +68,12 @@ $(document).ready(() => {
 			return false;
 		}
 	}
-	$("#presentAddrCheck").change(()=>{
+	$("#presentAddrCheck").change(async () => {
 		console.log($("#presentAddrCheck").is(":checked"))
-		if($("#presentAddrCheck").is(":checked")){
-			oldPreAddr1=$("#preaddressline1").val()
-			oldPreAddr2=$("#preaddressline2").val()
-			oldPreAddr3=$("#preaddressline3").val()
+		if ($("#presentAddrCheck").is(":checked")) {
+			oldPreAddr1 = $("#preaddressline1").val()
+			oldPreAddr2 = $("#preaddressline2").val()
+			oldPreAddr3 = $("#preaddressline3").val()
 
 			console.log($("#presentAddrCheck").is(":checked"))
 
@@ -81,11 +81,14 @@ $(document).ready(() => {
 			$("#preaddressline2").val($("#permaddressline2").val())
 			$("#preaddressline3").val($("#permaddressline3").val())
 			$("#preCountryCode").val($("#permCountryCode").val())
+			await addState($("#preStateCode"), $("#preCountryCode"))
 			$("#preStateCode").val($("#permStateCode").val())
+			await addDistrict($("#preDistrictCode"), $("#permStateCode"))
+
 			$("#preDistrictCode").val($("#permDistrictCode").val())
 
 		}
-		else{
+		else {
 			$("#preaddressline1").val(oldPreAddr1)
 		}
 	})
@@ -218,19 +221,19 @@ $(document).ready(() => {
 		}
 	})
 	$("#permCountryCode").on("change", (e) => {
-		addState($("#permStateCode"),$("#permCountryCode"))
+		addState($("#permStateCode"), $("#permCountryCode"))
 	})
 	$("#permStateCode").on("change", (e) => {
 
-		addDistrict($("#permDistrictCode"),$("#permStateCode"));
+		addDistrict($("#permDistrictCode"), $("#permStateCode"));
 	})
 	$("#preCountryCode").on("change", (e) => {
-			addState($("#preStateCode"),$("#preCountryCode"))
-		})
-		$("#preStateCode").on("change", (e) => {
+		addState($("#preStateCode"), $("#preCountryCode"))
+	})
+	$("#preStateCode").on("change", (e) => {
 
-			addDistrict($("#preDistrictCode"),$("#preStateCode"));
-		})
+		addDistrict($("#preDistrictCode"), $("#preStateCode"));
+	})
 	$("#file").on("change", (e) => {
 		fileExt = $("#file").val().split(".")[1]
 		var Extensions = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
@@ -244,6 +247,14 @@ $(document).ready(() => {
 			validateElement($("#file"))
 			$("#invalidFile").attr("hidden", true)
 			validPhoto = true;
+			var file=e.target.files[0]
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$('#image-view').attr('src', e.target.result);
+				console.log(e.target.result)
+			}
+			console.log(file)
+			reader.readAsDataURL(file);
 
 		}
 	})

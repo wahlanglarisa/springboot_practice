@@ -1,5 +1,6 @@
 $(document).ready(async function() {
 	await courseFetch(1);
+	await addressFetch()
 });
 
 async function courseFetch(pageNum) {
@@ -12,9 +13,7 @@ async function courseFetch(pageNum) {
 		success: async (response) => {
 			console.log(response);
 			$("#card-body").empty()
-			$("#card-body").append(`			<div class="card-title justify-content-center d-flex">
-													<h3>Courses Taken</h3>
-												</div><div class="container-fluid">
+			$("#card-body").append(`<div class="container-fluid">
 						
 						<table class="table table-striped" id="courseTable">
 								<thead><tr><th>
@@ -57,6 +56,120 @@ async function courseFetch(pageNum) {
 
 			}
 		}
+	});
+}
+async function addressFetch() {
+	$.ajax({
+		url: contextPath + "/getStudentAddress",
+		data: {
+			"id": $("#st_id").val()
+		},
+		success: async (response) => {
+			$("#permAddrCard").append(`			<div class="row">
+			<div class="col-sm-3">			<p class="mb-0">Address Line 1</p>
+			</div>			<div class="col-sm-9">			<p class="text-muted mb-0">${response.addressPermLine1}</p>
+			</div>
+			</div>
+			<hr>
+			<div class="row">
+			<div class="col-sm-3">
+			<p class="mb-0">Address Line 2</p>
+			</div>
+		<div class="col-sm-9">
+		<p class="text-muted mb-0">${response.addressPermLine2}</p>
+		</div>
+	</div>
+	<hr>
+			<div class="row">
+			<div class="col-sm-3">
+			<p class="mb-0">Address Line 3</p>
+			</div>
+		<div class="col-sm-9">
+		<p class="text-muted mb-0">${response.addressPermLine3}</p>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+				<div class="col-sm-3">
+				<p class="mb-0">District</p>
+				</div>
+			<div class="col-sm-9">
+			<p class="text-muted mb-0">${response.permDistrictName}</p>
+			</div>
+		</div>
+		<hr>
+			<div class="row">
+						<div class="col-sm-3">
+						<p class="mb-0">State</p>
+						</div>
+					<div class="col-sm-9">
+					<p class="text-muted mb-0">${response.permStateName}</p>
+					</div>
+				</div>
+				<hr>
+					<div class="row">
+								<div class="col-sm-3">
+								<p class="mb-0">Country</p>
+								</div>
+							<div class="col-sm-9">
+							<p class="text-muted mb-0">${response.permCountryName}</p>
+							</div>
+						</div>`)
+			$("#preAddrCard").append(`			<div class="row">
+								<div class="col-sm-3">
+								<p class="mb-0">Address Line 1</p>
+								</div>
+								<div class="col-sm-9">
+								<p class="text-muted mb-0">${response.addressPreLine1}</p>
+								</div>
+								</div>
+								<hr>
+								<div class="row">
+								<div class="col-sm-3">
+								<p class="mb-0">Address Line 2</p>
+								</div>
+							<div class="col-sm-9">
+							<p class="text-muted mb-0">${response.addressPreLine2}</p>
+							</div>
+						</div>
+						<hr>
+								<div class="row">
+								<div class="col-sm-3">
+								<p class="mb-0">Address Line 3</p>
+								</div>
+							<div class="col-sm-9">
+							<p class="text-muted mb-0">${response.addressPermLine3}</p>
+							</div>
+						</div>
+						<hr>
+						<div class="row">
+									<div class="col-sm-3">
+									<p class="mb-0">District</p>
+									</div>
+								<div class="col-sm-9">
+								<p class="text-muted mb-0">${response.preDistrictName}</p>
+								</div>
+							</div>
+							<hr>
+								<div class="row">
+											<div class="col-sm-3">
+											<p class="mb-0">State</p>
+											</div>
+										<div class="col-sm-9">
+										<p class="text-muted mb-0">${response.preStateName}</p>
+										</div>
+									</div>
+									<hr>
+										<div class="row">
+													<div class="col-sm-3">
+													<p class="mb-0">Country</p>
+													</div>
+												<div class="col-sm-9">
+												<p class="text-muted mb-0">${response.preCountryName}</p>
+												</div>
+											</div>`)
+		}
+
 	});
 }
 async function pageButtonClicked(element, page) {

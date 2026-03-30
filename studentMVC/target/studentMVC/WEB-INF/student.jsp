@@ -5,24 +5,30 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html>
+<html>
 <head>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-	rel="stylesheet" crossorigin="anonymous">
-<link href="<c:url value="/resources/css/student.css" />"
-	rel="stylesheet">
-
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<link href="<c:url value="/resources/css/student.css" />"
+	rel="stylesheet">
+
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js">
+	
+</script>
 </head>
 <c:if
 	test="${requestScope['jakarta.servlet.forward.request_uri'] == ('/studentMVC/listStudent/'+=currentPage) }"><jsp:include
 		page="adminHeader.jsp"></jsp:include></c:if>
 <body>
-	${requestScope['jakarta.servlet.forward.request_uri']}
 	<br></br>
 	<main id="main-content">
 		<div class="mx-auto p-5">
@@ -129,6 +135,8 @@
 		</div>
 	</main>
 </body>
+		<jsp:include page="footer.jsp" />
+
 <script type="text/javascript">
 	document.addEventListener("DOMContentLoaded", function () {
 console.log("${totalItems-1}")

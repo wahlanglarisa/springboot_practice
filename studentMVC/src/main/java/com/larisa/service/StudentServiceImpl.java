@@ -19,6 +19,12 @@ import com.larisa.dto.UserStudent;
 @Service
 public class StudentServiceImpl implements StudentService {
 	@Override
+	public long getCountofStudents() {
+		// TODO Auto-generated method stub
+		return studentDao.getCountofStudents();
+	}
+
+	@Override
 	public GetAllStudentData getAllStudentData(long id) {
 		// TODO Auto-generated method stub
 		return studentDao.getAllStudentData(id);
@@ -70,9 +76,10 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public void deleteStudent(Student st) {
 		courseStudentDao.deleteCourseStudentByStID(st.getId());
+		studentAddressDao.deleteByStID(st.getId());
+
 		studentDao.deleteStudent(st);
 		userDao.deleteUser(st.getUser_id());
-
 		// TODO Auto-generated method stub
 
 	}
@@ -93,6 +100,12 @@ public class StudentServiceImpl implements StudentService {
 	public Student findStudentByPhoneNo(Long phone_no) {
 		// TODO Auto-generated method stub
 		return studentDao.findStudentByPhoneNo(phone_no);
+	}
+
+	@Override
+	public long getCountCourses(long stID) {
+		// TODO Auto-generated method stub
+		return studentDao.getCountCourses(stID);
 	}
 
 }

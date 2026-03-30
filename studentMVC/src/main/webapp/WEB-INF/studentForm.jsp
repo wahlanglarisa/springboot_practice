@@ -149,7 +149,7 @@
 							<br>
 
 							<div class="row">
-								<div class="col-12">
+								<div class="col-6">
 
 									<form:input path="phone_no" placeholder="Phone Number"
 										class=" form-control" required="true" autocomplete="off"
@@ -166,6 +166,14 @@
 										id="phoneLength">Phone number should have 10 digits.</span> <span
 										class="text-danger invalid-feedback" id="dupPhoneNo"
 										hidden="true">This phone number already exists</span>
+								</div>
+								<div class="col-6" id="OTPDiv">
+
+									<input placeholder="Enter OTP sent to phone number"
+										class="form-control" id="OTP-phone" autocomplete="off"
+										name="OTP-phone" disabled="true" /> <span
+										class="text-danger invalid-feedback" id="otpPhoneInvalid"
+										hidden="true">OTP is invalid</span>
 								</div>
 
 							</div>
@@ -191,7 +199,7 @@
 
 									<input placeholder="Enter OTP sent to email"
 										class="form-control" id="OTP-email" autocomplete="off"
-										name="OTP-email" hidden="hidden" /> <span
+										name="OTP-email" disabled="true" /> <span
 										class="text-danger invalid-feedback" id="otpInvalid"
 										hidden="true">OTP is invalid</span>
 								</div>
@@ -247,12 +255,14 @@
 		</main>
 	</c:if>
 </body>
+		<jsp:include page="footer.jsp" />
+
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 	crossorigin="anonymous"></script>
 <script>
-console.log(${student.st_id})
+console.log(${student.st_id })
 	var contextPath = "${pageContext.request.contextPath}";
 
 	/*var requestURI = "${requestScope['jakarta.servlet.forward.request_uri']}";

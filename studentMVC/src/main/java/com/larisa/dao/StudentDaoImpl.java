@@ -8,6 +8,7 @@ import java.util.List;
 import org.jspecify.annotations.Nullable;
 import org.postgresql.util.PGobject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -79,10 +80,12 @@ public class StudentDaoImpl implements StudentDao {
 	@Override
 	public GetAllStudentData getAllStudentData(long id) {
 		String queryString = "SELECT\r\n" + "	st.* FROM\r\n" + "	STUDENT ST\r\n"
-				
+
 				+ " where st.id=?";
 		// TODO Auto-generated method stub
-		return (GetAllStudentData)jdbcTemplate.query(queryString,ps->{ps.setLong(1, id);}, new GetAllStudentDataMapper()).getFirst();
+		return (GetAllStudentData) jdbcTemplate.query(queryString, ps -> {
+			ps.setLong(1, id);
+		}, new GetAllStudentDataMapper()).getFirst();
 	}
 
 	@Override
@@ -100,9 +103,11 @@ public class StudentDaoImpl implements StudentDao {
 
 			}
 		});
-		Student student=findStudentByEmail(st.getEmail());
-		String addStaddressString="insert into student_address(st_id) values(?)";
-		jdbcTemplate.update(addStaddressString,(ps)->{ps.setLong(1, student.getId());});
+		Student student = findStudentByEmail(st.getEmail());
+		String addStaddressString = "insert into student_address(st_id) values(?)";
+		jdbcTemplate.update(addStaddressString, (ps) -> {
+			ps.setLong(1, student.getId());
+		});
 		// TODO Auto-generated method stub
 
 	}
@@ -117,18 +122,19 @@ public class StudentDaoImpl implements StudentDao {
 		String queryString = "update student set phone_no=?,email=?"
 				+ ",last_name=?,first_name=?,profile_picture=? where id=?";
 		System.out.println("Profile Picture" + st.getProfile_picture());
-		System.out.println("Profile Picture existing student "+student.getProfile_picture());
+		System.out.println("Profile Picture existing student " + student.getProfile_picture());
 		jdbcTemplate.update(queryString, new PreparedStatementSetter() {
 			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
 				ps.setLong(1, st.getPhone_no() == null ? student.getPhone_no() : st.getPhone_no());
 				ps.setString(2, (st.getEmail() == "" || st.getEmail() == null) ? student.getEmail() : st.getEmail());
-				
+
 				ps.setString(3, (st.getLast_name() == "" || st.getLast_name() == null) ? student.getLast_name()
 						: st.getLast_name());
 				ps.setString(4, (st.getFirst_name() == null || st.getFirst_name() == null) ? student.getFirst_name()
 						: st.getFirst_name());
-				
-				ps.setBytes(5, (st.getProfile_picture()==null)?student.getProfile_picture():st.getProfile_picture());
+
+				ps.setBytes(5,
+						(st.getProfile_picture() == null) ? student.getProfile_picture() : st.getProfile_picture());
 
 				ps.setLong(6, st.getId());
 			}
@@ -155,7 +161,7 @@ public class StudentDaoImpl implements StudentDao {
 			Student student = new Student();
 			// TODO Auto-generated method stub
 			student.setId(rs.getLong("id"));
-		
+
 			student.setEmail(rs.getString("email"));
 			student.setPhone_no(rs.getLong("phone_no"));
 			student.setLast_name(rs.getString("last_name"));
@@ -180,24 +186,37 @@ public class StudentDaoImpl implements StudentDao {
 		return student;
 	}
 
+	@Override
+	public long getCountCourses(long stID) {
+		// TODO Auto-generated method stub
+		try {
+			String getCountCoursesQuery = "select count(*)  from course_student where st_id=? group by st_id";
+			Long noOfCourses = jdbcTemplate.queryForObject(getCountCoursesQuery, new Object[] { stID }, Long.class);
+			return noOfCourses;
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public long getCountofStudents() {
+		String rowStringQuery = "select count(*) from student";
+		int totalRows = jdbcTemplate.queryForObject(rowStringQuery, Integer.class);
+		return totalRows;
+	}
+
 	private static final class GetAllStudentDataMapper implements RowMapper<GetAllStudentData> {
 
-	    private ObjectMapper mapper = new ObjectMapper();
+		private ObjectMapper mapper = new ObjectMapper();
 
-	    @Override
-	    public GetAllStudentData mapRow(ResultSet rs, int rowNum) throws SQLException {
+		@Override
+		public GetAllStudentData mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-	        
-
-	        return new GetAllStudentData(
-	                rs.getLong("phone_no"),
-	                rs.getLong("id"),
-	                rs.getString("email"),
-	                rs.getString("last_name"),
-	                rs.getString("first_name"),
-	                rs.getString("user_id"),
-	                rs.getBytes("profile_picture")
-	        );
-	    }
+			return new GetAllStudentData(rs.getLong("phone_no"), rs.getLong("id"), rs.getString("email"),
+					rs.getString("last_name"), rs.getString("first_name"), rs.getString("user_id"),
+					rs.getBytes("profile_picture"));
+		}
 	}
 }

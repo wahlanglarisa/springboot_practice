@@ -8,8 +8,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.larisa.service.AddService;
 
-@Controller
-
+@Controller 
+ 
 public class AddController {
 	@RequestMapping(value = "/add",method = RequestMethod.GET)
 	public ModelAndView add(@RequestParam("n1") int num1, @RequestParam("n2") int num2) {

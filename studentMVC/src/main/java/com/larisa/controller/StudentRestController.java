@@ -27,14 +27,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.larisa.dto.Course;
 import com.larisa.dto.District;
+import com.larisa.dto.GetStudentAddress;
 import com.larisa.dto.State;
 import com.larisa.dto.Student;
+import com.larisa.dto.StudentAddress;
 import com.larisa.dto.User;
 import com.larisa.service.CourseService;
 import com.larisa.service.DistrictService;
 import com.larisa.service.StateService;
+import com.larisa.service.StudentAddressService;
 import com.larisa.service.StudentService;
 import com.larisa.service.UserService;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
 @RestController
 public class StudentRestController {
@@ -51,6 +57,16 @@ public class StudentRestController {
 	private MailSender mailSender;
 	@Autowired
 	private CourseService courseService;
+	@Autowired
+	private StudentAddressService studentAddressService;
+	private final static String ACCOUNT_SID = "ACc19d89f4a950cc4c81056d7e82be948f";
+	private final static String AUTH_ID = "7bb5a22a54dda8aaf1ef29ad91c43a13";
+	static int otpphone;
+	static int otpemail;
+
+	static {
+		Twilio.init(ACCOUNT_SID, AUTH_ID);
+	}
 
 	@RequestMapping(value = "/getState_codes", method = RequestMethod.GET)
 
@@ -119,12 +135,50 @@ public class StudentRestController {
 		return courseService.getCoursesByStudent(student, pageable);
 	}
 
-	@RequestMapping(value="/verifyOTP",method = RequestMethod.GET)
-	public  boolean verifyOTP(@RequestParam("otp") int OTP) {
+	@RequestMapping(value = "/verifyOTP", method = RequestMethod.GET)
+	public boolean verifyOTP(@RequestParam("otp") int OTP) {
 		if (StudentRestController.OTP == OTP) {
+			System.out.println(OTP);
+			System.out.println(OTP);
+			return true;
+		} else { 
+			return false;
+		}
+	}
+
+	@RequestMapping(value = "/verifyPhoneOTP", method = RequestMethod.GET)
+	public boolean verifyPhoneOTP(@RequestParam("otp") int OTP) {
+		if (StudentRestController.otpphone == OTP) {
+			System.out.println(OTP);
+			System.out.println(OTP);
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	@RequestMapping("/sendSMSOTP")
+	public boolean sendSMSOTP(@RequestParam("phone") long phone) {
+		try {
+			Random random = new Random();
+			System.out.println(phone);
+			otpphone = (10000 + random.nextInt(90000));
+			System.out.println("OTP for " + phone + "is " + otpphone);
+			Message.creator(new PhoneNumber("+91" + Long.toString(phone)), new PhoneNumber("+15856325133"),
+					"The OTP for verifying the number is " + otpphone).create();
+
+			return true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return true;
+		}
+	}
+
+	@RequestMapping(value = "/getStudentAddress", method = RequestMethod.GET)
+	public GetStudentAddress getStudentAddress(@RequestParam("id") long id) {
+		System.out.println(id);
+
+		return studentAddressService.getAddressByStID(id);
 	}
 }

@@ -51,12 +51,15 @@ import com.larisa.service.StateService;
 import com.larisa.service.StudentService;
 import com.larisa.service.UserService;
 import com.larisa.service.UserStudentService;
+import com.twilio.Twilio;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.Getter;
 
 @Controller
 public class StudentController {
+
 	@Autowired
 	private StudentService studentService;
 	@Autowired
@@ -73,6 +76,7 @@ public class StudentController {
 	private StateService stateService;
 	@Autowired
 	private DistrictService districtService;
+
 	@GetMapping(value = "/")
 	public ModelAndView loginPage() {
 		System.out.println("in list student function");
@@ -81,8 +85,6 @@ public class StudentController {
 		modelAndView.setViewName("login");
 		return modelAndView;
 	}
-
-
 
 	@GetMapping(value = "/addCourseForm/{stId}")
 	public ModelAndView courseForm(@PathVariable("stId") Long stID) {
@@ -170,7 +172,7 @@ public class StudentController {
 			}
 
 			return modelAndView;
-//			modelAndView.setViewName("redirect:/studentPage/1");
+			// modelAndView.setViewName("redirect:/studentPage/1");
 
 		} else {
 			modelAndView.setViewName("redirect:/?loginerror=true");
@@ -200,6 +202,26 @@ public class StudentController {
 		modelAndView.setViewName("studentPage");
 		modelAndView.addObject("courseStudent", courseStudent);
 		return modelAndView;
+	}
+
+	@GetMapping("/studentHomepage/{email}")
+	public ModelAndView studentHomepage(@PathVariable("email") String email) {
+		Student student = studentService.findStudentByEmail(email);
+		Long numberOfCourses = studentService.getCountCourses(student.getId());
+
+		ModelAndView modelAndView = new ModelAndView("studentHomepage");
+		modelAndView.addObject("noOfCourses", numberOfCourses);
+		modelAndView.addObject("user", userStudentService.getUserStudentbyEmail(email));
+
+		return modelAndView;
+	}
+
+	@GetMapping("/adminHomepage/")
+	public ModelAndView adminHomepage() {
+		ModelAndView modelAndView = new ModelAndView("adminHomepage");
+		modelAndView.addObject("noOfStudents", studentService.getCountofStudents());
+		return modelAndView;
+
 	}
 
 	@GetMapping(value = "/listStudent/{page}")
@@ -240,20 +262,21 @@ public class StudentController {
 		System.out.println("in list student function");
 		ModelAndView modelAndView = new ModelAndView();
 		Student student = studentService.getStudent(id);
-		UserStudent userStudent= userStudentService.getUserStudentbyEmail(student.getEmail());
-		System.out.println(userStudent.getPermCountryCode()+" "+userStudent.getPermStateCode());
+		UserStudent userStudent = userStudentService.getUserStudentbyEmail(student.getEmail());
+		System.out.println(userStudent.getPermCountryCode() + " " + userStudent.getPermStateCode());
 		List<Country> countries = countryService.getCountries();
-		List<State> permStates=stateService.getStatesByCountry_code(userStudent.getPermCountryCode());
-		List<State> preStates=stateService.getStatesByCountry_code(userStudent.getPreCountryCode());
+		List<State> permStates = stateService.getStatesByCountry_code(userStudent.getPermCountryCode());
+		List<State> preStates = stateService.getStatesByCountry_code(userStudent.getPreCountryCode());
 
-		List<District> permDistricts=districtService.getDistrictsByState(userStudent.getPermStateCode());
-		List<District> preDistricts=districtService.getDistrictsByState(userStudent.getPreStateCode());
+		List<District> permDistricts = districtService.getDistrictsByState(userStudent.getPermStateCode());
+		List<District> preDistricts = districtService.getDistrictsByState(userStudent.getPreStateCode());
 
 		modelAndView.addObject("countries", countries);
 		modelAndView.setViewName("studentForm");
 		modelAndView.addObject("permStates", permStates);
 		modelAndView.addObject("preStates", preStates);
 		modelAndView.addObject("preDistricts", preDistricts);
+		modelAndView.addObject("user", userStudentService.getUserStudentbyEmail(student.getEmail()));
 
 		modelAndView.addObject("permDistricts", permDistricts);
 		modelAndView.addObject("student", userStudent);
@@ -266,7 +289,7 @@ public class StudentController {
 		ModelAndView modelAndView = new ModelAndView();
 		System.out.println(student.getPassword());
 		modelAndView.addObject("student", student);
-		
+
 		if (student.getSt_id() <= 0 || student == null || student.getUser_id() == "") {
 			try {
 				if (student.getFirst_name() == "" || student.getLast_name() == "" || student.getPhone_no() == null
@@ -274,7 +297,7 @@ public class StudentController {
 					modelAndView.setViewName("redirect:/addstudent?emptyFields=true");
 				} else {
 					System.out.println("adding student " + file);
-//					student.setProfile_picture(student.getProFile().getBytes());
+					// student.setProfile_picture(student.getProFile().getBytes());
 					if (!file.isEmpty())
 						student.setProfile_picture(file.getBytes());
 					studentService.addStudent(student);
@@ -317,8 +340,8 @@ public class StudentController {
 
 		else {
 			try {
-//				student.setProfile_picture(student.getProFile().getBytes());
-				System.out.println("Multipart File" + file.getBytes()+" "+file.isEmpty());
+				// student.setProfile_picture(student.getProFile().getBytes());
+				System.out.println("Multipart File" + file.getBytes() + " " + file.isEmpty());
 				if (!file.isEmpty())
 					student.setProfile_picture(file.getBytes());
 				System.out.println("student profile picture controller " + student.getProfile_picture());
@@ -327,7 +350,7 @@ public class StudentController {
 
 				modelAndView.setViewName("redirect:/updatestudent/" + student.getSt_id() + "?updateSuccess=true");
 
-//				student.setProfile_picture(file.getBytes());
+				// student.setProfile_picture(file.getBytes());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 
@@ -355,8 +378,8 @@ public class StudentController {
 		User user = userService.getUserByEmail(email);
 		UpdatePassword password = new UpdatePassword();
 		password.setEmail(email);
-		UserStudent userStudent=userStudentService.getUserStudentbyEmail(email);
-		
+		UserStudent userStudent = userStudentService.getUserStudentbyEmail(email);
+
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("userPassword", password);
 		modelAndView.addObject("user", userStudent);
