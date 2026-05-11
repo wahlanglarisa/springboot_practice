@@ -1,4 +1,15 @@
+/**function encryptPassword() {
 
+    const encrypt = new JSEncrypt();
+    encrypt.setPublicKey(publicKey);
+
+    let passwordField = document.getElementById("password");
+
+    let encryptedPassword = encrypt.encrypt(passwordField.value);
+
+    passwordField.value = encryptedPassword;
+}**/
+import {encryptPassword} from "./passwordEncrypt.js";
 $(document).ready(() => {
 	const EmailPattern = /(?:((?:[\w-]+(?:\.[\w-]+)*)@(?:(?:[\w-]+\.)*\w[\w-]{0,66})\.(?:[a-z]{2,6}(?:\.[a-z]{2})?));*)/
 	var emailValid = false;
@@ -22,7 +33,7 @@ $(document).ready(() => {
 	})
 	$(document).on("submit", (e) => {
 		if (emailValid) {
-			
+			encryptPassword("password");
 
 			return;
 			

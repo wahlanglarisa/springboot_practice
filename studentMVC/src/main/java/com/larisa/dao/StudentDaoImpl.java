@@ -41,11 +41,9 @@ public class StudentDaoImpl implements StudentDao {
 		// TODO Auto-generated method stub
 		String getQueryString = "select * from student where student.email=?";
 
-		List<Student> student = (List<Student>) (jdbcTemplate.query(getQueryString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
-				ps.setString(1, email);
-				;
-			};
+		List<Student> student = (List<Student>) (jdbcTemplate.query(getQueryString, ps -> {
+			ps.setString(1, email);
+			;
 		}, new StudentMapper()));
 		return (student.size() == 0 ? null : student.getFirst());
 	}
@@ -55,10 +53,10 @@ public class StudentDaoImpl implements StudentDao {
 		// TODO Auto-generated method stub
 		String getQueryString = "select * from student where student.phone_no=?";
 
-		List<Student> student = (List<Student>) (jdbcTemplate.query(getQueryString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
-				ps.setLong(1, phone_no);
-			};
+		List<Student> student = (List<Student>) (jdbcTemplate.query(getQueryString, ps -> {
+
+			ps.setLong(1, phone_no);
+			;
 		}, new StudentMapper()));
 		return (student.size() == 0 ? null : student.getFirst());
 	}
@@ -79,8 +77,8 @@ public class StudentDaoImpl implements StudentDao {
 
 	@Override
 	public GetAllStudentData getAllStudentData(long id) {
-		String queryString = "SELECT\r\n" + "	st.* FROM\r\n" + "	STUDENT ST\r\n"
-
+		String queryString = "SELECT\r\n" + "	st.*,ucs.status FROM\r\n" + "	STUDENT ST\r\n"
++"join \"user\" on st.user_id=\"user\".user_id join user_creation_status ucs on ucs.id=\"user\".creation_status_id"
 				+ " where st.id=?";
 		// TODO Auto-generated method stub
 		return (GetAllStudentData) jdbcTemplate.query(queryString, ps -> {
@@ -92,16 +90,14 @@ public class StudentDaoImpl implements StudentDao {
 	public void addStudent(Student st) throws DuplicateKeyException {
 		String queryString = "insert into student(phone_no," + "email"
 				+ ",last_name,first_name,user_id,profile_picture)" + " values(?,?,?,?,?,?)";
-		jdbcTemplate.update(queryString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
-				ps.setLong(1, st.getPhone_no());
-				ps.setString(2, st.getEmail());
-				ps.setString(3, st.getLast_name());
-				ps.setString(4, st.getFirst_name());
-				ps.setString(5, st.getUser_id());
-				ps.setBytes(6, st.getProfile_picture());
+		jdbcTemplate.update(queryString, ps -> {
+			ps.setLong(1, st.getPhone_no());
+			ps.setString(2, st.getEmail());
+			ps.setString(3, st.getLast_name());
+			ps.setString(4, st.getFirst_name());
+			ps.setString(5, st.getUser_id());
+			ps.setBytes(6, st.getProfile_picture());
 
-			}
 		});
 		Student student = findStudentByEmail(st.getEmail());
 		String addStaddressString = "insert into student_address(st_id) values(?)";
@@ -123,21 +119,18 @@ public class StudentDaoImpl implements StudentDao {
 				+ ",last_name=?,first_name=?,profile_picture=? where id=?";
 		System.out.println("Profile Picture" + st.getProfile_picture());
 		System.out.println("Profile Picture existing student " + student.getProfile_picture());
-		jdbcTemplate.update(queryString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
-				ps.setLong(1, st.getPhone_no() == null ? student.getPhone_no() : st.getPhone_no());
-				ps.setString(2, (st.getEmail() == "" || st.getEmail() == null) ? student.getEmail() : st.getEmail());
+		jdbcTemplate.update(queryString, ps -> {
+			ps.setLong(1, st.getPhone_no() == null ? student.getPhone_no() : st.getPhone_no());
+			ps.setString(2, (st.getEmail() == "" || st.getEmail() == null) ? student.getEmail() : st.getEmail());
 
-				ps.setString(3, (st.getLast_name() == "" || st.getLast_name() == null) ? student.getLast_name()
-						: st.getLast_name());
-				ps.setString(4, (st.getFirst_name() == null || st.getFirst_name() == null) ? student.getFirst_name()
-						: st.getFirst_name());
+			ps.setString(3, (st.getLast_name() == "" || st.getLast_name() == null) ? student.getLast_name()
+					: st.getLast_name());
+			ps.setString(4, (st.getFirst_name() == null || st.getFirst_name() == null) ? student.getFirst_name()
+					: st.getFirst_name());
 
-				ps.setBytes(5,
-						(st.getProfile_picture() == null) ? student.getProfile_picture() : st.getProfile_picture());
+			ps.setBytes(5, (st.getProfile_picture() == null) ? student.getProfile_picture() : st.getProfile_picture());
 
-				ps.setLong(6, st.getId());
-			}
+			ps.setLong(6, st.getId());
 		});
 		// TODO Auto-generated method stub
 
@@ -147,10 +140,9 @@ public class StudentDaoImpl implements StudentDao {
 	public void deleteStudent(Student st) {
 		// TODO Auto-generated method stub
 		String deleteQuery = "delete from student where id=?";
-		jdbcTemplate.update(deleteQuery, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
-				ps.setLong(1, st.getId());
-			};
+		jdbcTemplate.update(deleteQuery, ps -> {
+
+			ps.setLong(1, st.getId());
 		});
 	}
 
@@ -178,10 +170,10 @@ public class StudentDaoImpl implements StudentDao {
 		// TODO Auto-generated method stub
 		String getQueryString = "select * from student where student.id=?";
 
-		Student student = (Student) (jdbcTemplate.query(getQueryString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
-				ps.setLong(1, id);
-			};
+		Student student = (Student) (jdbcTemplate.query(getQueryString, ps -> {
+
+			ps.setLong(1, id);
+
 		}, new StudentMapper())).get(0);
 		return student;
 	}
@@ -215,7 +207,7 @@ public class StudentDaoImpl implements StudentDao {
 		public GetAllStudentData mapRow(ResultSet rs, int rowNum) throws SQLException {
 
 			return new GetAllStudentData(rs.getLong("phone_no"), rs.getLong("id"), rs.getString("email"),
-					rs.getString("last_name"), rs.getString("first_name"), rs.getString("user_id"),
+					rs.getString("last_name"), rs.getString("first_name"), rs.getString("user_id"),rs.getString("status"),
 					rs.getBytes("profile_picture"));
 		}
 	}

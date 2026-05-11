@@ -16,6 +16,7 @@ import com.larisa.service.UserStudentService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 //configure redirects
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 	@Autowired
@@ -29,19 +30,24 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 		String redirectURL = request.getContextPath();
 		System.out.println(redirectURL);
 		String contextPath=redirectURL;
+		HttpSession httpSession=request.getSession();
+
 		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Student"))) {
 			System.out.println(authentication.getName());
 			UserStudent userStudent=userStudentService.getUserStudentbyEmail(authentication.getName());
 
 			UserCreationStatus creationStatus=creationStatusDao.getByStatusByID(userStudent.getCreationStatusID());
-
-			redirectURL = contextPath+"/studentHomepage/" + authentication.getName();
+			httpSession.setAttribute("user", userStudent);
+			redirectURL = contextPath+"/student/studentHomepage/" + authentication.getName();
 		}
 //		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Professor"))) {
 //			redirectURL = contextPath+"/professor/professorHomepage";
 //		}
 		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Admin"))) {
-			redirectURL =contextPath+"/adminHomepage/";
+			redirectURL =contextPath+"/admin/adminHomepage/";
+		}
+		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Professor"))) {
+			redirectURL =contextPath+"/professor/homepage";
 		}
 //		if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Head Of Department"))) {
 //			redirectURL =contextPath+"/hod/hodPortal";

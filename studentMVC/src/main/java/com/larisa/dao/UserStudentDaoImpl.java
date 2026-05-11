@@ -23,10 +23,8 @@ public class UserStudentDaoImpl implements UserStudentDao {
 				+ "on student.user_id=\"user\".user_id join user_creation_status"
 				+ " on\"user\".creation_status_id=user_creation_status.id  "
 				+ "left join student_address on st_id=student.id where student.email=?";
-		List<UserStudent> userStudents = jdbcTemplate.query(queryString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
-				ps.setString(1, email);
-			};
+		List<UserStudent> userStudents = jdbcTemplate.query(queryString, ps -> {
+			ps.setString(1, email);
 		}, new UserStudentMapper());
 		return userStudents.size() == 0 ? null : userStudents.getFirst();
 	}
@@ -38,12 +36,9 @@ public class UserStudentDaoImpl implements UserStudentDao {
 	public UserStudent getUserStudent(long id) {
 		String queryString = "select * from \"user\" join student st on user.user_id=st.user_id join user_creation_status\"\r\n"
 				+ "				+ \" on\\\"user\\\".creation_status_id=id  \"\r\n" + "				+ where st.id =?";
-		List<UserStudent> userStudents = (List<UserStudent>) (jdbcTemplate.query(queryString,
-				new PreparedStatementSetter() {
-					public void setValues(java.sql.PreparedStatement ps) throws SQLException {
-						ps.setLong(1, id);
-					};
-				}, new UserStudentMapper()));
+		List<UserStudent> userStudents = (List<UserStudent>) (jdbcTemplate.query(queryString, ps -> {
+			ps.setLong(1, id);
+		}, new UserStudentMapper()));
 		// TODO Auto-generated method stub
 		return (userStudents.size() == 0 ? null : userStudents.getFirst());
 
@@ -55,12 +50,11 @@ public class UserStudentDaoImpl implements UserStudentDao {
 			// TODO Auto-generated method stub)
 			UserStudent userStudent = new UserStudent(rs.getLong("phone_no"), rs.getLong("id"),
 					rs.getString("password"), rs.getString("email"), rs.getString("last_name"),
-					rs.getString("first_name"), rs.getString("user_id"), 
-					rs.getBytes("profile_picture"), (UUID) rs.getObject("creation_status_id"),
-					rs.getString("address_perm_1"), rs.getString("address_perm_2"), rs.getString("address_perm_3"),
-					rs.getString("address_present_1"), rs.getString("address_present_2"),
-					rs.getString("address_present_3"), rs.getLong("address_perm_pin"),
-					rs.getLong("address_present_pin"));
+					rs.getString("first_name"), rs.getString("user_id"), rs.getBytes("profile_picture"),
+					(UUID) rs.getObject("creation_status_id"), rs.getString("address_perm_1"),
+					rs.getString("address_perm_2"), rs.getString("address_perm_3"), rs.getString("address_present_1"),
+					rs.getString("address_present_2"), rs.getString("address_present_3"),
+					rs.getLong("address_perm_pin"), rs.getLong("address_present_pin"));
 			userStudent.setUser_creation_status(rs.getString("status"));
 			userStudent.setPermCountryCode(rs.getString("perm_country_code"));
 			userStudent.setPermStateCode(rs.getString("perm_state_code"));

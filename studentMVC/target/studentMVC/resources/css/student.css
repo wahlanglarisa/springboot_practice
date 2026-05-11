@@ -82,7 +82,10 @@ table, thead, tbody, tr, th, td {
 .list:before {
 	content: '✓';
 }
-
+.icon{
+	width: 20px;
+	height: 20px;
+}
 .carousel-inner {
 	padding: 50px 80px 50px 80px; /* space for indicators */
 		background-color: #5d6466;

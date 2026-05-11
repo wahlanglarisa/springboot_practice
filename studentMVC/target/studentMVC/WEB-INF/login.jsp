@@ -1,3 +1,9 @@
+
+<%
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", 0);
+%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
@@ -5,6 +11,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
 <link href="<c:url value="/resources/css/student.css" />"
@@ -21,51 +28,59 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 	crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js">
+	
+</script>
 <title>Insert title here</title>
 </head>
+
 <body>
-<nav id="main-navbar"
-	class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
-	<!-- Container wrapper -->
-	<div class="container-fluid">
-		<!-- Toggle button -->
-		
-
-		<!-- Brand -->
-		<a class="navbar-brand" th:href="@{/student/studentHomepage}"> <img
-			th:src="@{/ChatGPT Image Sep 3, 2025, 01_04_50 PM.png}" height="25"
-			alt="" loading="lazy" /> <span> Student Course Management
-		</span>
-		</a>
-		<!-- Search form -->
+	<nav id="main-navbar"
+		class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+		<!-- Container wrapper -->
+		<div class="container-fluid">
+			<!-- Toggle button -->
 
 
-		<!-- Right links -->
+			<!-- Brand -->
+			<a class="navbar-brand" th:href="@{/student/studentHomepage}"> <img
+				th:src="@{/ChatGPT Image Sep 3, 2025, 01_04_50 PM.png}" height="25"
+				alt="" loading="lazy" /> <span> Student Course Management </span>
+			</a>
+			<!-- Search form -->
 
-	</div>
-	<!-- Container wrapper -->
-</nav>
+
+			<!-- Right links -->
+
+		</div>
+		<!-- Container wrapper -->
+	</nav>
 	<br>
 	<br>
 	<br>
 
 	<div class="container shadow p-5">
-	<c:if test="${param.sessionExpired}">
-			<div class="alert alert-danger col-8">Session expired. Please login again</div>
+		<c:if test="${param.sessionExpired}">
+			<div class="alert alert-danger col-8">Session expired. Please
+				login again</div>
 		</c:if>
-		
+
 		<c:if test="${param.loginerror}">
 			<div class="alert alert-danger col-8">Login Failed. Please
 				enter correct credentials</div>
 		</c:if>
-		
+
 		<c:if test="${param.loggedOut}">
 			<div class="alert alert-success col-8">User logged out
 				Successfully</div>
 		</c:if>
-		<form:form method="post" 
-			action="${pageContext.request.contextPath}/login" class=" justify-content-center ">
-			
+		<form:form method="post"
+			action="${pageContext.request.contextPath}/login"
+			class=" justify-content-center " onsubmit="encryptPassword()">
+
 			<div class="row">
 				<label class="col-3 form-label">Enter the email</label>
 				<div class="col-5">
@@ -95,11 +110,22 @@
 		</form:form>
 	</div>
 </body>
-		<jsp:include page="footer.jsp" />
+<jsp:include page="footer.jsp" />
+<script
+	src="https://cdn.jsdelivr.net/npm/jsencrypt/bin/jsencrypt.min.js"></script>
 
 <script>
+	const publicKey = "${publicKey}";
+
 	var contextPath = "${pageContext.request.contextPath}";
+	window.history.forward();
+	function noBack() {
+		window.history.forward();
+	}
 </script>
-<script type="text/javascript"
+
+
+<script type="module"
 	src="<c:url value="/resources/js/login.js" />"></script>
+
 </html>

@@ -1,5 +1,7 @@
 package com.larisa.dto;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -44,5 +46,6 @@ public class UserStudent {
 	private MultipartFile proFile;
 	private byte[] profile_picture;
 	private UUID creationStatusID;
-
+	private List<StudentQualification> studentQualifications=new ArrayList<StudentQualification>();
+	private List<UUID> ids=new ArrayList<UUID>();
 }

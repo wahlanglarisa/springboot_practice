@@ -15,8 +15,19 @@ import com.larisa.dto.UserRole;
 public class UserServiceImpl implements UserService,UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
-		return new UserLogin(userDao.getUserRoleByEmail(username));
+
+	    System.out.println("User LoadUserByUserName");
+
+	    UserRole userRole = userDao.getUserRoleByEmail(username);
+
+	    if (userRole == null) {
+	    	System.out.println("throwing  UsernameNotFoundException");
+	        throw new UsernameNotFoundException("User not found: " + username);
+	    }
+
+	    System.out.println(userRole);
+
+	    return new UserLogin(userRole);
 	}
 
 	@Override

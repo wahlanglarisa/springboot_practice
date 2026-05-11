@@ -22,11 +22,8 @@ public class DistrictDaoImpl implements DistrictDao {
 	public List<District> getDistrictsByState(String stateCode) {
 		// TODO Auto-generated method stub
 		String queryString = "select * from district where district.state_code=?";
-		return jdbcTemplate.query(queryString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
+		return jdbcTemplate.query(queryString, ps->{
 				ps.setString(1, stateCode);
-			}
-			;
 		}, new DistrictMapper());
 	}
 

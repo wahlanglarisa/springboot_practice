@@ -3,63 +3,96 @@ package com.larisa.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class ConfigSecurity {
 	@Autowired
 	UserDetailsService detailsService;
-
+	
 	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth
+	SecurityFilterChain securityFilterChain(HttpSecurity http)
+			throws Exception {
+		http.authorizeHttpRequests(auth -> auth
 
-				// ✅ ALLOW login page & authentication
-				.requestMatchers("/**", "/login", "/?error", "/?logout").permitAll()
+				// login page
+				.requestMatchers("/", "/login", "/addstudent**", "/getState_codes**", "/getDistrict_codes**",
+						"/getUser**", "/sendMail**", "/getStudent**", "/validatePassword**", "/image**",
+						"/getCourseByStudent**", "/verifyOTP**", "/verifyPhoneOTP**", "/sendSMSOTP**",
+						"/getStudentAddress**", "/saveStudent", "/verifyOTP/","/setSession")
+				.permitAll()
 
-				// ✅ Static resources
-				.requestMatchers("/resources/**", "/css/**", "/js/**", "/images/**", "/**.js/").permitAll()
+				// static resources
+				.requestMatchers("/resources/**", "/css/**", "/js/**", "/images/**").permitAll()
 
-				// ✅ Role-based access
-				.requestMatchers("/liststudent**").hasRole("Admin").requestMatchers("/student/**").hasRole("Student")
+				// role access
+				.requestMatchers("/admin**", "/liststudent**", "/updatestudent**", "/changePassword**").hasRole("Admin")
+				.requestMatchers("/student**", "/updatestudent**", "/changePassword**").hasRole("Student")
+				.requestMatchers("/professor**", "/updatestudent**", "/changePassword**").hasRole("Professor")
 
-				// ✅ Everything else must be logged in
-				.anyRequest().authenticated()).formLogin(form -> form.loginPage("/") // your login JSP
-						.loginProcessingUrl("/login") // VERY IMPORTANT
-						.successHandler(authenticationSuccessHandler()).failureUrl("/?loginerror=true").permitAll())
+				// everything else requires login
+				.anyRequest().authenticated())
 
-				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/?loggedOut=true")
-						.invalidateHttpSession(true).deleteCookies("JSESSIONID")).sessionManagement(session -> session
-					            .invalidSessionUrl("/?sessionExpired=true"));
+				.formLogin(form -> form
+						.loginPage("/") // login page
+						.successHandler(authenticationSuccessHandler()).loginProcessingUrl("/login")
+
+						.failureUrl("/?loginerror=true")
+						.permitAll())
+
+				.logout(logout -> logout
+						.logoutUrl("/logout") // POST /logout handled by Spring Security
+						.logoutSuccessUrl("/?loggedOut=true")
+						.invalidateHttpSession(true)
+						.deleteCookies("JSESSIONID")
+						.permitAll())
+
+				.sessionManagement(session -> session
+						.invalidSessionUrl("/")
+						.maximumSessions(1)
+						.maxSessionsPreventsLogin(false))
+
+				.headers(headers -> headers.cacheControl(cache -> {
+				}));
+
 		return http.build();
 	}
 
 	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
+	@Primary
+	public RSAPasswordEncoder RSApasswordEncoder() {
+		return new RSAPasswordEncoder();
 	}
 
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
 
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider(detailsService);
-		provider.setPasswordEncoder(bCryptPasswordEncoder());
-		System.out.println("Inside AuthenticationProvider Function");
+		provider.setPasswordEncoder(RSApasswordEncoder());
+		System.out.println("Inside AuthenticationProvider Function "+RSApasswordEncoder());
 		return provider;
 	}
 
 	@Bean
 	public AuthenticationSuccessHandler authenticationSuccessHandler() {
 		System.out.println("Authentication success handler");
+
 		return new CustomSuccessHandler();
 	}
-
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+	    return config.getAuthenticationManager();
+	}
 }

@@ -27,12 +27,12 @@ public class CourseDaoImpl implements CourseDao {
 		String qString = "select c.semester,c.is_elective,c.credit,c.course_name,c.id from student st join course_student cs "
 				+ "on st.id=cs.st_id" + " join course c " + "on c.id=cs.course_id where st.id=? limit ? offset ?";
 
-		List<Course> courses = jdbcTemplate.query(qString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
-				ps.setLong(1, student.getId());
-				ps.setInt(2, pageable.getPageSize());
-				ps.setLong(3, pageable.getOffset());
-			};
+		List<Course> courses = jdbcTemplate.query(qString, ps -> {
+
+			ps.setLong(1, student.getId());
+			ps.setInt(2, pageable.getPageSize());
+			ps.setLong(3, pageable.getOffset());
+
 		}, new CourseMapper());
 		return new PageImpl<Course>(courses, pageable, totalRows);
 	}

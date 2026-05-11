@@ -15,6 +15,10 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <meta charset="UTF-8">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js">
 <title>Insert title here</title>
 </head>
 <jsp:include page="adminHeader.jsp"></jsp:include>
@@ -41,7 +45,7 @@
 						</div>
 
 					</div>
-
+					
 
 					<div class="col-lg-8">
 						<div class="card mb-4">
@@ -81,7 +85,8 @@
 							</div>
 						</div>
 					</div>
-
+										<c:if test="${student.userStatus ne 'NR'}">
+					
 					<div class="row" id="addressRow">
 						<div class="col-md-6">
 							<div class="card mb-4">
@@ -100,7 +105,16 @@
 							</div>
 						</div>
 					</div>
-
+					<div class="row justify-content-center d-flex">
+					<div class="col-xl-15">
+						<div class="card mb-4 mb-md-0  justify-content-center d-flex">
+							<div class="mb-4 card-header">
+								<h3>Qualifications</h3>
+							</div>
+							<div class="card-body " id="qualification-body"></div>
+						</div>
+					</div>
+				</div>
 					<div class="row justify-content-center d-flex">
 						<div class="col-xl-15">
 							<div class="card mb-4 mb-md-0  justify-content-center d-flex">
@@ -112,6 +126,8 @@
 							</div>
 						</div>
 					</div>
+				
+					</c:if>
 				</div>
 			</div>
 		</section>

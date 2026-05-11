@@ -5,7 +5,6 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html>
-<html>
 <head>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"
@@ -26,15 +25,14 @@
 </script>
 </head>
 <c:if
-	test="${requestScope['jakarta.servlet.forward.request_uri'] == ('/studentMVC/listStudent/'+=currentPage) }"><jsp:include
+	test="${requestScope['jakarta.servlet.forward.request_uri'] == ('/studentMVC/admin/listStudent/'+=currentPage) }"><jsp:include
 		page="adminHeader.jsp"></jsp:include></c:if>
 <body>
 	<br></br>
 	<main id="main-content">
 		<div class="mx-auto p-5">
 			<c:if test="${param.userDeleteSuccess}">
-				<div class="alert alert-success">User Deleted
-					Successfully</div>
+				<div class="alert alert-success">User Deleted Successfully</div>
 			</c:if>
 
 			<table class="table">
@@ -56,7 +54,8 @@
 							<button class="btn btn-danger delete-btn" data-bs-toggle="modal"
 								data-bs-target="#deleteModal" data-student-id="${student.id}">
 								Delete</button> <a class="btn btn-primary"
-							href="/studentMVC/viewStudent/${student.id}">View Details</a>
+							href="/studentMVC/admin/viewStudent/${student.id}">View
+								Details</a>
 						</td>
 						<td></td>
 
@@ -76,7 +75,7 @@
 					</div>
 
 					<div class="modal-body">Are you sure you want to delete this
-						course?</div>
+						User?</div>
 
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
@@ -90,67 +89,71 @@
 				</div>
 			</div>
 		</div>
-		<div class="justify-content-center">
-			<ul class="pagination justify-content-center">
-				<c:choose>
-					<c:when test="${(currentPage-1)==0 }">
-
-						<li class="page-item"><span class="page-link disabled">Previous</span></li>
-					</c:when>
-					<c:otherwise>
-
-						<li class="page-item"><a
-							href="/studentMVC/listStudent/${currentPage-1 }"
-							class="page-link">Previous</a></li>
-					</c:otherwise>
-
-				</c:choose>
-				<c:forEach begin="1" end="${totalPages }" step="1" var="i">
+		<c:if test="${totalPages>1}">
+			<div class="justify-content-center">
+				<ul class="pagination justify-content-center">
 					<c:choose>
-						<c:when test="${i == currentPage }">
-							<li class="page-item"><span class="page-link active">${i }</span>
-							</li>
+						<c:when test="${(currentPage-1)==0 }">
+
+							<li class="page-item"><span class="page-link disabled">Previous</span></li>
 						</c:when>
 						<c:otherwise>
+
 							<li class="page-item"><a
-								href="/studentMVC/listStudent/${i }" class="page-link">${i }</a></li>
+								href="/studentMVC/admin/listStudent/${currentPage-1 }"
+								class="page-link">Previous</a></li>
 						</c:otherwise>
+
 					</c:choose>
-				</c:forEach>
-				<c:choose>
-					<c:when test="${(currentPage)==totalPages }">
+					<c:forEach begin="1" end="${totalPages }" step="1" var="i">
+						<c:choose>
+							<c:when test="${i == currentPage }">
+								<li class="page-item"><span class="page-link active">${i }</span>
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li class="page-item"><a
+									href="/studentMVC/admin/listStudent/${i }" class="page-link">${i }</a></li>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<c:choose>
+						<c:when test="${(currentPage)==totalPages }">
 
-						<li class="page-item"><span class="page-link disabled">Next</span></li>
-					</c:when>
-					<c:otherwise>
+							<li class="page-item"><span class="page-link disabled">Next</span></li>
+						</c:when>
+						<c:otherwise>
 
-						<li class="page-item"><a
-							href="/studentMVC/listStudent//${currentPage+1 }"
-							class="page-link">Next</a></li>
-					</c:otherwise>
+							<li class="page-item"><a
+								href="/studentMVC/admin/listStudent/${currentPage+1 }"
+								class="page-link">Next</a></li>
+						</c:otherwise>
 
-				</c:choose>
+					</c:choose>
 
-			</ul>
-		</div>
+				</ul>
+			</div>
+		</c:if>
 	</main>
 </body>
-		<jsp:include page="footer.jsp" />
+<jsp:include page="footer.jsp" />
 
 <script type="text/javascript">
 	document.addEventListener("DOMContentLoaded", function () {
 console.log("${totalItems-1}")
 	    const deleteButtons = document.querySelectorAll(".delete-btn");
 	    const confirmBtn = document.getElementById("confirmDeleteBtn");
+	    const modalBody = document.querySelector("#deleteModal .modal-body");
 
 	    deleteButtons.forEach(button => {
 	        button.addEventListener("click", function () {
-
+	    	    const selectedRow=this.closest("tr")
+				modalBody.innerHTML="Are you sure you want to delete this user <b><i>"+selectedRow.cells[2].textContent+"</i></b>?"
 	            const studentID = this.getAttribute("data-student-id");
-	          
+	            const page = "${currentPage}"
 
 	            confirmBtn.href =
-	                "/studentMVC/deleteStudent/" +
+	                "/studentMVC/admin/deleteStudent/"+("${totalItems-1}" % "${pageSize}" == 0 ? parseInt(page - 1) : page)+"/" +
 	                studentID });
 	    });
 

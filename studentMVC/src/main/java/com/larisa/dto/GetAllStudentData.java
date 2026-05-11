@@ -12,6 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class GetAllStudentData {
 	private Long phone_no,id;
-	private String email,last_name,first_name,user_id;
+	private String email,last_name,first_name,user_id,userStatus;
 	private byte[] profile_picture;
 }

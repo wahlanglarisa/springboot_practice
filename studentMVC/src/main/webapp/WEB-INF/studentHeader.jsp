@@ -4,6 +4,7 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -11,7 +12,7 @@
 
 <!-- <nav class="navbar bg-body-tertiary">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="/studentMVC/studentPage/${sessionScope.user.email }/1"> <strong>Student Course Management</strong>
+		<a class="navbar-brand" href="/studentMVC/student/studentPage/${sessionScope.user.email }/1"> <strong>Student Course Management</strong>
 		</a>
 
 		<button class="navbar-toggler" type="button"
@@ -77,27 +78,41 @@
 
 			<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
 				<li class="nav-item  text-light"><a
-					href="/studentMVC/studentHomepage/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email }"
+					href="/studentMVC/student/studentHomepage/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email }"
 					class="nav-item text-light p-2"> <span> Home</span>
 				</a></li>
-							<hr class="text-light">
+				<hr class="text-light">
 				<li class="nav-item  text-light"><a
-					href="/studentMVC/studentPage/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email }/1"
+					href="/studentMVC/student/studentPage/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email }/1"
 					class="nav-item text-light p-2"> <span> View Courses</span>
 				</a></li>
-							<hr class=" text-light">
+				<hr class="text-light">
+
+				<li class="nav-item  text-light"><a
+					href="/studentMVC/student/studentViewRoutine/${sessionScope.user.st_id }"
+					class="nav-item text-light p-2"> <span> View Routine</span>
+				</a></li>
+				<hr class=" text-light">
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle text-light" href="#" role="button"
 					data-bs-toggle="dropdown" aria-expanded="false"> Account </a>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item"
-							href="/studentMVC/updatestudent/${user.st_id }">Update
+							href="/studentMVC/student/updatestudent/${sessionScope.user.st_id }">Update
 								Profile</a></li>
 						<li><a class="dropdown-item"
 							href="/studentMVC/changePassword/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email}">Change
 								Password</a></li>
-					
-						<li><a class="dropdown-item" href="/studentMVC/logout">Logout</a></li>
+
+						<li>
+							<form action="${pageContext.request.contextPath}/logout"
+								method="post">
+								<button type="submit" class="dropdown-item">Logout</button>
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" />
+
+							</form>
+						</li>
 					</ul></li>
 
 
@@ -128,7 +143,7 @@
 
 		<!-- Brand -->
 		<a class="navbar-brand"
-			href="/studentMVC/studentHomepage/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email }">
+			href="/studentMVC/student/studentHomepage/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email }">
 			<img th:src="@{/ChatGPT Image Sep 3, 2025, 01_04_50 PM.png}"
 			height="25" alt="" loading="lazy" /> <span>Student Course
 				Management </span>
@@ -142,15 +157,22 @@
 					width="30px" height="30px" />
 			</a>
 				<ul class="dropdown-menu dropdown-menu-end">
-					<li><a href="/studentMVC/updatestudent/${user.st_id }"
+					<li><a href="/studentMVC/student/updatestudent/${user.st_id }"
 						class="dropdown-item" aria-current="true"><span>Update
 								Profile</span> </a></li>
 
 					<li><a class="dropdown-item "
 						href="/studentMVC/changePassword/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email}">Change
 							Password</a></li>
-					<li><a class="dropdown-item " href="/studentMVC/logout">
-							Logout </a></li>
+					<li>
+						<form action="${pageContext.request.contextPath}/logout"
+							method="post">
+							<button type="submit" class="dropdown-item">Logout</button>
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
+
+						</form>
+					</li>
 
 				</ul></li>
 		</ul>

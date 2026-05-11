@@ -1,64 +1,27 @@
-/**
- * 
- */
-function addState(stateElement, countryElement) {
-	stateElement.empty();
-	stateElement.removeAttr('disabled');
+import { invalidateElement, validateElement } from "./invalidateElement.js";
+import { validatePassword } from "./passwordValidate.js";
+import { addState, addDistrict } from "./addState.js";
 
-	stateElement.append(`<option value="0">
-			Select a State</option>`);
-	$.ajax({
-		"url": contextPath + "/getState_codes",
-		dataType: "json",
-		"data": {
-			"countryCode": countryElement.val()
-		},
-		"success": function (response) {
-			response.forEach((element) => {
-				stateElement.append(`<option value="${element.stateCode}">${element.stateName}</option>`);
-			});
-			console.log(response);
-		},
-		"method": "get"
-	});
-}
+import { encryptPassword } from "./passwordEncrypt.js";
 
-function invalidateElement(elementMarkInvalid) {
-	elementMarkInvalid.removeClass("is-valid");
-	elementMarkInvalid.addClass("is-invalid");
-}
 
-function validateElement(elementMarkValid) {
-	elementMarkValid.removeClass("is-invalid");
 
-	elementMarkValid.addClass("is-valid");
-}
 
-$(document).ready(function () {
+$(document).ready(function() {
 	const NumPattern = /[A-Za-z\s!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 	const EmailPattern = /(?:((?:[\w-]+(?:\.[\w-]+)*)@(?:(?:[\w-]+\.)*\w[\w-]{0,66})\.(?:[a-z]{2,6}(?:\.[a-z]{2})?));*)/
-	const FLNamePattern = /[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-	const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
-	const upperCasePass = /^(?=.*[A-Z])/
-	const lowerCasePass = /^(?=.*[a-z])/
-	const numberPass = /^(?=.*[0-9])/
-	const specialCharPass = /^(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]/
+	const FLNamePattern = /[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?^$]/;
+
 	var emailValid = false;
 	var phoneNoValid = false;
 	var phoneNoValidLen = false;
-	var PassHaveUcase = false;
-	var passHaveLcase = false;
-	var Passhavenumber = false;
-	var passHaveSpchar = false;
-	var PassValidLen = false;
+	var passwordValid = false;
 	var fNameValid = false;
 	var LNameValid = false;
 	var dupEmail = false;
 	var dupPhoneNo = false;
-	var validPhoto = false;
-	var EmailOTPvalid = false;
-	var PhoneOTPvalid = false
-	const checkValidity = function () {
+	var validPhoto = true;
+	const checkValidity = function() {
 		if (emailValid &&
 			phoneNoValid &&
 			fNameValid &&
@@ -66,15 +29,7 @@ $(document).ready(function () {
 			phoneNoValidLen &&
 			!dupEmail &&
 			!dupPhoneNo &&
-			validPhoto && PassHaveUcase &&
-			passHaveLcase && Passhavenumber &&
-			passHaveSpchar && PassValidLen &&
-			PhoneOTPvalid &&
-			$("#email").val().length != 0 &&
-			$("#first_name").val().length != 0 &&
-			$("#last_name").val().length != 0 &&
-			$("#phone_no").val().length != 0 &&
-			$("#password").val().length != 0) {
+			validPhoto && passwordValid) {
 			return true;
 		}
 		else {
@@ -94,121 +49,32 @@ $(document).ready(function () {
 			return false;
 		}
 	}
-	$("#OTP-email").on("change", (e) => {
-		$.ajax({
-			url: contextPath + "/verifyOTP",
-			data: {
-				otp: $("#OTP-email").val()
-			},
-			success: function (response) {
-				if (response) {
-					validateElement($("#OTP-email"))
-					$("#otpInvalid").attr("hidden", true)
-					EmailOTPvalid = true;
 
-				}
-				else {
-					invalidateElement($("#OTP-email"))
-					$("#otpInvalid").removeAttr("hidden")
-					EmailOTPvalid = false
-				}
-			},
-			method: "get"
-
-		})
-	})
-	$("#OTP-phone").on("change", (e) => {
-		$.ajax({
-			url: contextPath + "/verifyPhoneOTP",
-			data: {
-				otp: $("#OTP-phone").val()
-			},
-			success: function (response) {
-				if (response) {
-					validateElement($("#OTP-phone"))
-					$("#otpPhoneInvalid").attr("hidden", true)
-					PhoneOTPvalid = true;
-
-				}
-				else {
-					invalidateElement($("#OTP-phone"))
-					$("#otpPhoneInvalid").removeAttr("hidden")
-					PhoneOTPvalid = false
-				}
-			},
-			method: "get"
-
-		})
-	})
 	$("#password").on("input", (e) => {
-		PassHaveUcase = newFunction(upperCasePass, $("#password"), $("#ucaseErr"));
-		passHaveLcase = newFunction(lowerCasePass, $("#password"), $("#lcaseErr"));
-		Passhavenumber = newFunction(numberPass, $("#password"), $("#numberErr"));
-		passHaveSpchar = newFunction(specialCharPass, $("#password"), $("#scharErr"));
-		if ($("#password").val().length >= 8) {
-			elementErr = $("#lenErr")
-			elementErr.removeClass("text-danger");
-			elementErr.addClass("text-success");
-			elementErr.addClass("list");
-			PassValidLen = true;
-		}
-		else {
-			elementErr = $("#lenErr")
+		passwordValid = validatePassword($("#password"), $("#ucaseErr"), $("#lcaseErr"), $("#numberErr"), $("#scharErr"))
 
-			elementErr.addClass("text-danger");
-			elementErr.removeClass("list");
-			PassValidLen = false;
-		}
-		function newFunction(regEx, element, elementErr) {
-			if (regEx.test(element.val())) {
-
-				elementErr.removeClass("text-danger");
-				elementErr.addClass("text-success");
-				elementErr.addClass("list");
-				return true;
-
-			}
-			else {
-				elementErr.addClass("text-danger");
-				elementErr.removeClass("list");
-				return false;
-			}
-		}
+	})
+	$("#password").on("focusout", (e) => {
+		$("#passRules").attr("hidden", true);
+	})
+	$("#password").on("focusin", (e) => {
+		$("#passRules").removeAttr("hidden");
 	})
 	$("#permCountryCode").on("change", (e) => {
 		addState($("#state_code"), $("#country_code"));
 	})
 	$("#state_code").on("change", (e) => {
+		addDistrict($("#district_code"), $("#state_code"))
 
-		$("#district_code").empty();
-		$("#district_code").removeAttr('disabled');
-
-		$("#district_code").append(`<option value="0">Select a District</option>`);
-
-		$.ajax({
-			"url": contextPath + "/getDistrict_codes",
-			dataType: "json",
-			"data": {
-				"stateCode": $("#state_code").val()
-			},
-			"success": function (response) {
-				response.forEach((element) => {
-					$("#district_code").append(`<option value="${element.districtCode}">${element.districtName}</option>`);
-				})
-				console.log(response)
-			},
-			"method": "get"
-
-		})
 	})
 
-	$("#phone_no").on("input", (e) => {
+	$("#phone_no,#phoneNo").on("input", (e) => {
 
 
 	})
 	//$("#phone_no").on("blur", (e) => {
-	$("#phone_no").on("input", (e) => {
-		var PhoneNoValidity = NumPattern.test($("#phone_no").val());
+	$("#phone_no,#phoneNo").on("change", (e) => {
+		var PhoneNoValidity = NumPattern.test($(e.target).val());
 
 		console.log();
 		if (PhoneNoValidity) {
@@ -220,7 +86,10 @@ $(document).ready(function () {
 			phoneNoValid = false;
 			console.log("why not focus")
 			$("#phoneCharErr").removeAttr("hidden");
-			invalidateElement($("#phone_no"))
+			var id = $(e.target).attr("id")
+			idCheck(e, "phone_no", $("#phone_no"), $("#phoneNo"))
+
+
 			return;
 
 		}
@@ -231,7 +100,7 @@ $(document).ready(function () {
 			//$("#submitButton").removeAttr("disabled");
 
 		}
-		if ($("#phone_no").val().length < 10 || $("#phone_no").val().length > 10) {
+		if ($(e.target).val().length < 10 || $(e.target).val().length > 10) {
 			console.log("in if block")
 
 			//$("#submitButton").attr("disabled", "true");
@@ -239,7 +108,7 @@ $(document).ready(function () {
 			//document.getElementById("phone_no").focus();
 			phoneNoValidLen = false;
 			console.log("Invalid phone number length")
-			invalidateElement($("#phone_no"))
+			idCheck(e, "phone_no", $("#phone_no"), $("#phoneNo"))
 			$("#phoneLength").removeAttr("hidden");
 			return;
 
@@ -252,59 +121,46 @@ $(document).ready(function () {
 
 		}
 		$.ajax({
-			"url": contextPath + "/getStudent",
+			"url": $(e.target).attr("id") == "phone_no" ? contextPath + "/getStudent" : contextPath + "/getProfessorByPhoneNo",
 
 			"data": {
-				"phone_no": $("#phone_no").val()
+				"phone_no": $(e.target).val()
 			},
-			"success": function (response) {
+			"success": function(response) {
 				if (!$.isEmptyObject(response)) {
 					$("#dupPhoneNo").removeAttr("hidden")
 					dupPhoneNo = true;
-					invalidateElement($("#phone_no"))
+					idCheck(e, "phone_no", $("#phone_no"), $("#phoneNo"))
 					return;
 				}
 				else {
 					console.log("not duplicate phone number")
 					$("#dupPhoneNo").attr("hidden", "true")
-					validateElement($("#phone_no"));
+					idCheckValidate(e, "phone_no", $("#phone_no"), $("#phoneNo"));
 					dupPhoneNo = false;
 				}
 			},
-			error: function (jqXHR, textStatus, errorThrown) {
+			error: function(jqXHR, textStatus, errorThrown) {
 				console.log(jqXHR.responseText + " " + textStatus + " " + errorThrown)
 			},
 			"method": "get"
 
 		})
-		let phonenumber = $("#phone_no").val();
-		$.ajax({
-			url: contextPath + "/sendSMSOTP",
-			method: "get",
-			data: { phone: phonenumber },
-			success: function (response) {
 
-				if (response) {
-					$("#OTP-phone").removeAttr("disabled")
-
-					$("#OTP-phone").attr("placeholder", `Enter OTP sent to ${phonenumber}`)
-				} else {
-
-				}
-			},
-			error: function (jqXHR, textStatus, errorThrown) {
-				console.log(jqXHR.responseText + " " + textStatus + " " + errorThrown);
-			}
-		});
 
 
 	})
 
-	$("#email").on("input", function () {
+	$("#email").on("change", function() {
 
 		let emailValue = $("#email").val();
 		let isEmailValid = EmailPattern.test(emailValue);
-
+		if (emailValue.length == 0) {
+			emailValid = false;
+			$("#EmailCharErr").removeAttr("hidden");
+			invalidateElement($("#email"));
+			return;
+		}
 		if (!isEmailValid) {
 			emailValid = false;
 			$("#EmailCharErr").removeAttr("hidden");
@@ -320,7 +176,7 @@ $(document).ready(function () {
 			url: contextPath + "/getUser",
 			method: "get",
 			data: { email: emailValue },
-			success: function (response) {
+			success: function(response) {
 
 				if (!$.isEmptyObject(response)) {
 					dupEmail = true;
@@ -333,36 +189,28 @@ $(document).ready(function () {
 					return;
 				}
 			},
-			error: function (jqXHR, textStatus, errorThrown) {
+			error: function(jqXHR, textStatus, errorThrown) {
 				console.log(jqXHR.responseText + " " + textStatus + " " + errorThrown);
 			}
 		});
-		$.ajax({
-			url: contextPath + "/sendMail",
-			method: "get",
-			data: { email: emailValue },
-			success: function (response) {
 
-				if (response) {
-					$("#OTP-email").removeAttr("disabled")
-
-					$("#OTP-email").attr("placeholder", `Enter OTP sent to ${emailValue}`)
-				} else {
-
-				}
-			},
-			error: function (jqXHR, textStatus, errorThrown) {
-				console.log(jqXHR.responseText + " " + textStatus + " " + errorThrown);
-			}
-		});
 	});
 
-	$("#phone_no").on("change", function () {
+	$("#phone_no").on("change", function() {
 
 	})
-	$("#first_name").on("input focusout", (e) => {
-		var isFNameValid = FLNamePattern.test($("#first_name").val());
-
+	$("#first_name,#firstName").on("input focusout", (e) => {
+		var isFNameValid = FLNamePattern.test($(e.target).val());
+		if ($(e.target).val().length == 0) {
+			console.log("in if block")
+			$("#FnameErr").removeAttr("hidden");
+			fNameValid = false
+			//$("#phone_no").focus();
+			//document.getElementById("phone_no").focus();
+			console.log("why not focus")
+			idCheck(e, "first_name", $("#first_name"), $("#firstName"));
+			return;
+		}
 		if (isFNameValid) {
 			console.log("in if block")
 			$("#FnameErr").removeAttr("hidden");
@@ -370,20 +218,28 @@ $(document).ready(function () {
 			//$("#phone_no").focus();
 			//document.getElementById("phone_no").focus();
 			console.log("why not focus")
-			invalidateElement($("#first_name"))
+			idCheck(e, "first_name", $("#first_name"), $("#firstName"));
 		}
 		else {
 			fNameValid = true
 			console.log("in else block")
 			$("#FnameErr").attr("hidden", "true");
-			validateElement($("#first_name"));
+			idCheckValidate(e, "first_name", $("#first_name"), $("#firstName"));
 			//$("#submitButton").removeAttr("disabled");
 		}
 
 	})
-	$("#last_name").on("input focusout", (e) => {
-		var isFNameValid = FLNamePattern.test($("#last_name").val());
+	$("#last_name,#lastName").on("input focusout", (e) => {
+		var isFNameValid = FLNamePattern.test($(e.target).val());
+		if ($(e.target).val().length == 0) {
+			console.log("in if block")
+			LNameValid = false;
+			console.log("why not focus")
+			$("#LnameErr").removeAttr("hidden");
 
+			idCheck(e, "last_name", $("#last_name"), $("#lastName"));
+			return;
+		}
 		if (isFNameValid) {
 			console.log("in if block")
 			$("#LnameErr").removeAttr("hidden");
@@ -391,14 +247,14 @@ $(document).ready(function () {
 			//$("#phone_no").focus();
 			//document.getElementById("phone_no").focus();
 			console.log("why not focus")
-			invalidateElement($("#last_name"))
+			idCheck(e, "last_name", $("#last_name"), $("#lastName"));
 		}
 		else {
 			LNameValid = true
 			console.log("in else block")
 			$("#LnameErr").attr("hidden", "true");
-			//$("#submitButton").removeAttr("disabled");
-			validateElement($("#last_name"));
+			//$("#submitButton").removeAttr("disabled")
+			idCheckValidate(e, "last_name", $("#last_name"), $("#lastName"))
 
 		}
 
@@ -406,17 +262,19 @@ $(document).ready(function () {
 	$("buttonDiv").on("click", (e) => {
 		console.log("clicke");
 	})
-	$(document).on("submit", (e) => {
+	$("#submitButton").on("click", (e) => {
 		if (!checkValidity()) {
 			console.log("Preventing sumbit")
 			e.preventDefault();
 		}
 		else {
+			encryptPassword("password");
 			return;
 		}
 	})
 	$("#file").on("change", (e) => {
-		fileExt = $("#file").val().split(".")[1]
+		console.log($("#file").val())
+		var fileExt = $("#file").val().split(".")[1]
 		var Extensions = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
 
 		if ($.inArray($("#file").val().split(".")[1], Extensions) == -1) {
@@ -430,7 +288,7 @@ $(document).ready(function () {
 			validPhoto = true;
 			var file = e.target.files[0]
 			var reader = new FileReader();
-			reader.onload = function (e) {
+			reader.onload = function(e) {
 				$('#image-view').attr('src', e.target.result);
 			}
 			reader.readAsDataURL(file);
@@ -441,3 +299,19 @@ $(document).ready(function () {
 })
 
 
+
+function idCheckValidate(e, fieldCompare, el1, el2) {
+	if ($(e.target).attr("id") == fieldCompare)
+		validateElement(el1);
+
+	else
+		validateElement(el2);
+}
+
+function idCheck(e, fieldCompare, el1, el2) {
+	if ($(e.target).attr("id") == fieldCompare)
+		invalidateElement(el1);
+
+	else
+		invalidateElement(el2);
+}

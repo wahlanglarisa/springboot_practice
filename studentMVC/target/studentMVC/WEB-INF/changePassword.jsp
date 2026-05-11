@@ -25,7 +25,8 @@
 </script>
 </head>
 <c:choose>
-	<c:when test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email eq 'admin@gmail.com'}">
+	<c:when
+		test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email eq 'admin@gmail.com'}">
 		<jsp:include page="adminHeader.jsp"></jsp:include></c:when>
 	<c:otherwise><jsp:include page="studentHeader.jsp" /></c:otherwise>
 </c:choose>
@@ -37,18 +38,18 @@
 	<main id="main-content">
 		<div class="container">
 			<form:form modelAttribute="userPassword" method="post"
-				action="/studentMVC/updatePassword" autocomplete="off">
+				action="/studentMVC/updatePassword">
 				<c:if test="${param.passwordUpdated}">
 					<div class="alert alert-success">Password Update Successful</div>
 				</c:if>
 				<form:input type="hidden" path="email" />
 
 				<div class="row">
-					<div class="col-12">
-
+					<div class="col-12 form-group">
+						<label for="oldPassword">Old Password : </label>
 						<form:input placeholder="Enter Old Password" path="oldPassword"
-							class=" form-control" autocomplete="off" type="password" />
-						<span class="text-danger invalid-feedback" hidden="true"
+							class=" form-control"  type="password" autocomplete="current-password"/>
+						<span class="text-danger invalid-feedback" name="current-password" hidden="true"
 							id="password_err">Incorrect password.</span>
 					</div>
 
@@ -56,11 +57,12 @@
 				<br>
 				<div class="row">
 					<div class="col-12">
+						<label for="newPassword">New Password : </label>
 
 						<form:input path="newPassword" placeholder="Enter New Password"
-							class=" form-control" required="true" autocomplete="off"
-							type="password" />
-						<div>
+							class=" form-control" required="true" 
+							type="password" autocomplete="new-password" name="new-password"/>
+						<div id="passRules" hidden="true">
 							<ul>
 								<li class="text-danger" id="lenErr">Password should have at
 									least 8 characters</li>
@@ -84,9 +86,10 @@
 
 				<div class="row">
 					<div class="col-12">
+						<label for="confirmPass">Confirm New Password : </label>
 
 						<input placeholder="Confirm New Password" class=" form-control"
-							autocomplete="off" type="password" id="confirmPass" /> <span
+							 type="password" id="confirmPass" autocomplete="new-password-confirm" name="confirm-password" /> <span
 							class="text-danger invalid-feedback" hidden="true"
 							id="confirmNewPassErr">Does not match new password</span>
 					</div>
@@ -105,7 +108,16 @@
 	crossorigin="anonymous"></script>
 <script>
 	var contextPath = "${pageContext.request.contextPath}";
+	const publicKey = "${publicKey}";
+
 </script>
+<script
+	src="https://cdn.jsdelivr.net/npm/jsencrypt/bin/jsencrypt.min.js"></script>
+
+<script src="<c:url value="/resources/js/passwordEncrypt.js" />"
+	type="module"></script>
+
 <script src="<c:url value="/resources/js/passwordUpdate.js" />"
-	type="text/javascript"></script>
+	type="module"></script>
+
 </html>

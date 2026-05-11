@@ -1,52 +1,53 @@
+import { invalidateElement, validateElement } from "./invalidateElement.js";
+import { encryptPassword } from "./passwordEncrypt.js";
+import { validatePassword } from "./passwordValidate.js";
 $(document).ready(function() {
 	var oldPassValid = false;
 	var confirmPassValid = false;
-	const upperCasePass = /^(?=.*[A-Z])/
-	const lowerCasePass = /^(?=.*[a-z])/
-	const numberPass = /^(?=.*[0-9])/
-	const specialCharPass = /^(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]/
-	var PassHaveUcase = false;
-	var passHaveLcase = false;
-	var Passhavenumber = false;
-	var passHaveSpchar = false;
-	var PassValidLen = false;
+
+	var newPassValid = false;
 	var checkValid = function() {
 		if (oldPassValid
 			&& confirmPassValid
-			&& PassHaveUcase
-			&& passHaveLcase
-			&& Passhavenumber
-			&& passHaveSpchar
-			&& PassValidLen) {
+			&& newPassValid) {
 			return true;
 		}
 		else {
 			return false;
 		}
 	}
-	$("#oldPassword").on("focusout", (e) => {
-		let emailValue = $("#email").val();
+	$("#oldPassword").on("change", (e) => {
+		if ($("#oldPassword").val().length != 0) {
+			encryptPassword("oldPassword")
+			let emailValue = $("#email").val();
+			console.log($("#oldPassword").val())
+			$.ajax({
+				url: contextPath + "/validatePassword",
+				method: "get",
+				data: {
+					email: emailValue,
+					oldPassword: $("#oldPassword").val(),
+				},
+				success: function(response) {
 
-		$.ajax({
-			url: contextPath + "/validatePassword",
-			method: "get",
-			data: {
-				email: emailValue,
-				oldPassword: $("#oldPassword").val(),
-			},
-			success: function(response) {
+					if (!response) {
+						oldPassValid = false
+						$("#password_err").removeAttr("hidden");
+						invalidateElement($("#oldPassword"));
+					} else {
+						oldPassValid = true
+						$("#password_err").attr("hidden", "hidden");
+						validateElement($("#oldPassword"));
+					}
+				},
+			})
+		}
+		else {
+			oldPassValid = false
+			$("#password_err").removeAttr("hidden");
+			invalidateElement($("#oldPassword"));
+		}
 
-				if (!response) {
-					oldPassValid = false
-					$("#password_err").removeAttr("hidden");
-					invalidateElement($("#oldPassword"));
-				} else {
-					oldPassValid = true
-					$("#password_err").attr("hidden", "hidden");
-					validateElement($("#oldPassword"));
-				}
-			},
-		})
 	})
 	$("#confirmPass").on("focusout", (e) => {
 
@@ -66,55 +67,22 @@ $(document).ready(function() {
 	})
 	$("#submit").on("click", (e) => {
 		if (checkValid()) {
+			encryptPassword("newPassword");
+			encryptPassword("confirmPass");
+
 			return;
 		}
 		else {
 			e.preventDefault();
 		}
 	})
+	$("#newPassword").on("focusin", (e) => {
+		$("#passRules").removeAttr("hidden")
+	})
+
 	$("#newPassword").on("input", (e) => {
-		PassHaveUcase = newFunction(upperCasePass, $("#newPassword"), $("#ucaseErr"));
-		passHaveLcase = newFunction(lowerCasePass, $("#newPassword"), $("#lcaseErr"));
-		Passhavenumber = newFunction(numberPass, $("#newPassword"), $("#numberErr"));
-		passHaveSpchar = newFunction(specialCharPass, $("#newPassword"), $("#scharErr"));
-		if ($("#newPassword").val().length >= 8) {
-			elementErr = $("#lenErr")
-			elementErr.removeClass("text-danger");
-			elementErr.addClass("text-success");
-			elementErr.addClass("list");
-			PassValidLen = true;
-		}
-		else {
-			elementErr = $("#lenErr")
 
-			elementErr.addClass("text-danger");
-			elementErr.removeClass("list");
-			PassValidLen = false;
-		}
-		function newFunction(regEx, element, elementErr) {
-			if (regEx.test(element.val())) {
+		newPassValid = validatePassword($("#newPassword"), $("#ucaseErr"), $("#lcaseErr"), $("#numberErr"), $("#scharErr"))
 
-				elementErr.removeClass("text-danger");
-				elementErr.addClass("text-success");
-				elementErr.addClass("list");
-				return true;
-
-			}
-			else {
-				elementErr.addClass("text-danger");
-				elementErr.removeClass("list");
-				return false;
-			}
-		}
 	})
 })
-function invalidateElement(elementMarkInvalid) {
-	elementMarkInvalid.removeClass("is-valid");
-	elementMarkInvalid.addClass("is-invalid");
-}
-
-function validateElement(elementMarkValid) {
-	elementMarkValid.removeClass("is-invalid");
-
-	elementMarkValid.addClass("is-valid");
-}

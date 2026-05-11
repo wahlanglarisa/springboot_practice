@@ -8,7 +8,7 @@ import com.larisa.dto.UserRole;
 
 public interface UserDao {
 	public UserRole validateUser(User user);
-	public User saveUser(User user) throws DuplicateKeyException;
+	public User saveUser(User user,String roleName) throws DuplicateKeyException;
 	public User updateUser(User user);
 	public User updateUserPassword(UpdatePassword password);
 

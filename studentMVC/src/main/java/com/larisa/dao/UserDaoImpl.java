@@ -10,9 +10,11 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import com.larisa.config.RSADecryptUtil;
+import com.larisa.config.RSAPasswordEncoder;
 import com.larisa.dto.UpdatePassword;
 import com.larisa.dto.User;
 import com.larisa.dto.UserCreationStatus;
@@ -23,23 +25,23 @@ public class UserDaoImpl implements UserDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private RSAPasswordEncoder passwordEncoder;
 	@Autowired
 	private RoleDao roleDao;
 	@Autowired
 	private UserCreationStatusDao userCreationStatusDao;
-@Autowired 
-private UserCreationStatusDao creationStatusDao;
+	@Autowired
+	private UserCreationStatusDao creationStatusDao;
+
 	@Override
 	public UserRole getUserRoleByEmail(String email) {
 		// TODO Auto-generated method stub
 		String queryString = "select * from \"user\" join \"role\" on \"user\".role_id=\"role\".id where \"user\".email=?";
 		// TODO Auto-generated method stub
 		@SuppressWarnings("unchecked")
-		List<UserRole> users = (List<UserRole>) (jdbcTemplate.query(queryString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
-				ps.setString(1, email);
-			}
+		List<UserRole> users = (List<UserRole>) (jdbcTemplate.query(queryString, ps -> {
+
+			ps.setString(1, email);
 		}, new UserRoleMapper()));
 		return (users.size() != 0 ? users.getFirst() : null);
 	}
@@ -51,7 +53,7 @@ private UserCreationStatusDao creationStatusDao;
 			ps.setString(1, email);
 		}, new UserMapper())).getFirst();
 		// TODO Auto-generated method stub
-		if (bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
+		if (passwordEncoder.matches(oldPassword, user.getPassword())) {
 			return true;
 		} else {
 			return false;
@@ -65,20 +67,17 @@ private UserCreationStatusDao creationStatusDao;
 
 		// TODO Auto-generated method stub
 		System.out.println("User update " + user.getEmail() + " " + user.getUserid());
-		jdbcTemplate.update(queryString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
-				ps.setString(1, user.getEmail());
-				ps.setObject(2, creationStatusDao.getByStatusName("Profile Loaded").getId());
-				ps.setString(3, user.getUserid());
+		jdbcTemplate.update(queryString, ps -> {
+			ps.setString(1, user.getEmail());
+			ps.setObject(2, creationStatusDao.getByStatusName("Profile Loaded").getId());
+			ps.setString(3, user.getUserid());
 
-			};
 		});
 		String getString = "select * from \"user\" where email=?";
 		// TODO Auto-generated method stub
-		List<User> users = (List<User>) (jdbcTemplate.query(getString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
-				ps.setString(1, user.getEmail());
-			}
+		List<User> users = (List<User>) (jdbcTemplate.query(getString, ps -> {
+			ps.setString(1, user.getEmail());
+
 		}, new UserMapper()));
 		return (users.size() == 0 ? null : users.getFirst());
 		// TODO Auto-generated method stub
@@ -86,26 +85,28 @@ private UserCreationStatusDao creationStatusDao;
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public User saveUser(User user) throws DuplicateKeyException {
+	public User saveUser(User user,String roleName) throws DuplicateKeyException {
+		System.out.println(passwordEncoder);
 		String queryString = "insert into \"user\"(email,password,role_id,creation_status_id) values(?,?,?,?)";
 		// TODO Auto-generated method stub
-		UserCreationStatus creationStatus=userCreationStatusDao.getByStatusName("Newly Registered");
+		UserCreationStatus creationStatus = userCreationStatusDao.getByStatusName("Newly Registered");
 		System.out.println("User Dao " + user.getPassword());
-		jdbcTemplate.update(queryString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
-				ps.setString(1, user.getEmail());
-				ps.setString(2, bCryptPasswordEncoder.encode(user.getPassword()));
-				ps.setObject(3, roleDao.getRoleByName("Student").getRoleId());
-				ps.setObject(4, creationStatus.getId());
+		jdbcTemplate.update(queryString, ps -> {
+			ps.setString(1, user.getEmail());
+			try {
+				ps.setString(2, passwordEncoder.encode(user.getPassword()));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ps.setObject(3, roleDao.getRoleByName(roleName).getRoleId());
+			ps.setObject(4, creationStatus.getId());
 
-			};
 		});
 		String getString = "select * from \"user\" where email=?";
 		// TODO Auto-generated method stub
-		List<User> users = (List<User>) (jdbcTemplate.query(getString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
-				ps.setString(1, user.getEmail());
-			}
+		List<User> users = (List<User>) (jdbcTemplate.query(getString, ps -> {
+			ps.setString(1, user.getEmail());
 		}, new UserMapper()));
 		return (users.size() == 0 ? null : users.getFirst());
 
@@ -116,15 +117,13 @@ private UserCreationStatusDao creationStatusDao;
 		String queryString = "select * from \"user\" join \"role\" on \"user\".role_id=\"role\".id where \"user\".email=?";
 		// TODO Auto-generated method stub
 		@SuppressWarnings("unchecked")
-		List<UserRole> users = (List<UserRole>) (jdbcTemplate.query(queryString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
-				ps.setString(1, user.getEmail());
-			}
+		List<UserRole> users = (List<UserRole>) (jdbcTemplate.query(queryString, ps -> {
+			ps.setString(1, user.getEmail());
 		}, new UserRoleMapper()));
 		System.out.println(users.size());
 		if (users.size() == 0) {
 			return null;
-		} else if (bCryptPasswordEncoder.matches(user.getPassword(), users.getFirst().getPassword())) {
+		} else if (passwordEncoder.matches(user.getPassword(), users.getFirst().getPassword())) {
 			return users.getFirst();
 
 		} else {
@@ -136,10 +135,8 @@ private UserCreationStatusDao creationStatusDao;
 	public String deleteUser(String userId) {
 		// TODO Auto-generated method stub
 		String queryString = "delete from \"user\" where user_id=?";
-		int linesAffected = jdbcTemplate.update(queryString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws java.sql.SQLException {
-				ps.setString(1, userId);
-			};
+		int linesAffected = jdbcTemplate.update(queryString, ps -> {
+			ps.setString(1, userId);
 		});
 		return (linesAffected > 0 ? "Data deleted successfully" : " ");
 
@@ -150,10 +147,9 @@ private UserCreationStatusDao creationStatusDao;
 		// TODO Auto-generated method stub
 		String getString = "select * from \"user\" where email=?";
 		// TODO Auto-generated method stub
-		List<User> users = (List<User>) (jdbcTemplate.query(getString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws SQLException {
-				ps.setString(1, email);
-			}
+		List<User> users = (List<User>) (jdbcTemplate.query(getString, ps -> {
+			ps.setString(1, email);
+
 		}, new UserMapper()));
 		return (users.size() == 0 ? null : users.getFirst());
 
@@ -163,10 +159,8 @@ private UserCreationStatusDao creationStatusDao;
 	public String deleteUserByEmail(String email) {
 		// TODO Auto-generated method stub
 		String queryString = "delete from \"user\" where email=?";
-		int linesAffected = jdbcTemplate.update(queryString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws java.sql.SQLException {
-				ps.setString(1, email);
-			};
+		int linesAffected = jdbcTemplate.update(queryString, ps -> {
+			ps.setString(1, email);
 		});
 		return (linesAffected > 0 ? "Data deleted successfully" : " ");
 	}
@@ -176,7 +170,7 @@ private UserCreationStatusDao creationStatusDao;
 		String queryString = "update \"user\" set password=? where email=?";
 		// TODO Auto-generated method stub
 		int linesAffected = jdbcTemplate.update(queryString,
-				new Object[] { bCryptPasswordEncoder.encode(password.getNewPassword()), password.getEmail() });
+				new Object[] { passwordEncoder.encode(password.getNewPassword()), password.getEmail() });
 		String getUserQueryString = "select * from \"user\" where email=? ";
 		List<User> user = (jdbcTemplate.query(getUserQueryString, ps -> {
 			ps.setString(1, password.getEmail());

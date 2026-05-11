@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.larisa.dto.CourseStudent;
+
 @Repository
 public class CourseStudentDaoImpl implements CourseStudentDao {
 	@Override
@@ -22,56 +23,44 @@ public class CourseStudentDaoImpl implements CourseStudentDao {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 		String queryString = "delete from course_student where course_id=? and st_id=?";
-		int linesAffected=jdbcTemplate.update(queryString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws java.sql.SQLException {
-				ps.setLong(1, courseID);
-				ps.setLong(2, stID);
-			};
+		int linesAffected = jdbcTemplate.update(queryString, ps -> {
+
+			ps.setLong(1, courseID);
+			ps.setLong(2, stID);
+
 		});
-		return (linesAffected>0?"Data inserted successfully":" ");
+		return (linesAffected > 0 ? "Data inserted successfully" : " ");
 	}
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public String saveCourseStudent(Long stID, List<Long> courseID) throws DuplicateKeyException{
+	public String saveCourseStudent(Long stID, List<Long> courseID) throws DuplicateKeyException {
 		// TODO Auto-generated method stub
 		String queryString = "insert into course_student(course_id,st_id) " + "values (?,?)";
-		int linesAffected[]=jdbcTemplate.batchUpdate(queryString, new BatchPreparedStatementSetter() {
-			
-			@Override
-			public void setValues(PreparedStatement ps, int i) throws SQLException {
-				// TODO Auto-generated method stub
-				
-				
-				long courseid=courseID.get(i);
-				System.out.println(courseid+" "+stID);
-				ps.setLong(1, courseid);
-				ps.setLong(2, stID);
-				
-			}
-			
-			@Override
-			public int getBatchSize() {
-				// TODO Auto-generated method stub
-				return courseID.size();
-			}
-		});
-	
-		return (linesAffected.length>0?"Data inserted successfully":" ");
+		int linesAffected[][] = jdbcTemplate.batchUpdate(queryString, courseID, courseID.size(),
+				(PreparedStatement ps, Long courseid) -> {
+
+					System.out.println(courseid + " " + stID);
+					ps.setLong(1, courseid);
+					ps.setLong(2, stID);
+
+				});
+		System.out.println(linesAffected+" courses added ");
+		return (linesAffected.length > 0 ? "Data inserted successfully" : " ");
 	}
 
 	@Override
 	public String deleteCourseStudentByStID(Long stID) {
 		// TODO Auto-generated method stub
 		String queryString = "delete from course_student where st_id=?";
-		int linesAffected=jdbcTemplate.update(queryString, new PreparedStatementSetter() {
-			public void setValues(java.sql.PreparedStatement ps) throws java.sql.SQLException {
-				ps.setLong(1, stID);
-			};
+		int linesAffected = jdbcTemplate.update(queryString, ps -> {
+
+			ps.setLong(1, stID);
+
 		});
-		return (linesAffected>0?"Data inserted successfully":" ");
+		return (linesAffected > 0 ? "Data inserted successfully" : " ");
 	}
 
 	private static final class CourseStudentMapper implements RowMapper {

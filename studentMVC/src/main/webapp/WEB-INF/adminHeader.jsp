@@ -4,6 +4,7 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -36,28 +37,35 @@
 
 			<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
 				<li class="nav-item  text-light"><a
-					href="/studentMVC/adminHomepage/" class="nav-item  text-light p-2">
-						<span> Home</span>
+					href="/studentMVC/admin/adminHomepage/"
+					class="nav-item  text-light p-2"> <span> <img
+							src="<c:url value="/resources/home-page-white-icon.png"/>"
+							class="icon" />&nbsp; Home
+					</span>
 				</a></li>
-				<hr class="text-light">
-
-				<li class="nav-item  text-light"><a
-					href="/studentMVC/listStudent/1" class="nav-item  text-light p-2">
-						<span> View Students</span>
-				</a></li>
-				<hr class="text-light">
-
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle text-light" href="#" role="button"
-					data-bs-toggle="dropdown" aria-expanded="false"> Account </a>
+				<li><hr class="text-light"></li>
+				<li class="nav-item  text-light dropdown"><a href="#"
+					class="nav-item  text-light dropdown-toggle p-2" role="button"
+					data-bs-toggle="dropdown" aria-expanded="false"> <span>
+							<img src="<c:url value="/resources/add.png"/>" class="icon" />&nbsp;
+							Add
+					</span>
+				</a>
 					<ul class="dropdown-menu">
-						
-						<li><a class="dropdown-item"
-							href="/studentMVC/changePassword/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email}">Change
-								Password</a></li>
-
-						<li><a class="dropdown-item" href="/studentMVC/logout">Logout</a></li>
+						<li class="nav-item"><a href="/studentMVC/addprofessor"
+							class="dropdown-item"> Add Professor</a></li>
+							<li class="nav-item"><a href="/studentMVC/admin/addClass"
+							class="dropdown-item"> Add Class</a></li>
 					</ul></li>
+				<li><hr class="text-light"></li>
+				<li class="nav-item  text-light"><a
+					href="/studentMVC/admin/listStudent/1"
+					class="nav-item  text-light p-2"> <span><img
+							src="<c:url value="/resources/search-magnifying-glass-white-icon.png"/>" class="icon" />&nbsp; View
+							Students</span>
+				</a></li>
+
+				
 
 
 			</ul>
@@ -84,7 +92,7 @@
 		</button>
 
 		<!-- Brand -->
-		<a class="navbar-brand" href="/studentMVC/listStudent/1"> <img
+		<a class="navbar-brand" href="/studentMVC/admin/listStudent/1"> <img
 			th:src="@{/ChatGPT Image Sep 3, 2025, 01_04_50 PM.png}" height="25"
 			alt="" loading="lazy" /> <span>Student Course Management </span>
 		</a>
@@ -100,8 +108,15 @@
 					<li><a class="dropdown-item "
 						href="/studentMVC/changePassword/${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.email}">Change
 							Password</a></li>
-					<li><a class="dropdown-item " href="/studentMVC/logout">
-							Logout </a></li>
+					<li>
+						<form action="${pageContext.request.contextPath}/logout"
+							method="post">
+							<button type="submit" class="dropdown-item">Logout</button>
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
+
+						</form>
+					</li>
 
 				</ul></li>
 		</ul>

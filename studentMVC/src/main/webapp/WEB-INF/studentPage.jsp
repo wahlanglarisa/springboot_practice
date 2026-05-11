@@ -65,12 +65,12 @@
 			</c:if>
 
 			<form:form modelAttribute="courseStudent" method="post"
-				action="/studentMVC/saveStudentCourse">
+				action="/studentMVC/student/saveStudentCourse">
 				<c:if test="${param.duplicateCourse }">
 					<div class="alert alert-danger">Duplicate course selected.
 						Course already exists for student</div>
 				</c:if>
-				<c:if test="${param.AddCoursesuccess}">
+				<c:if test="${param.CourseAddsuccess}">
 					<div class="alert alert-success">Course Successfully added</div>
 				</c:if>
 				<div class="row">
@@ -155,7 +155,7 @@
 						<c:otherwise>
 
 							<li class="page-item"><a
-								href="/studentMVC/studentPage/${student.email }/${currentPage-1 }"
+								href="/studentMVC/student/studentPage/${student.email }/${currentPage-1 }"
 								class="page-link">Previous</a></li>
 						</c:otherwise>
 
@@ -168,7 +168,7 @@
 							</c:when>
 							<c:otherwise>
 								<li class="page-item"><a
-									href="/studentMVC/studentPage/${student.email }/${i }"
+									href="/studentMVC/student/studentPage/${student.email }/${i }"
 									class="page-link">${i }</a></li>
 							</c:otherwise>
 						</c:choose>
@@ -181,7 +181,7 @@
 						<c:otherwise>
 
 							<li class="page-item"><a
-								href="/studentMVC/studentPage/${student.email }/${currentPage+1 }"
+								href="/studentMVC/student/studentPage/${student.email }/${currentPage+1 }"
 								class="page-link">Next</a></li>
 						</c:otherwise>
 
@@ -198,7 +198,37 @@
 
 <script>
 	$('.ui.dropdown').dropdown();
-	
+	document.addEventListener("DOMContentLoaded", function () {
+		const creationStatus = "${user.user_creation_status}";
+		if (creationStatus === "NR") {
+			const modalElement = document.getElementById("UpdateModal");
+			const modal = new bootstrap.Modal(modalElement);
+			modal.show();
+		}
+	});
+	document.addEventListener("DOMContentLoaded", function () {
+		console.log("${totalItems-1}")
+		const deleteButtons = document.querySelectorAll(".delete-btn");
+		const confirmBtn = document.getElementById("confirmDeleteBtn");
+
+		deleteButtons.forEach(button => {
+			button.addEventListener("click", function () {
+	            const selectedRow = this.closest('tr');
+
+				const courseId = this.getAttribute("data-course-id");
+				const studentId = "${student.id}";
+				const page = "${currentPage}"
+		            var courseName=selectedRow.cells[0].textContent;
+				const modalBody = document.querySelector("#deleteModal .modal-body");
+				modalBody.innerHTML="Are you sure you want to delete course <b><i>"+courseName+"</i></b>?"
+				confirmBtn.href =
+					"/studentMVC/student/deleteCourseStudent/" +
+					studentId + "/" +
+					courseId + "/" + ("${totalItems-1}" % "${pageSize}" == 0 ? parseInt(page - 1) : page);
+			});
+		});
+
+	});
 </script>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
