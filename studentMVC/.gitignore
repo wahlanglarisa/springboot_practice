@@ -1,0 +1,42 @@
+<!--
+Source - https://stackoverflow.com/a/79445744
+Posted by V.Vidyasagar
+Retrieved 2026-03-30, License - CC BY-SA 4.0
+-->
+
+.mvn/
+mvnw
+mvnw.cmd
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/

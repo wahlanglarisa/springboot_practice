@@ -1,0 +1,207 @@
+package com.larisa.dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import org.jspecify.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Repository;
+
+import com.larisa.config.RSADecryptUtil;
+import com.larisa.config.RSAPasswordEncoder;
+import com.larisa.dto.UpdatePassword;
+import com.larisa.dto.User;
+import com.larisa.dto.UserCreationStatus;
+import com.larisa.dto.UserRole;
+
+@Repository
+public class UserDaoImpl implements UserDao {
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private RSAPasswordEncoder passwordEncoder;
+	@Autowired
+	private RoleDao roleDao;
+	@Autowired
+	private UserCreationStatusDao userCreationStatusDao;
+	@Autowired
+	private UserCreationStatusDao creationStatusDao;
+
+	@Override
+	public UserRole getUserRoleByEmail(String email) {
+		// TODO Auto-generated method stub
+		String queryString = "select * from \"user\" join \"role\" on \"user\".role_id=\"role\".id where \"user\".email=?";
+		// TODO Auto-generated method stub
+		@SuppressWarnings("unchecked")
+		List<UserRole> users = (List<UserRole>) (jdbcTemplate.query(queryString, ps -> {
+
+			ps.setString(1, email);
+		}, new UserRoleMapper()));
+		return (users.size() != 0 ? users.getFirst() : null);
+	}
+
+	@Override
+	public boolean validatePassword(String email, String oldPassword) {
+		String queryString = "select * from \"user\" where email = ?";
+		User user = (User) (jdbcTemplate.query(queryString, ps -> {
+			ps.setString(1, email);
+		}, new UserMapper())).getFirst();
+		// TODO Auto-generated method stub
+		if (passwordEncoder.matches(oldPassword, user.getPassword())) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	@Override
+	public User updateUser(User user) {
+		String queryString = "update \"user\" set email=?,creation_status_id=?" + " where user_id=?";
+
+		// TODO Auto-generated method stub
+		System.out.println("User update " + user.getEmail() + " " + user.getUserid());
+		jdbcTemplate.update(queryString, ps -> {
+			ps.setString(1, user.getEmail());
+			ps.setObject(2, creationStatusDao.getByStatusName("Profile Loaded").getId());
+			ps.setString(3, user.getUserid());
+
+		});
+		String getString = "select * from \"user\" where email=?";
+		// TODO Auto-generated method stub
+		List<User> users = (List<User>) (jdbcTemplate.query(getString, ps -> {
+			ps.setString(1, user.getEmail());
+
+		}, new UserMapper()));
+		return (users.size() == 0 ? null : users.getFirst());
+		// TODO Auto-generated method stub
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public User saveUser(User user,String roleName) throws DuplicateKeyException {
+		System.out.println(passwordEncoder);
+		String queryString = "insert into \"user\"(email,password,role_id,creation_status_id) values(?,?,?,?)";
+		// TODO Auto-generated method stub
+		UserCreationStatus creationStatus = userCreationStatusDao.getByStatusName("Newly Registered");
+		System.out.println("User Dao " + user.getPassword());
+		jdbcTemplate.update(queryString, ps -> {
+			ps.setString(1, user.getEmail());
+			try {
+				ps.setString(2, passwordEncoder.encode(user.getPassword()));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ps.setObject(3, roleDao.getRoleByName(roleName).getRoleId());
+			ps.setObject(4, creationStatus.getId());
+
+		});
+		String getString = "select * from \"user\" where email=?";
+		// TODO Auto-generated method stub
+		List<User> users = (List<User>) (jdbcTemplate.query(getString, ps -> {
+			ps.setString(1, user.getEmail());
+		}, new UserMapper()));
+		return (users.size() == 0 ? null : users.getFirst());
+
+	}
+
+	@Override
+	public UserRole validateUser(User user) {
+		String queryString = "select * from \"user\" join \"role\" on \"user\".role_id=\"role\".id where \"user\".email=?";
+		// TODO Auto-generated method stub
+		@SuppressWarnings("unchecked")
+		List<UserRole> users = (List<UserRole>) (jdbcTemplate.query(queryString, ps -> {
+			ps.setString(1, user.getEmail());
+		}, new UserRoleMapper()));
+		System.out.println(users.size());
+		if (users.size() == 0) {
+			return null;
+		} else if (passwordEncoder.matches(user.getPassword(), users.getFirst().getPassword())) {
+			return users.getFirst();
+
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public String deleteUser(String userId) {
+		// TODO Auto-generated method stub
+		String queryString = "delete from \"user\" where user_id=?";
+		int linesAffected = jdbcTemplate.update(queryString, ps -> {
+			ps.setString(1, userId);
+		});
+		return (linesAffected > 0 ? "Data deleted successfully" : " ");
+
+	}
+
+	@Override
+	public User getUserByEmail(String email) {
+		// TODO Auto-generated method stub
+		String getString = "select * from \"user\" where email=?";
+		// TODO Auto-generated method stub
+		List<User> users = (List<User>) (jdbcTemplate.query(getString, ps -> {
+			ps.setString(1, email);
+
+		}, new UserMapper()));
+		return (users.size() == 0 ? null : users.getFirst());
+
+	}
+
+	@Override
+	public String deleteUserByEmail(String email) {
+		// TODO Auto-generated method stub
+		String queryString = "delete from \"user\" where email=?";
+		int linesAffected = jdbcTemplate.update(queryString, ps -> {
+			ps.setString(1, email);
+		});
+		return (linesAffected > 0 ? "Data deleted successfully" : " ");
+	}
+
+	@Override
+	public User updateUserPassword(UpdatePassword password) {
+		String queryString = "update \"user\" set password=? where email=?";
+		// TODO Auto-generated method stub
+		int linesAffected = jdbcTemplate.update(queryString,
+				new Object[] { passwordEncoder.encode(password.getNewPassword()), password.getEmail() });
+		String getUserQueryString = "select * from \"user\" where email=? ";
+		List<User> user = (jdbcTemplate.query(getUserQueryString, ps -> {
+			ps.setString(1, password.getEmail());
+		}, new UserMapper()));
+		return (linesAffected > 0 ? user.getFirst() : null);
+	}
+
+	private final static class UserMapper implements RowMapper {
+
+		@Override
+		public @Nullable Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+			// TODO Auto-generated method stub
+			User user = new User(rs.getString("password"), rs.getString("email"));
+			user.setUserid(rs.getString("user_id"));
+			user.setRoleid(rs.getString("role_id"));
+
+			return user;
+		}
+
+	}
+
+	private final static class UserRoleMapper implements RowMapper {
+
+		@Override
+		public @Nullable Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+			// TODO Auto-generated method stub
+			UserRole userRole = new UserRole(rs.getString("email"), rs.getString("password"), rs.getString("user_id"),
+					rs.getString("name"), rs.getString("role_id"));
+
+			return userRole;
+		}
+
+	}
+}

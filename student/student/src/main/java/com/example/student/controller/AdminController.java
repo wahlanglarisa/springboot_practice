@@ -4,15 +4,23 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.student.model.Course;
+import com.example.student.model.Department;
 import com.example.student.model.User;
-import com.example.student.model.UserList;
+import com.example.student.model.wrapper.UserList;
+import com.example.student.service.CourseService;
 import com.example.student.service.StudentService;
 import com.example.student.service.UserService;
 
@@ -24,29 +32,65 @@ public class AdminController {
 	private StudentService studentService;
 	@Autowired
 	private UserService userService;
-	@GetMapping("/admin/"
-			+ "adminPortal")
-	public String AdminPortal(HttpServletRequest httpRequest, Model model) {
-		Principal principal = httpRequest.getUserPrincipal();
-		List<UserList> users =userService.userLists();
-		model.addAttribute("users",users);
-		model.addAttribute("user", principal.getName());
+	@Autowired
+	private CourseService courseService;
 
+	@GetMapping("/admin/adminPortal/{pageNo}")
+	public String AdminPortal(HttpServletRequest httpRequest, Model model, @PathVariable(value = "pageNo") int pageNo,
+			@RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir,@RequestParam("role") String role) {
+		int pageSize = 5;
+		System.out.println(pageNo);
+		Principal principal = httpRequest.getUserPrincipal();
+		Page<UserList> users = null;
+		System.out.println("Role "+role);
+		if(!(role.isEmpty())){
+			System.out.println(!(role.isEmpty()));
+			users=userService.userListsFilteredByRole(pageNo, pageSize, sortField, sortDir, role);
+		}
+		else{
+			users = userService.userLists(pageNo, pageSize, sortField, sortDir);
+		}
+		model.addAttribute("users", users);
+		model.addAttribute("user", principal.getName());
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPages", users.getTotalPages());
+		model.addAttribute("totalItems", users.getTotalElements());
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+		model.addAttribute("role",role);
 		return "adminPortal";
 	}
+
 	@GetMapping("/admin/"
 			+ "updateUserPage/{id}")
-	public String updateUserPage(HttpServletRequest httpRequest,@PathVariable("id") long id, Model model) {
+	public String updateUserPage(HttpServletRequest httpRequest, @PathVariable("id") long id, Model model) {
 		Principal principal = httpRequest.getUserPrincipal();
-		User user=userService.getUserById(id);
+		User user = userService.getUserById(id);
 		System.out.println(user);
 		model.addAttribute("user", user);
 
 		return "updateUser";
 	}
+
 	@PostMapping("/admin/updateUser")
 	public String updateUser(@ModelAttribute("user") User user) {
+		System.out.println("Password " + user.getPassword());
 		userService.updateUser(user);
-		return "redirect:adminPortal";
+		return "redirect:/admin/adminPortal/1?sortField=email&sortDir=asc";
+	}
+
+	@GetMapping("/admin/"
+			+ "deleteUserPage/{id}")
+	public String deleteUserPage(HttpServletRequest httpRequest, @PathVariable("id") long id, Model model) {
+		userService.deleteUser(id);
+		return "redirect:/admin/adminPortal/1?sortField=email&sortDir=asc";
+	}
+
+	@GetMapping("/admin/"
+			+ "createDepartmentPage/")
+	public String createDepartmentPage(HttpServletRequest httpRequest, Model model) {
+		model.addAttribute("department", new Department());
+		return "redirect:/admin/adminPortal/1?sortField=email&sortDir=asc";
 	}
 }

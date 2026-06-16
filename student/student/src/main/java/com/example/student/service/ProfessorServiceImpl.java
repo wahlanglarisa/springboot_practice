@@ -6,28 +6,33 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.student.exception.EmptyUserException;
 import com.example.student.model.Attendance;
-import com.example.student.model.AttendancePage;
 import com.example.student.model.Course;
-import com.example.student.model.FindProfessorClasses;
-import com.example.student.model.ProfListClasses;
+import com.example.student.model.Department;
 import com.example.student.model.Professor;
-import com.example.student.model.StudentClass;
 import com.example.student.model.User;
-import com.example.student.model.UserDto;
-import com.example.student.model.saveAttendance;
-import com.example.student.model.repository.AttendanceRepository;
-import com.example.student.model.repository.CourseRepository;
-import com.example.student.model.repository.ProfessorRepository;
-import com.example.student.model.repository.RoleRepository;
-import com.example.student.model.repository.StudentClassRepository;
-import com.example.student.model.repository.UserRepository;
+import com.example.student.model.wrapper.AttendancePage;
+import com.example.student.model.wrapper.FindProfessorClasses;
+import com.example.student.model.wrapper.ProfListClasses;
+import com.example.student.model.wrapper.UserDto;
+import com.example.student.model.wrapper.saveAttendance;
+import com.example.student.repository.AttendanceRepository;
+import com.example.student.repository.CourseRepository;
+import com.example.student.repository.DepartmentRepository;
+import com.example.student.repository.ProfessorRepository;
+import com.example.student.repository.RoleRepository;
+import com.example.student.repository.StudentClassRepository;
+import com.example.student.repository.UserRepository;
 
 @Service
 public class ProfessorServiceImpl implements ProfessorService {
+
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
@@ -42,39 +47,74 @@ public class ProfessorServiceImpl implements ProfessorService {
 	private StudentClassRepository classRepository;
 	@Autowired
 	private AttendanceRepository attendanceRepository;
+	@Autowired
+	private DepartmentRepository departmentRepository;
+
 	@Override
-	public Professor saveProfessor(UserDto userDto) {
+	public Professor saveProfessor(UserDto userDto) throws EmptyUserException{
 		// TODO Auto-generated method stu
-		User user=new User(userDto.getFirstName(),userDto.getLastName(),userDto.getEmailID(),bCryptPasswordEncoder.encode(userDto.getPassword()),Arrays.asList(roleRepository.findByName("Professor")));
-		Professor professor=new Professor(userDto.getFirstName(), userDto.getLastName(), userDto.getEmailID());
-		userRepository.save(user);
-		for(String course: userDto.getCourses()) {
-			Course course1=courseRepository.findByCourseName(course);
-		professor.getCourses().add(course1);
+		System.out.println("User Details "+userDto.getFirstName()!="");
+		if(userDto.getFirstName()=="" || userDto.getLastName()=="" || userDto.getEmailID()=="" || userDto.getPassword()=="" || userDto.getDept_id()==0){
+			throw new EmptyUserException("User Details should not be empty");
 		}
-		return professorRepository.save(professor);
+		System.out.println(roleRepository.findByName(userDto.isHod() ? "Head Of Department" : "Professor"));
+		User user = new User(userDto.getFirstName(), userDto.getLastName(), userDto.getEmailID(),
+				bCryptPasswordEncoder.encode(userDto.getPassword()),
+				Arrays.asList(roleRepository.findByName(userDto.isHod() ? "Head Of Department" : "Professor")));
+		Professor professor = new Professor(userDto.getFirstName(), userDto.getLastName(), userDto.getEmailID(), null,
+				user);
+		Department department = departmentRepository.getById(userDto.getDept_id());
+		System.out.println(userDto.isHod());
+
+		professor.setDepartments(department);
+		userRepository.save(user);
+		
+		for (String course : userDto.getCourses()) {
+			Course course1 = courseRepository.findByCourseName(course);
+			professor.getCourses().add(course1);
+		}
+		Professor professor2 = professorRepository.save(professor);
+		Professor professor3=null;
+		if (userDto.isHod()) {
+			department.setProfessor(professor);
+			departmentRepository.save(department);
+			professor2.setDepartment(department);
+			professor3=professorRepository.save(professor2);
+		}
+
+		return professor3;
 	}
+
+	@Override
+	public List<ProfListClasses> getProfClass_Courses(String email) {
+		// TODO Auto-generated method stub
+		return professorRepository.getProfClass_Courses(email);
+	}
+
 	@Override
 	public List<FindProfessorClasses> findProfessorClasses(String email) {
 		// TODO Auto-generated method stub
 		return professorRepository.findProfessorClasses(email);
 	}
+
 	@Override
 	public List<ProfListClasses> getClass_Courses(String email) {
 		// TODO Auto-generated method stub
 		return professorRepository.getClass_Courses(email);
 	}
+
 	@Override
-	public List<AttendancePage> getAttendancePages(String email,long id) {
+	public List<AttendancePage> getAttendancePages(String email, long id) {
 		// TODO Auto-generated method stub
-		return professorRepository.getAttendancePages(email,id);
+		return professorRepository.getAttendancePages(email, id);
 	}
+
 	@Override
 	public String saveAttendance(saveAttendance studentClass) {
 		// TODO Auto-generated method stub
 		System.out.println("in save attendance function");
-		for(Attendance studentClass2:studentClass.getStudentClasses()) {
-			if(studentClass2.getStudent().getID()!=0) {
+		for (Attendance studentClass2 : studentClass.getStudentClasses()) {
+			if (studentClass2.getStudent().getID() != 0) {
 				System.out.println(studentClass2.getClass_Course().getId());
 				studentClass2.setDate(new Date(System.currentTimeMillis()));
 				studentClass2.setTime(new Time(new java.util.Date().getTime()));
@@ -82,6 +122,37 @@ public class ProfessorServiceImpl implements ProfessorService {
 			}
 		}
 		return "Sucess";
+	}
+
+	@Override
+	public Professor getProfByEmail(String email) {
+		// TODO Auto-generated method stub
+		return professorRepository.findByEmail(email);
+	}
+
+	@Override
+	public Page<ProfListClasses> getDeptClass_Courses(long id,Pageable pageable) {
+		// TODO Auto-generated method stub
+		System.out.println("In getDeptClass_Courses function");
+		return professorRepository.getDeptClass_Courses(id,pageable);
+	}
+
+	@Override
+	public List<Professor> getProfessors() {
+		// TODO Auto-generated method stub
+		return professorRepository.findAll();
+	}
+
+	@Override
+	public List<Professor> findByDepartmentID(long id) {
+		// TODO Auto-generated method stub
+		return professorRepository.findByDepartmentID(id);
+	}
+
+	@Override
+	public List<ProfListClasses> getProfClass_Courses_By_Day(String email, String day) {
+		// TODO Auto-generated method stub
+		return professorRepository.getProfClass_Courses_By_Day(email, day);
 	}
 
 }

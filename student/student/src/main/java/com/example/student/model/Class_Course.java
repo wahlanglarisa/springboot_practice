@@ -1,8 +1,13 @@
 package com.example.student.model;
 
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -30,20 +35,29 @@ public class Class_Course {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	private Time time;
 	
+	@ManyToOne
+	@JoinColumn(name="time_id")
+	private ClassTime classTime;
 	private long semester;
 	@ManyToOne
 	@JoinColumn(name="class_course_id",referencedColumnName = "id")
 
-	private Course course_class;
-	@OneToMany(mappedBy = "class_Course")
+	private Course course;
+	@OneToMany(mappedBy = "class_Course",cascade = CascadeType.REMOVE)
 	private List<StudentClass> students=new ArrayList<StudentClass>();
 	private String day;
 	@ManyToOne
-	@JoinColumn(name="prof_id")
+	@JoinColumn(name="prof_id",nullable = true)
+	@OnDelete(action = OnDeleteAction.SET_NULL)
+
 	private Professor professor;
-	@OneToMany(mappedBy = "class_Course")
+	@OneToMany(mappedBy = "class_Course",cascade = CascadeType.REMOVE)
 	private List<Attendance> attendances=new ArrayList<Attendance>();
+	@OneToMany(mappedBy = "class_Course")
+	private List<Test> tests=new ArrayList<Test>();
+	@ManyToOne()
+	@JoinColumn(name="branch_id")
+	private Branch branch;
+	private String remarks;
 }
- 

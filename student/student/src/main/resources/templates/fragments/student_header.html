@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+		<!--  -->
+		
+
+	</head>
+	<!-- Sidebar -->
+			<th:block th:fragment="student_header">
+
+		<script>
+			$(document).ready(function () {
+				// Restore active state
+				let activeLink = localStorage.getItem("activeLink");
+				if (activeLink) {
+					$("#sidebarMenu a").removeClass("active");
+					$("#sidebarMenu a[href='" + activeLink + "']").addClass("active");
+				}
+
+				// On click, set active and save
+				$("#sidebarMenu a").click(function () {
+					$("#sidebarMenu a").removeClass("active");
+					$(this).addClass("active");
+					localStorage.setItem("activeLink", $(this).attr("href"));
+
+				});
+			});
+		</script>
+
+		<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse">
+			<div class="position-sticky">
+				<div class="list-group list-group-flush mx-3 mt-4">
+					<a th:href="@{/student/studentHomepage}" class="list-group-item list-group-item-action py-2 ripple"
+						aria-current="true"> <i class="fas fa-tachometer-alt fa-fw me-3"></i><img th:src="@{/home.svg}"
+							height="25" alt="" loading="lazy" />&nbsp;&nbsp;<span>
+							Home</span>
+					</a>
+					<a th:href="@{/student/viewRoutinePage/{day}(day=${#temporals.dayOfWeekName(date)})}"
+						class="list-group-item list-group-item-action py-2 ripple"
+						aria-current="true">&nbsp;&nbsp;<span>View Routine</span>
+					</a>
+
+
+
+
+				</div>
+			</div>
+		</nav>
+		<!-- Sidebar -->
+
+		<!-- Navbar -->
+		<nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+			<!-- Container wrapper -->
+			<div class="container-fluid">
+				<!-- Toggle button -->
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
+					aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+
+				</button>
+
+				<!-- Brand -->
+				<a class="navbar-brand" th:href="@{/student/studentHomepage}"> <img
+						th:src="@{/ChatGPT Image Sep 3, 2025, 01_04_50 PM.png}" height="25" alt="" loading="lazy" />
+					<span>
+						University Management System
+					</span>
+				</a>
+				<a class="navbar-brand d-flex" th:href="@{/logout}"> Logout
+				</a>
+				<!-- Search form -->
+
+
+				<!-- Right links -->
+
+			</div>
+			<!-- Container wrapper -->
+		</nav>
+		<!-- Navbar -->
+	</th:block>
+
+</html>

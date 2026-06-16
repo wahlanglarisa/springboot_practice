@@ -16,15 +16,13 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
 	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<link th:href=@{/css/student.css} rel="stylesheet" />
 </head>
+
+<header th:insert="/fragments/admin_header :: admin_header"> </header>
+
 <body>
-	<nav class="navbar bg-body-tertiary">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#"> <strong>University
-					Management System</strong>
-			</a>
-		</div>
-	</nav>
+	<main id="main-content">
 	<br>
 	<br>
 	<div class='container-md'>
@@ -42,47 +40,53 @@
 			<div th:if="${param.logout}">
 				<div class="alert alert-info">You have been logged out.</div>
 			</div>
+				<h1>
+				<strong>Register Student Details</strong>
+			</h1>
 			<div class="mb-3 row">
 				<label for="exampleFormControlInput1"
 					class="form-label col col-sm-1">Enter your First Name</label> <input
 					type="text" class="form-control col" id="st_name"
-					th:field="*{firstName}">
+					th:field="*{firstName}" required>
 			</div>
 			<div class="mb-3 row">
 				<label for="exampleFormControlInput1"
 					class="form-label col col-sm-1">Enter your Last Name</label> <input
 					type="text" class="form-control col" id="st_name"
-					th:field="*{lastName}">
+					th:field="*{lastName}" required>
 			</div>
 			<div class="mb-3 row">
 				<label for="exampleFormControlTextarea1" class="form-label col-sm-1">Enter
 					your Email ID</label> <input type="text" class="form-control col"
 					id="emailid" placeholder="Enter your Email ID"
-					th:field="*{emailID}">
+					th:field="*{emailID}" required>
 			</div>
 			<div class="mb-3 row">
 				<label for="exampleFormControlTextarea1" class="form-label col-sm-1">Enter
 					your Semester</label> <input type="text" class="form-control col"
 					id="emailid" placeholder="Enter your Email ID"
-					th:field="*{semester}">
+					th:field="*{semester}" required>
 			</div>
 			<div class="mb-3 row">
 				<label for="exampleFormControlTextarea1" class="form-label col-sm-1">Enter
 					your password</label> <input type="text" class="form-control col"
-					id="emailid" placeholder="Enter your Email ID" th:field="*{password}">
+					id="emailid" placeholder="Enter your Email ID"
+					th:field="*{password}" required>
 			</div>
 			<table class="table">
 				<thead>
 					<tr>
-						<td><b>Select Courses</b></td>
+						<td><b>Select Branch</b></td>
 					</tr>
 				</thead>
-				<tr th:each="course:${courseList}">
-					<td><input type="checkbox" class="form-check-input"
-						th:value="${course}" th:field="*{courses}">&nbsp;&nbsp;<label
-						th:text="${course}" class="form-check-label"></label></td>
+				<tr th:each="branch:${branches}">
+					<td><input type="radio" class="form-check-input"
+						th:value="${branch.id}" th:field="*{branch_id}" required>&nbsp;&nbsp;<label
+						th:text="${branch.branchName}" class="form-check-label" ></label></td>
 				</tr>
 			</table>
+			
+
 			<div class="mb-3">
 				<!-- <table>
 					
@@ -97,6 +101,7 @@
 			</div>
 		</form>
 	</div>
+	</main>
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -105,4 +110,9 @@
 		});
 	})
 </script>
+<div class="container">
+
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
+    th:insert="fragments/footer :: footer">
+</div>
 </html>

@@ -6,8 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.student.model.Branch;
 import com.example.student.model.Course;
-import com.example.student.model.repository.CourseRepository;
+import com.example.student.model.Department;
+import com.example.student.repository.CourseRepository;
 
 
 
@@ -25,6 +27,36 @@ public class CourseServiceImpl implements CourseService{
 	public Course findById(long id) {
 		// TODO Auto-generated method stub
 		return courseRepository.getReferenceById(id);
+	}
+	@Override
+	public List<Course> findAllCourses() {
+		// TODO Auto-generated method stub
+		return courseRepository.findAll();
+	}
+	@Override
+	public List<Course> findbyDepartment(Department department) {
+		// TODO Auto-generated method stub
+		return courseRepository.findByDepartment(department);
+	}
+	@Override
+	public List<Course> findByProfessor(long id) {
+		// TODO Auto-generated method stub
+		return courseRepository.findCoursesByProfID(id);
+	}
+	@Override
+	public List<String> findbyDepartmentID(long id) {
+		// TODO Auto-generated method stub
+		return courseRepository.findCoursesByDepartmentID(id);
+	}
+	@Override
+	public Course addCourse(Course course) {
+		// TODO Auto-generated method stub
+		return courseRepository.save(course);
+	}
+	@Override
+	public List<Course> findByBranchAndSemester(Branch branch, Long semester) {
+		// TODO Auto-generated method stub
+		return courseRepository.findByBranchAndSemester(branch, semester);
 	}
 	
 

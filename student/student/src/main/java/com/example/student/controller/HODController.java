@@ -1,0 +1,255 @@
+package com.example.student.controller;
+
+import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.example.student.model.Branch;
+import com.example.student.model.Class_Course;
+import com.example.student.model.Course;
+import com.example.student.model.Professor;
+import com.example.student.model.Student;
+import com.example.student.model.Test;
+import com.example.student.model.wrapper.AddStudentClass;
+import com.example.student.model.wrapper.FindProfessorClasses;
+import com.example.student.model.wrapper.ProfListClasses;
+import com.example.student.model.wrapper.SaveStudentClass;
+import com.example.student.service.*;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
+
+@Controller
+public class HODController {
+
+	@Autowired
+	private ProfessorService professorService;
+	@Autowired
+	private CourseService courseService;
+	@Autowired
+	private StudentService studentService;
+	@Autowired
+	private ClassService classService;
+	@Autowired
+	private StudentClassService studentClassService;
+	@Autowired
+	private BranchService branchService;
+	@Autowired
+	private DepartmentService departmentService;
+
+	@GetMapping("/hod/hodPortal")
+	public String profHomepage(Model model, HttpServletRequest httpServletRequest) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+		List<FindProfessorClasses> professorClasses = professorService.findProfessorClasses(principal.getName());
+		List<ProfListClasses> profListClasses = professorService.getClass_Courses(principal.getName());
+		Professor professor = professorService.getProfByEmail(principal.getName());
+		List<Student> students = studentService.getStudentByDepartment(professor.getDepartment().getId());
+		System.out.println(students + " " + professor.getDepartment().getId() + " " + professorClasses.size() + " "
+				+ professorClasses);
+		List<Professor> professors = professorService.findByDepartmentID(professor.getDepartment().getId());
+		System.out.println(professors);
+		model.addAttribute("students", students);
+		model.addAttribute("user", principal.getName());
+		model.addAttribute("professors", professors);
+		model.addAttribute("classCount", professorClasses);
+		model.addAttribute("routines", profListClasses);
+		model.addAttribute("date", LocalDateTime.now());
+		model.addAttribute("professor", professor);
+
+		return "hodPortal";
+
+	}
+
+	@GetMapping("/hod/viewClass/{pageNo}")
+	public String viewClass(Model model, HttpServletRequest httpServletRequest, @PathVariable("pageNo") int pageNo) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+		// List<FindProfessorClasses> professorClasses =
+		// professorService.findProfessorClasses(principal.getName());
+		// model.addAttribute("user", principal.getName());
+		// List<ProfListClasses> profListClasses =
+		// professorService.getClass_Courses(principal.getName());
+		// model.addAttribute("classCount", professorClasses);
+		// model.addAttribute("routines", profListClasses);
+		Professor professor = professorService.getProfByEmail(principal.getName());
+		int pageSize = 5;
+		Pageable page = PageRequest.of(pageNo - 1, pageSize);
+		Page<ProfListClasses> profListClasses = professorService
+				.getDeptClass_Courses(professor.getDepartment().getId(), page);
+
+		System.out.println("Department ID: " + professor.getDepartment().getId() + "List: " + profListClasses);
+		model.addAttribute("routines", profListClasses);
+		model.addAttribute("totalPages", profListClasses.getTotalPages());
+		model.addAttribute("totalItems", profListClasses.getTotalElements());
+		model.addAttribute("currentPage", pageNo);
+		return "viewClassList";
+
+	}
+
+	@GetMapping("/hod/addNewClassPage")
+	public String addClassPage(Model model, HttpServletRequest httpServletRequest) {
+		String email = httpServletRequest.getUserPrincipal().getName();
+		Professor professor = professorService.getProfByEmail(email);
+		List<Professor> professors = professorService.findByDepartmentID(professor.getDepartment().getId());
+		List<Course> courses = courseService.findbyDepartment(professor.getDepartment());
+		System.out.println(courses);
+		List<Branch> branches = branchService
+				.findBranchByDepartment(professorService.getProfByEmail(email).getDepartment());
+		model.addAttribute("branches", branches);
+		model.addAttribute("courses", courses);
+		model.addAttribute("professors", professors);
+		model.addAttribute("class", new Class_Course());
+		return "addNewClass";
+	}
+
+	@PostMapping("/hod/saveClass")
+	public String saveClass(@ModelAttribute("class") Class_Course class_Course, HttpServletRequest httpServletRequest) {
+		System.out.println("Course Name " + class_Course.getCourse().getCourseName() + " Course ID "
+				+ class_Course.getCourse().getId());
+		System.out
+				.println(class_Course.getProfessor().getFirstName() + " " + class_Course.getProfessor().getLastName());
+		classService.savClass_Course(class_Course);
+		return "redirect:/hod/addNewClassPage";
+	}
+
+	@GetMapping("/hod/addNewCoursePage")
+	public String addNewCoursePage(Model model, HttpServletRequest httpServletRequest) {
+		model.addAttribute("course", new Course());
+		Professor professor = professorService.getProfByEmail(httpServletRequest.getUserPrincipal().getName());
+		model.addAttribute("branches", branchService.findBranchByDepartment(professor.getDepartment()));
+		return "addNewCourse";
+	}
+
+	@GetMapping("/hod/updateClassPage/{id}")
+	public String updateClassPage(HttpServletRequest httpServletRequest, @PathVariable("id") long id, Model model) {
+		Class_Course class_Course = classService.findById(id);
+		System.out.println(class_Course);
+		String email = httpServletRequest.getUserPrincipal().getName();
+		List<Course> courses = courseService.findbyDepartment(professorService.getProfByEmail(email).getDepartment());
+		List<Professor> professors = professorService
+				.findByDepartmentID(professorService.getProfByEmail(email).getDepartment().getId());
+		List<Branch> branches = branchService
+				.findBranchByDepartment(professorService.getProfByEmail(email).getDepartment());
+		model.addAttribute("branches", branches);
+		model.addAttribute("class", class_Course);
+		model.addAttribute("professors", professors);
+		return "updateClass";
+	}
+
+	@PostMapping("/hod/updateClass")
+	public String updateClass(@ModelAttribute("class") Class_Course class_Course) {
+		classService.savClass_Course(class_Course);
+		return "redirect:/hod/viewClass/1";
+	}
+
+	@GetMapping("/hod/deleteClass/{id}")
+	public String deleteClass(@ModelAttribute("class") Class_Course class_Course, @PathVariable("id") long id) {
+		classService.deleteClassById(id);
+		return "redirect:/hod/viewClass/1";
+	}
+
+	@GetMapping("/hod/viewStudentsPage")
+	public String viewStudentPage(HttpServletRequest httpServletRequest, Model model) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+
+		Professor professor = professorService.getProfByEmail(principal.getName());
+		List<Student> students = studentService.getStudentByDepartment(professor.getDepartment().getId());
+		System.out.println(students + " " + professor.getDepartment().getId());
+		model.addAttribute("students", students);
+		return "viewStudents";
+	}
+
+	@GetMapping("/hod/assignClassPage/{studentID}/{branch}/{semester}")
+	public String assignClassPage(Model model, @PathVariable("branch") Long branch,
+			@PathVariable("semester") Long semester, @PathVariable("studentID") Long studentID) {
+		List<Class_Course> class_Courses = classService.findByBranchIDAndSemester(branch, semester, studentID);
+		model.addAttribute("classes", class_Courses);
+		model.addAttribute("studentID", studentID);
+		model.addAttribute("saveClass", new SaveStudentClass());
+		System.out.println(class_Courses);
+		return "assignClass";
+	}
+
+	@PostMapping("/hod/saveStudenClass/")
+	public String saveStudentClass(@ModelAttribute("saveClass") SaveStudentClass addStudentClass) {
+		// TODO: process POST request
+		System.out.println(addStudentClass.getAddStudentClasses());
+		for (AddStudentClass addStudentClass2 : addStudentClass.getAddStudentClasses()) {
+			System.out.println(addStudentClass2.isChecked());
+		}
+		studentClassService.savStudentClass(addStudentClass);
+		return "redirect:/hod/hodPortal";
+	}
+
+	@PostMapping("/hod/saveCourse")
+	public String saveCourse(@ModelAttribute("course") Course course, HttpServletRequest httpServletRequest) {
+		// TODO: process POST request
+
+		Professor professor = professorService.getProfByEmail(httpServletRequest.getUserPrincipal().getName());
+		course.setDepartment(professor.getDepartment());
+		courseService.addCourse(course);
+
+		System.out.println(course.getCourseName() + "\t" + course.getDepartment().getDName());
+		return "redirect:/hod/hodPortal";
+	}
+
+	@GetMapping("/hod/viewProfessorsPage")
+	public String viewProfessorPage(HttpServletRequest httpServletRequest, Model model) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+		Professor professor = professorService.getProfByEmail(principal.getName());
+
+		List<Professor> professors = professorService.findByDepartmentID(professor.getDepartment().getId());
+		model.addAttribute("professors", professors);
+
+		return "viewProfessorsPage";
+	}
+
+	@GetMapping("/hod/viewRoutine/{day}")
+	public String viewRoutinePage(Model model, @PathVariable("day") String day, HttpServletRequest httpServletRequest) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+		String email = principal.getName();
+		List<ProfListClasses> profListClasses = professorService.getProfClass_Courses_By_Day(email, day);
+		System.out.println(profListClasses);
+		model.addAttribute("routine", profListClasses);
+		model.addAttribute("day", day);
+		return "viewRoutinehod";
+	}
+
+	@GetMapping("/hod/viewAllClasses")
+	public String viewProfClasses(Model model, HttpServletRequest httpServletRequest) {
+		Principal principal = httpServletRequest.getUserPrincipal();
+		String email = principal.getName();
+		List<ProfListClasses> profListClasses = professorService.getProfClass_Courses(email);
+		Professor professor = professorService.getProfByEmail(principal.getName());
+
+		model.addAttribute("routines", profListClasses);
+		model.addAttribute("professor", professor);
+		return "viewClassesHOD";
+	}
+
+	@GetMapping("/hod/createTestPage/{courseID}/{profID}/{classID}")
+	private String createTestPage(Principal principal, Model model, @PathVariable("courseID") long courseID,
+			@PathVariable("profID") long profID, @PathVariable("classID") long classID) {
+		model.addAttribute("profID", profID);
+		model.addAttribute("courseID", courseID);
+		model.addAttribute("classID", classID);
+		model.addAttribute("courseName",courseService.findById(courseID).getCourseName());
+		model.addAttribute("test", new Test());
+		Professor professor = professorService.getProfByEmail(principal.getName());
+		model.addAttribute("professor", professor);
+		return "createTestPagewithCourseHOD";
+	}
+
+}
